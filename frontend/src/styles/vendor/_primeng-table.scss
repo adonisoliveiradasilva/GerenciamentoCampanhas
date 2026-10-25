@@ -1,0 +1,152 @@
+@use '../abstracts/mixins' as *;
+
+p-table.lumen-table {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+
+  --p-datatable-header-background: var(--color-surface-light) !important;
+  --p-datatable-header-cell-background: transparent;
+  --p-datatable-row-background: transparent;
+  --p-datatable-row-hover-background: var(--color-surface-light);
+  --p-datatable-row-color: var(--color-text-primary);
+  --p-datatable-header-cell-color: var(--color-text-label);
+  --p-datatable-border-color: var(--border-color);
+  color-scheme: light !important; 
+
+  &.p-datatable.p-datatable-sm {
+    background: transparent !important;
+    width: 100%;
+
+    .p-datatable-table {
+      border-collapse: separate !important; 
+      border-spacing: 0 !important;
+    }
+
+    .p-datatable-thead > tr > th {
+      background-color: var(--color-surface-light) !important; 
+      color: var(--color-text-label) !important;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: .7rem 1rem !important;
+      
+      border-bottom: 0.15rem solid var(--border-color) !important;
+      border-top: none !important;
+      border-left: none !important;
+      border-right: none !important;
+      text-align: left;
+
+      &:first-child {
+        border-top-left-radius: .7rem !important;
+      }
+
+      &:last-child {
+        border-top-right-radius: .7rem !important;
+      }
+    }
+
+    .p-datatable-tbody > tr {
+      @include transition-all-0_3;
+      background-color: transparent !important;
+
+      &:hover {
+        @include transition-all-0_3;
+        background-color: var(--color-surface-destak) !important;
+      }
+
+      > td {
+        background-color: transparent !important;
+        padding: .7rem 1rem !important;
+        color: var(--color-text-label) !important; 
+        font-size: 0.95rem !important;
+        border-bottom: 0.15rem solid var(--border-color) !important;
+        border-top: none !important;
+        border-left: none !important;
+        border-right: none !important;
+      }
+    }
+  }
+
+  .p-paginator {
+    background: transparent !important;
+    border: none !important;
+    padding: 1.5rem 0 0.5rem 0 !important;
+
+    .p-paginator-current {
+      margin-right: auto !important;
+      color: var(--color-text-destak-secondary) !important;
+      font-size: 0.95rem !important;
+      font-weight: 500 !important;
+      padding: 0 !important;
+    }
+
+    .p-paginator-first,
+    .p-paginator-prev,
+    .p-paginator-next,
+    .p-paginator-last,
+    .p-paginator-page {
+      @include transition-all-0_3;
+      
+      background-color: var(--color-surface-destak) !important;
+      color: var(--color-text-destak-secondary) !important;
+      border: 0.12rem solid transparent !important;
+      
+      border-radius: 0.5rem !important;
+      min-width: 2.2rem !important;
+      height: 2.2rem !important;
+      margin: 0 0.3rem !important;
+      font-weight: 600 !important;
+
+      &:not(.p-disabled):hover {
+        opacity: 0.8 !important;
+        background-color: var(--color-background-quaternary) !important;
+      }
+
+      &.p-paginator-page-selected {
+        background-color: var(--color-surface-light-secondary) !important;
+        border-color: var(--color-text-destak) !important;
+        color: var(--color-text-destak) !important;
+        box-shadow: none !important;
+      }
+    }
+
+    svg.p-icon {
+      width: 0.85rem;
+      height: 0.85rem;
+    }
+  }
+}
+
+// .lumen-badge {
+//   display: inline-flex;
+//   align-items: center;
+//   gap: 0.4rem;
+//   padding: 0.25rem 0.7rem;
+//   border-radius: 2rem;
+//   font-size: 0.8rem;
+//   font-weight: 600;
+
+//   &.Ativa, &.active, &.Ativo, &.badge-success {
+//     background-color: var(--color-background-success);
+//     color: var(--color-text-success);
+//     &::before { background-color: var(--color-text-success); }
+//   }
+
+//   &.Inativa, &.suspended, &.Inativo, &.badge-danger {
+//     background-color: var(--color-background-error);
+//     color: var(--color-text-error);
+//     &::before { background-color: var(--color-text-error); }
+//   }
+
+//   &.Pendente, &.pending, &.badge-warning {
+//     background-color: var(--color-background-warn);
+//     color: var(--color-text-warn);
+//     &::before { background-color: var(--color-text-warn); }
+//   }
+
+//   &.badge-neutral{
+//     background-color: var(--color-text-light);
+//     color: var(--color-text-secondary);
+//     &::before { background-color: var(--color-text-secondary); }
+//   }
+// }

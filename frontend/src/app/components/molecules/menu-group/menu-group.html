@@ -1,0 +1,7 @@
+<div class="menu-group-content">
+    <span [class.is-collapsed]="isCollapsed()">{{ groupData().label }}</span>
+    
+    @for (item of groupData().children; track item.label) {
+        <lumen-menu-item [itemData]="item" [isCollapsed]="isCollapsed()"></lumen-menu-item>
+    }
+</div>

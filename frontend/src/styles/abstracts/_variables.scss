@@ -1,0 +1,48 @@
+:root {
+    --color-text-primary: #4a4b4b;
+    --color-text-secondary: #9aa0a6;
+    --color-text-label: #6E6A7C;
+    --color-text-destak: #8A7EBC;
+    --color-text-destak-secondary: #463B5F;
+    --color-background-button-primary: #8A7EBC;
+    --color-text-light: #fff8ff;
+    --color-text-surface: #66607C;
+    --color-surface-light: #EEECF5;
+    --color-surface-light-secondary: #FEFEFE;
+    --color-surface-overlay: rgba(8, 59, 60, .45);
+    --color-surface-destak: #F1EFF7;
+    --color-background-default: #2C2638;
+    --color-background-sidebar: #282136;
+    --color-background-secondary: #cfcce5;
+    --color-background-tertiary: rgba(112, 103, 139, .7);
+    --color-background-quaternary: #CEBCE8;
+    --color-shadow: #ACAAAF80;
+    --color-shadow-dark: #c5c3ce;
+    --color-background-light: rgba(86, 95, 96, .08);
+    --color-background-modal: rgba(116, 116, 116, 0.5);
+    --border-color: #EAE8F0;
+    --color-surface-overlay-light: rgba(255, 255, 255, 0.4);
+    --color-surface-canvas: var(--color-surface-light);
+    
+    --color-text-success: #14934b;
+    --color-background-success: #E8FDEC;
+    --color-text-error: #DD4C73;
+    --color-background-error: #FBE9E7;
+    --color-text-warn: #FA9C42;
+    --color-background-warn: #FFF2EA;
+    --color-text-info: #1986CF;
+    --color-background-info: #E8EFFD;
+
+    --color-background-purple: #EDE8F7;
+    --color-text-purple: #8A7EBC;
+    --color-background-green: #EEF3F3;
+    --color-text-green: #3B926A;
+
+    --color-background-pink: #FFE2F1;
+    --color-text-pink: #FF67A6;
+
+    --p-tree-background: transparent;
+    --p-tree-color: var(--color-text-primary);
+    --color-sidebar-hover: rgba(255, 255, 255, 0.15); 
+    --color-sidebar-scrollbar: rgba(255, 255, 255, 0.25);
+}

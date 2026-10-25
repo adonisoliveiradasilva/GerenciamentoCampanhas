@@ -1,0 +1,15 @@
+@use './styles/abstracts/variables';
+@use './styles/abstracts/mixins';
+
+@use './styles/base/reset';
+@use './styles/base/scrollbars';
+
+@use './styles/themes/dark-theme';
+
+@use './styles/vendor/primeng-table';
+@use './styles/vendor/primeng-tree';
+@use './styles/vendor/primeng-menu';
+
+@use './styles/pages';
+@use './styles/forms';
+@use './styles/auth';

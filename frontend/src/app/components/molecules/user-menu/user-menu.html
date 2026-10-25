@@ -1,0 +1,30 @@
+@if (user()) {
+  <div class="user-menu-container">
+    
+    <div class="vertical-divider"></div>
+
+    <div class="user-trigger" (click)="toggleMenu($event, menu)">
+      
+      <lumen-avatar [label]="user()!.name"></lumen-avatar>
+
+      <div class="user-info">
+        <div class="name-row">
+          <span class="user-name">{{ user()!.name }}</span>
+          
+          <div class="chevron-circle" [class.rotated]="isOpen()">
+            <i class="fas fa-circle-chevron-down"></i> 
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p-menu 
+      #menu 
+      [model]="menuItems()" 
+      [popup]="true" 
+      appendTo="body"
+      (onShow)="isOpen.set(true)"
+      (onHide)="isOpen.set(false)">
+    </p-menu>
+  </div>
+}

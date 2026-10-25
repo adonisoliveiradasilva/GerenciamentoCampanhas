@@ -1,0 +1,47 @@
+@use "../../../../styles/abstracts/mixins" as *;
+
+:host {
+    width: 100%;
+}
+
+.menu-group-content {
+    @include flex-column-left-top;
+    gap: .5rem;
+    padding: 0 1rem;
+    margin-top: 10%;
+
+    span {
+        font-size: .75rem;
+        
+        font-weight: 600; 
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        
+        color: var(--color-text-secondary);
+        white-space: nowrap;
+        overflow: hidden;
+        height: auto;
+
+        opacity: 0;
+        animation: fadeIn 0.2s ease-in forwards 0.3s;
+
+        &.is-collapsed {
+            animation: fadeOut 0.1s ease-out forwards;
+            height: 0;       
+            margin: 0;
+            pointer-events: none;
+        }
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}

@@ -1,0 +1,12 @@
+<div class="menu-item-content"
+    [routerLink]="itemData().route"
+    routerLinkActive="menu-item-content-active-route"
+    [routerLinkActiveOptions]="{ exact: true }"
+    [ngClass]="{'menu-item-collapsed': isCollapsed()}"
+  >
+    <i class="fas" [ngClass]="itemData().icon"></i>
+
+    @if (!isCollapsed()) {
+      <span>{{ itemData().label }}</span>
+    }
+</div>

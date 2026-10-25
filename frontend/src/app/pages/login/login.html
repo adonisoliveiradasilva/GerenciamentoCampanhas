@@ -1,0 +1,53 @@
+<auth-layout
+    txtWelcome="Bem-vindo ao <br><span class='highlight'>Sistema de Doações</span>"
+    txtSubtitle="Acesse sua conta para gerenciar as campanhas e acompanhar as entregas."
+    txtSecurityBadge="Acesso restrito a gestores cadastrados.">
+    
+    <div form-slot>        
+        <form class="login-form" (ngSubmit)="handleLoginSubmit()">
+            
+            <lumen-heading 
+                title="Entrar na plataforma" 
+                subtitle="Insira suas credenciais abaixo">
+            </lumen-heading>
+
+            <section style="margin-top: 2rem;">
+                <lumen-input 
+                    label="E-mail" 
+                    type="email" 
+                    placeholder="seu.email@igreja.com" 
+                    icon="fa-regular fa-envelope" 
+                    mode="login" 
+                    [(value)]="email">
+                </lumen-input>
+
+                <lumen-input 
+                    label="Senha" 
+                    type="password" 
+                    placeholder="Sua senha secreta" 
+                    icon="fas fa-lock" 
+                    mode="login"
+                    [(value)]="password">
+                </lumen-input>
+
+                <lumen-button 
+                    text="Entrar" 
+                    type="login" 
+                    nativeType="submit">
+                </lumen-button>
+
+                <footer>
+                    <lumen-link 
+                        text="Esqueceu a senha?" 
+                        to="/forgot-password">
+                    </lumen-link>
+                </footer>
+            </section>
+        </form>
+    </div>
+
+</auth-layout>
+
+@if (isLoading()) {
+    <lumen-loading label="Autenticando..." [fullScreen]="true"></lumen-loading>
+}

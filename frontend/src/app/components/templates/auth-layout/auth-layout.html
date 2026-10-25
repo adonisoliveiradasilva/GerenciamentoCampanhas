@@ -1,0 +1,31 @@
+<div class="auth-layout-wrapper">
+  
+  <div class="login-banner">
+    <div class="banner-content">
+      
+      <div class="text-section">
+        <h2 style="color: var(--color-text-light); margin-bottom: 2rem;">
+          <i class="fa-solid fa-church"></i> Doações
+        </h2>
+        
+        <h1 class="banner-title" [innerHTML]="txtWelcome()"></h1>
+        
+        <p class="banner-subtitle" [innerHTML]="txtSubtitle()"></p>
+      </div>
+
+      <div class="illustration-section">
+        <i class="fa-solid fa-hand-holding-heart flowchart-image" style="font-size: 8rem; color: var(--color-background-button-primary); opacity: 0.8;"></i>
+      </div>
+
+      <div class="security-badge">
+        <i class="fa-solid fa-shield"></i>
+        <span [innerHTML]="txtSecurityBadge()"></span>
+      </div>
+
+    </div>
+  </div>
+  
+  <div class="login-form-area">
+    <ng-content select="[form-slot]"></ng-content>
+  </div>
+</div>

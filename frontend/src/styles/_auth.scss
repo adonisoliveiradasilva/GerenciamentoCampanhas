@@ -1,0 +1,48 @@
+@use './abstracts/mixins' as *;
+
+@mixin auth-card-shared {
+    @include flex-column-center-top;
+    width: 100%;
+    background-color: var(--color-surface-light-secondary);
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    gap: 1.5rem;
+
+    .card-header {
+        @include flex-column-center-top;
+        text-align: center;
+        gap: 0.5rem;
+
+        h2 {
+            margin: 0;
+            color: var(--color-text-primary);
+            font-size: 1.4rem;
+        }
+
+        p {
+            margin: 0;
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+    }
+
+    .card-body {
+        @include flex-column-left-top;
+        width: 100%;
+        gap: 1.5rem;
+
+        lumen-button {
+            margin-top: 0.5rem;
+        }
+    }
+
+    .card-footer {
+        @include flex-row-center;
+        width: 100%;
+        text-align: center;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-color);
+    }
+}

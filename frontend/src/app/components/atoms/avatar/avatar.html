@@ -1,0 +1,16 @@
+<div class="squircle" 
+     [ngClass]="size()" 
+     [class.is-circle]="shape() === 'circle'"
+     [class.has-image]="imageUrl() && !imageError()">
+    
+    @if (imageUrl() && !imageError()) {
+        <img 
+            [src]="imageUrl()" 
+            alt="Avatar" 
+            class="avatar-image" 
+            [style.object-fit]="imageFit()"
+            (error)="onImageError()">
+    } @else {
+        <span class="avatar-initials">{{ displayInitials() }}</span>
+    }
+</div>

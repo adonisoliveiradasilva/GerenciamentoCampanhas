@@ -1,0 +1,20 @@
+<div class="sidebar-content" 
+    [ngClass]="{
+        'collapsed': isCollapsed(), 
+        'with-transition': animationsReady()
+     }">
+    <div class="logo-button-wrapper">
+        <lumen-logo size="medium"></lumen-logo>
+        <lumen-button type="circle-icon-tertiary" [icon]="!isCollapsed() ? 'fas fa-angles-left' : 'fas fa-angles-right'" (onClick)="toggle()"></lumen-button>
+    </div>
+    
+    <section>
+        @for (menu of authorizedMenu(); track menu.label) {
+            <lumen-menu-group [groupData]="menu" [isCollapsed]="isCollapsed()"></lumen-menu-group>
+        }
+    </section>
+
+    @if (!isCollapsed()) {
+        <lumen-date-time [locale]="mappedLocale()" style="width: 90%;"></lumen-date-time>
+    }
+</div>

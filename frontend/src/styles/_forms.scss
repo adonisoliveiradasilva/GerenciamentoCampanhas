@@ -1,0 +1,95 @@
+@use './abstracts/mixins' as *;
+
+.lumen-form-content {
+    @include flex-column-left-top;
+    width: 100%;
+    height: 100%;
+
+    .lumen-form-content-bottom {
+        @include flex-row-center-right;
+        @include padding-2;
+        @include gap-2;
+        margin-top: auto;
+        width: 100%;
+        height: auto;
+        border-top: .15rem solid var(--border-color);        
+        flex-shrink: 0;
+    }
+}
+
+.form-entity-content{
+    @include flex-column-left-top;
+    @include gap-2;
+    @include padding-2;
+    width: 100%;
+
+    .form-entity-row{
+        @include flex-row-center;
+        @include gap-2;
+        width: 100%;
+        height: auto;
+        box-sizing: border-box;
+    }
+}
+
+.tab-content-area{
+    @include flex-column-left-top;
+    @include gap-2;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.p-treeSelect-section{
+    @include flex-column-left-top;
+    @include gap-1;
+    width: 100%;
+    height: auto;
+    min-width: 0;
+
+    span{
+        @include font-size-medium;
+        color: var(--color-text-label) !important;
+        font-weight: 400;
+
+        b{
+            color: var(--color-text-error) !important;
+        }
+    }
+}
+
+.is-skeleton {
+    position: relative !important;
+    background: var(--color-surface-light) !important;
+    color: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    pointer-events: none !important;
+    overflow: hidden !important;
+    border-radius: 4px;
+}
+
+.is-skeleton * {
+    opacity: 0 !important;
+}
+
+.is-skeleton::after {
+    content: "";
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    animation: lumen-shimmer-force 1s infinite;
+}
+
+@keyframes lumen-shimmer-force {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.p-treeSelect-section.is-skeleton p-treeSelect {
+    opacity: 0 !important;
+    height: 42px;
+}

@@ -1,0 +1,9 @@
+ @if (isExternal()) {
+    <a [href]="to()" target="_blank" rel="noopener noreferrer" class="lumen-link">
+        {{ text() }}
+    </a>
+} @else {
+    <a [routerLink]="to()" class="lumen-link">
+        {{ text() }}
+    </a>
+}

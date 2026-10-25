@@ -1,0 +1,9 @@
+<div class="loading-wrapper" [class.overlay]="fullScreen()">
+    <div class="loading-state-container" [class.box]="fullScreen()">
+        <i class="fa-solid fa-circle-notch fa-spin fa-2x"></i>
+        
+        @if (label()) {
+            <span>{{ label() }}</span>
+        }
+    </div>
+</div>

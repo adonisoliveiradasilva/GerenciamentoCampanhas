@@ -1,0 +1,117 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
+:host {
+  display: block;
+}
+
+:host(.is-login-width) {
+  width: 100%;
+}
+
+button i {
+  font-style: normal !important;
+}
+
+.login {
+  @include flex-row-center;
+  gap: .5rem;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-text-destak);
+  color: var(--color-text-light);
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+
+  &:hover, &:active {
+    filter: opacity(0.9);
+  }
+}
+
+.primary, .secondary {
+  @include flex-row-center;
+  @include gap-1;
+  @include border-radius-1;
+  @include font-size-medium;
+  padding: .5rem 1rem;
+  border: none;
+
+  &:hover, &:active {
+    filter: opacity(0.9);
+    cursor: pointer;
+  }
+}
+
+.primary {
+  background-color: var(--color-background-button-primary);
+  color: var(--color-text-light);
+  border: solid .1rem var(--color-background-button-primary);
+}
+
+.secondary {
+  background-color: transparent; 
+  color: var(--color-text-destak);
+  border: solid .1rem var(--color-text-destak);
+
+  &:hover, &:active {
+    background-color: var(--color-background-purple);
+  }
+}
+
+.danger {
+  background-color: transparent;
+  color: var(--color-text-error);
+  border: solid .1rem var(--color-text-error);
+
+  &:hover, &:active {
+    background-color: var(--color-background-error);
+  }
+}
+
+.circle-icon-secondary {
+  @include flex-row-center;
+  border-radius: 1rem;
+  width: 2rem;
+  height: 2rem;
+  background-color: var(--color-background-secondary);
+  border: none;
+  color: var(--color-text-primary);
+
+  &:hover, &:active {
+    filter: opacity(0.9);
+    cursor: pointer;
+  }
+}
+
+.circle-icon-tertiary {
+  @include flex-row-center;
+  border-radius: 1rem;
+  width: 2rem;
+  height: 2rem;
+  background-color: var(--color-background-tertiary);
+  border: none;
+  color: var(--color-text-secondary);
+
+  &:hover, &:active {
+    filter: opacity(0.9);
+    cursor: pointer;
+  }
+}
+
+button {
+  &:disabled {
+    cursor: not-allowed;
+    filter: opacity(0.6);
+    pointer-events: none;
+  }
+}
+
+.primary, .secondary, .login {
+  &:disabled {
+    background-color: var(--color-surface-light);
+    border-color: var(--color-surface-light);
+    color: var(--color-text-secondary);
+  }
+}

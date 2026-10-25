@@ -1,0 +1,13 @@
+.lumen-link {
+    color: var(--color-text-destak);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--color-text-primary);
+        text-decoration: underline;
+    }
+}

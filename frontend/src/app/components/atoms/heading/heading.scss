@@ -1,0 +1,22 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.heading-content {
+  @include flex-column-left-top;
+  gap: .3rem;
+  width: 100%;
+  
+  
+  h1 {
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+  h4 {
+    font-weight: 400;
+    color: var(--color-text-label);
+  }
+}

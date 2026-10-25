@@ -1,0 +1,28 @@
+@use "../../../../styles/abstracts/mixins" as *;
+
+:host {
+    display: block;
+}
+
+.date-time-content{
+    @include flex-column-left-top;
+    gap: 0.25rem;
+    color: var(--color-text-light);
+    font-size: 1rem;
+    opacity: 0;
+    animation: fadeIn 0.2s ease-in forwards 0.3s;
+
+    .time{
+        font-weight: 500;
+    }
+
+    .date{
+        font-weight: 100;
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}

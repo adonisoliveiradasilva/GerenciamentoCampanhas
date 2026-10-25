@@ -1,0 +1,62 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
+.user-menu-container {
+  @include flex-row-center-left;
+  position: relative;
+  @include gap-2;
+
+  .vertical-divider {
+    width: 2px;
+    height: 40px;
+    background-color: var(--border-color);
+    border-radius: 2px;
+  }
+
+  .user-trigger {
+    @include flex-row-center-left;
+    @include gap-2;
+    @include transition-all-0_3;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: var(--color-background-light); 
+    }
+  }
+
+  .user-info {
+    @include flex-column-left-top;
+
+    .name-row {
+      @include flex-row-center-left;
+      @include gap-1;
+
+      .user-name {
+        color: var(--color-text-label); 
+        font-weight: 500;
+        @include font-size-medium;
+      }
+
+      .chevron-circle {
+        @include transition-all-0_3;
+        @include flex-row-center;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        color: var(--color-text-secondary);
+        font-size: .9rem;
+
+        &.rotated {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .user-role {
+      color: var(--color-text-surface);
+      @include font-size-small;
+      font-weight: 400;
+    }
+  }
+}

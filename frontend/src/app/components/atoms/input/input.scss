@@ -1,0 +1,125 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.prefix-icon {
+  position: absolute;
+  left: 1rem;
+  color: var(--color-text-primary);
+  opacity: 0.6;
+  pointer-events: none;
+  font-size: 1rem;
+}
+
+.input-label {
+  @include font-size-medium;
+  font-weight: 400;
+  margin-bottom: .5rem;
+  color: var(--color-text-label);
+
+  .required-indicator {
+    color: var(--color-text-error);
+  }
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.input-field {
+  @include border-radius-1;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: .15rem solid var(--border-color);
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background-color: transparent;
+  color: var(--color-text-label);
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-text-destak);
+  }
+
+  &.is-form {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  &.has-prefix-icon {
+    padding-left: 2.5rem; 
+  }
+
+  &.has-icon {
+    padding-right: 2.75rem; 
+  }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover, 
+  &:-webkit-autofill:focus, 
+  &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--color-surface-light-secondary) inset !important;
+    box-shadow: 0 0 0 1000px var(--color-surface-light-secondary) inset !important;
+    @include border-radius-1;
+    -webkit-text-fill-color: var(--color-text-label);
+    border: .15rem solid var(--color-surface-light)!important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+  }
+}
+
+textarea {
+  resize: none;
+}
+
+textarea.small {
+  height: 5rem;
+}
+
+textarea.medium {
+  height: 13rem;
+}
+
+textarea.large {
+  height: 18rem;
+}
+
+.input-field.error {
+    border-color: var(--color-text-error);
+    background-color: var(--color-background-error);
+    
+    &:focus {
+      box-shadow: 0 0 0 2px rgba(217, 48, 37, 0.2);
+    }
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: var(--color-text-label);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  font-size: 1rem;
+
+  &:hover {
+    opacity: 1;
+  }
+}

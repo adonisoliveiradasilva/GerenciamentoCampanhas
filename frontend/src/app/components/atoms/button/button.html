@@ -1,0 +1,8 @@
+<button [type]="nativeType()" [ngClass]="type()" [class.is-skeleton]="isLoading()" (click)="action()" [disabled]="disabled() || isLoading()">
+  @if (type() != 'circle-icon') {
+    <span>{{ text() }}</span>
+  }
+  @if (icon()) {
+    <i [class]="icon()"></i>
+  }
+</button>

@@ -1,0 +1,45 @@
+@use '../../../styles/abstracts/mixins' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+div[form-slot] {
+  width: 100%;
+  max-width: 420px; 
+  min-width: 300px;
+  height: fit-content; 
+  margin: 0 auto;
+}
+
+.login-form {
+  @include flex-column-center-top;
+  @include border-radius-1;
+  padding: 2.5rem;
+  width: 100%;
+  height: auto;
+  background-color: var(--color-surface-light-secondary);
+
+  @media (max-width: 1200px) {
+    height: 100%;
+  }
+
+  section {
+    @include flex-column-center-top;
+    @include gap-2;
+    width: 100%;
+
+    lumen-button {
+      margin-top: 1rem;
+    }
+
+    footer {
+      @include flex-row-center;
+      padding-top: 1rem;
+      margin-top: 1rem;
+      width: 100%;
+      border-top: 1px solid var(--border-color);  
+    }
+  }
+}

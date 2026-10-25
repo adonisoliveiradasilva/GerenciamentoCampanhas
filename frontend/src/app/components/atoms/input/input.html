@@ -1,0 +1,59 @@
+<div class="input-group">
+  <label class="input-label" [class.is-skeleton]="isLoading()">
+    {{ label() }}
+    @if (required()) {
+      <span class="required-indicator">*</span>
+    }
+  </label>
+  
+  <div class="input-wrapper" [class.is-skeleton]="isLoading()">
+    
+    @if (icon() && !isLoading()) {
+      <i [ngClass]="icon()" class="prefix-icon"></i>
+    }
+
+    @if (type() === 'textarea') {
+      <textarea
+        [placeholder]="placeholder()"
+        class="input-field"
+        [class.is-form]="mode() === 'form'"
+        [class.has-prefix-icon]="!!icon()"
+        [class.error]="hasError()" 
+        [disabled]="isLoading()"
+        [ngModel]="value()"
+        (ngModelChange)="onValueChange($event)"
+        [ngClass]="size()"
+      ></textarea>
+    } @else {
+      <input
+        [type]="currentType()"
+        [placeholder]="placeholder()"
+        class="input-field"
+        [attr.name]="name()"
+        [attr.autocomplete]="autocomplete()"
+        [class.is-form]="mode() === 'form'"
+        [class.has-prefix-icon]="!!icon()"
+        [class.has-icon]="type() === 'password'"
+        [class.error]="hasError()" 
+        [disabled]="isLoading()"
+        [ngModel]="value()"
+        (ngModelChange)="onValueChange($event)"
+      />
+    }
+    
+    @if (type() === 'password' && !isLoading()) {
+      <button 
+        type="button" 
+        class="toggle-password-btn" 
+        (click)="togglePasswordVisibility()"
+        aria-label="Alternar visibilidade da senha"
+      >
+        <i 
+          class="fa-solid" 
+          [class.fa-eye]="!isPasswordVisible()" 
+          [class.fa-eye-slash]="isPasswordVisible()"
+        ></i>
+      </button>
+    }
+  </div>
+</div>

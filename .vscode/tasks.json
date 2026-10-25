@@ -1,0 +1,57 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "1. Iniciar Banco de Dados",
+      "type": "shell",
+      "command": "docker-compose up -d",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "clear": true
+      }
+    },
+    {
+      "label": "2. Rodar API (.NET)",
+      "type": "shell",
+      "command": "dotnet run --project Api/Api.csproj",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "dependsOn": ["1. Iniciar Banco de Dados"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "group": "fullstack"
+      }
+    },
+    {
+      "label": "3. Rodar UI (Angular)",
+      "type": "shell",
+      "command": "npm start",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "group": "fullstack"
+      }
+    },
+    {
+      "label": "Rodar Projeto Completo (Fullstack)",
+      "dependsOn": [
+        "2. Rodar API (.NET)",
+        "3. Rodar UI (Angular)"
+      ],
+      "dependsOrder": "parallel",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

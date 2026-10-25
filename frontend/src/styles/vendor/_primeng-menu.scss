@@ -1,0 +1,26 @@
+@use '../abstracts/mixins' as *;
+
+.p-menu {
+  @include shadow;
+  @include border-radius-1;
+  background: var(--color-surface-light-secondary) !important;
+  color: var(--color-text-label) !important;
+  border: .15rem solid var(--border-color) !important;
+  min-width: 12.5rem;
+
+  .p-menu-item-icon,
+  .p-menu-item-label {
+    color: var(--color-text-label) !important;
+    line-height: 1;
+  }
+
+  .p-menu-item:not(.p-disabled) .p-menu-item-content {
+    @include transition-all-0_3;
+
+    &:hover{
+      @include transition-all-0_3;
+      color: var(--p-menu-item-focus-color);
+      background: var(--border-color) !important;
+    }    
+  }
+}

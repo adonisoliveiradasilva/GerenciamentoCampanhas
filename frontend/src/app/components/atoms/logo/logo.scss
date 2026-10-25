@@ -1,0 +1,27 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
+.logo-container {
+    @include flex-column-center-top;
+    --logo-color: var(--color-text-primary);
+
+    .logo-image {
+        margin-bottom: 0.5rem;
+        border-radius: .5rem;
+        @include transition-all-0_3;
+    }
+
+    &.small .logo-image {
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+    }
+
+    &.medium .logo-image {
+        width: 2.5rem !important;
+        height: 2.5rem !important;
+    }
+
+    &.large .logo-image {
+        width: 3.5rem !important;
+        height: 3.5rem !important;
+    }
+}
