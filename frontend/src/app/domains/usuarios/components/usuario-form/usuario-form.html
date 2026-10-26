@@ -1,0 +1,57 @@
+<lumen-fullscreen-modal 
+    [title]="isEditMode() ? 'Editar Usuário' : 'Novo Usuário'"
+    icon="fa-solid fa-user-pen"
+    (onClose)="fechar.emit()">
+    
+    <form [formGroup]="form" class="lumen-form-container">
+        
+        <lumen-input 
+            mode="form"
+            label="Nome Completo"
+            placeholder="Ex: Adonis Oliveira"
+            [value]="controls['nome'].value"
+            (valueChange)="controls['nome'].setValue($event); controls['nome'].markAsDirty()"
+            [hasError]="controls['nome'].invalid && (controls['nome'].dirty || controls['nome'].touched)"
+            [errorMessage]="getErrorMessage('nome')">
+        </lumen-input>
+            
+        <lumen-input 
+            mode="form"
+            type="email"
+            label="E-mail de Acesso"
+            placeholder="Ex: adonis@aluno.ufop.edu.br"
+            [value]="controls['email'].value"
+            (valueChange)="controls['email'].setValue($event); controls['email'].markAsDirty()"
+            [hasError]="controls['email'].invalid && (controls['email'].dirty || controls['email'].touched)"
+            [errorMessage]="getErrorMessage('email')">
+        </lumen-input>
+            
+        <div class="custom-select-group">
+            <label>Status da Conta</label>
+            <lumen-select-mini
+                [options]="statusOptions"
+                [value]="controls['status'].value"
+                (valueChange)="controls['status'].setValue($event); controls['status'].markAsDirty()"
+                [disabled]="controls['status'].disabled">
+            </lumen-select-mini>
+        </div>
+
+    </form>
+
+    <ng-container modal-actions>
+        <lumen-button 
+            type="secondary" 
+            text="Cancelar" 
+            icon="fa-solid fa-ban"
+            (onClick)="fechar.emit()">
+        </lumen-button>
+        
+        <lumen-button 
+            type="primary" 
+            icon="fa-solid fa-floppy-disk"
+            [text]="isEditMode() ? 'Salvar Alterações' : 'Criar Usuário'" 
+            (onClick)="onSubmit()">
+        </lumen-button>
+    </ng-container>
+
+</lumen-fullscreen-modal>

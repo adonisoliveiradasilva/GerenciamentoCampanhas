@@ -56,4 +56,8 @@
       </button>
     }
   </div>
+
+  @if (hasError() && errorMessage()) {
+    <span class="input-error-msg">{{ errorMessage() }}</span>
+  }
 </div>

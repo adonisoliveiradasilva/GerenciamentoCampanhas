@@ -1,0 +1,23 @@
+<div class="fullscreen-backdrop" (click)="onClose.emit()">
+    <div class="fullscreen-box" (click)="$event.stopPropagation()">
+        
+        <header class="fullscreen-header">
+            <div class="title">
+                <i [class]="icon()"></i>
+                <span>{{ title() }}</span>
+            </div>
+            <button class="close-btn" (click)="onClose.emit()">
+                <i class="fas fa-circle-xmark"></i>
+            </button>
+        </header>
+
+        <section class="fullscreen-content">
+            <ng-content></ng-content>
+        </section>
+
+        <footer class="fullscreen-actions">
+            <ng-content select="[modal-actions]"></ng-content>
+        </footer>
+
+    </div>
+</div>

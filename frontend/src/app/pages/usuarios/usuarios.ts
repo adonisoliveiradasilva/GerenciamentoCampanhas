@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Table, ITableAction } from '../../components/organisms/table/table';
 import { ITableColumn } from '../../domains/table/models/table.model';
 import { UsuariosLayout } from '../../components/templates/usuarios-layout/usuarios-layout';
+import { UsuarioForm } from '../../domains/usuarios/components/usuario-form/usuario-form';
 
 export interface IUsuarioVM {
   id: string;
@@ -18,7 +19,7 @@ export interface IUsuarioVM {
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [CommonModule, Table, UsuariosLayout],
+  imports: [CommonModule, Table, UsuariosLayout, UsuarioForm],
   host: { 'class': 'expand-host' },
   templateUrl: './usuarios.html',
   styleUrl: './usuarios.scss',
@@ -28,6 +29,8 @@ export class Usuarios implements OnInit {
   public isLoading = signal<boolean>(true);
   public searchFields = signal<string[]>(['nome', 'email']);
   public usuariosData = signal<IUsuarioVM[]>([]);
+  public isModalOpen = signal<boolean>(false);
+  public usuarioSelecionado = signal<IUsuarioVM | null>(null);
 
   public tableColumns = computed<ITableColumn<IUsuarioVM>[]>(() => [
     { field: 'nome', header: 'Nome', type: 'text' },
@@ -92,17 +95,16 @@ export class Usuarios implements OnInit {
   }
 
   public onCreateNew(): void {
-    console.log('Abrir side-modal de criação (em breve)');
-    alert('Side-modal de criação será aberto aqui!');
+    this.usuarioSelecionado.set(null);
+    this.isModalOpen.set(true);
   }
 
   public handleRowAction(event: { action: string; data: IUsuarioVM }): void {
     const { action, data } = event;
-
     switch (action) {
       case 'edit':
-        console.log('Editar usuário:', data.nome);
-        alert(`Editar ${data.nome}`);
+        this.usuarioSelecionado.set(data);
+        this.isModalOpen.set(true);
         break;
       case 'deactivate':
         console.log('Desativar usuário:', data.nome);
@@ -111,5 +113,15 @@ export class Usuarios implements OnInit {
         console.log('Excluir usuário:', data.nome);
         break;
     }
+  }
+
+  public fecharModal(): void {
+    this.isModalOpen.set(false);
+  }
+
+  public salvarUsuario(dadosDoForm: any): void {
+    console.log('Dados recebidos do form para salvar na API:', dadosDoForm);
+    alert('Pronto para chamar o service/API!');
+    this.isModalOpen.set(false);
   }
 }

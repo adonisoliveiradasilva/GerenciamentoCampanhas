@@ -1,0 +1,96 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
+:host {
+    display: inline-block;
+    position: relative;
+}
+
+.lumen-select-mini-container {
+    position: relative;
+
+    &.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+.select-trigger {
+    @include flex-row-center;
+    @include gap-1;
+    @include border-radius-1;
+    @include font-size-medium;
+    
+    padding: .5rem 1rem;
+    background-color: transparent; 
+    color: var(--color-text-destak);
+    border: solid .1rem var(--color-text-destak);
+    width: 100%;
+    
+    &:hover, &:active {
+        background-color: var(--color-background-purple);
+        cursor: pointer;
+    }
+
+    &:disabled {
+        background-color: var(--color-surface-light);
+        border-color: var(--color-surface-light);
+        color: var(--color-text-secondary);
+        pointer-events: none;
+    }
+
+    .trigger-label {
+        color: inherit;
+        line-height: 1;
+        user-select: none;
+    }
+
+    .trigger-icon {
+        color: inherit;
+        font-size: 1rem;
+        
+        &.open {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.select-menu {
+    @include shadow;
+    @include border-radius-1;
+    
+    position: absolute;
+    top: calc(100% + 0.4rem);
+    left: 0;
+    z-index: 1000;
+    min-width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: hidden;
+    
+    background: var(--color-surface-light-secondary) !important;
+    border: .15rem solid var(--border-color) !important;
+
+    .select-menu-item {
+        @include transition-all-0_3;
+        
+        padding: 0.75rem 1rem;
+        color: var(--color-text-label) !important;
+        font-size: 1rem;
+        line-height: 1;
+        cursor: pointer;
+        white-space: nowrap;
+
+        &:hover {
+            @include transition-all-0_3;
+            color: var(--p-menu-item-focus-color);
+            background: var(--border-color) !important;
+        }
+
+        &.selected {
+            color: var(--color-text-destak) !important;
+            background: var(--color-background-purple) !important;
+            font-weight: 500;
+        }
+    }
+}

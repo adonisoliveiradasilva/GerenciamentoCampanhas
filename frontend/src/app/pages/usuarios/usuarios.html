@@ -26,3 +26,11 @@
     </div>
 
 </lumen-usuarios-layout>
+
+@if (isModalOpen()) {
+    <app-usuario-form 
+        [usuario]="usuarioSelecionado()"
+        (fechar)="fecharModal()"
+        (salvar)="salvarUsuario($event)">
+    </app-usuario-form>
+}

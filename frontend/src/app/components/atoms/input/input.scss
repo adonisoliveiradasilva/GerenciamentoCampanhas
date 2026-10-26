@@ -104,6 +104,19 @@ textarea.large {
     }
 }
 
+.input-error-msg {
+    @include font-size-small;
+    color: var(--color-text-error);
+    margin-top: 0.25rem;
+    margin-left: 0.25rem;
+    animation: fadeInError 0.2s ease-out;
+}
+
+@keyframes fadeInError {
+    from { opacity: 0; transform: translateY(-3px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .toggle-password-btn {
   position: absolute;
   right: 0.75rem;
