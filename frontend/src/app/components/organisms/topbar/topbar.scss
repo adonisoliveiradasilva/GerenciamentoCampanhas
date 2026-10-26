@@ -7,7 +7,8 @@
 }
 
 .topbar-component{
-    @include flex-row-center-right;
+    @include flex-row-center-space-between;
+    padding-left: 2rem;
     width: 100%;
     height: clamp(4rem, 5vh, 5rem);
     background-color: var(--color-surface-light-secondary);
@@ -16,31 +17,4 @@
 .topbar-actions {
     @include flex-row-center-right;
     @include gap-3; 
-}
-
-.notifications-wrapper {
-    position: relative;
-    @include flex-row-center;
-    cursor: pointer;
-
-    .bell-icon {
-        font-size: 1.25rem;
-        color: var(--color-text-secondary);
-        @include transition-all-0_3;
-        
-        &:hover { color: var(--color-text-primary); }
-    }
-
-    .badge {
-        position: absolute;
-        top: -6px;
-        right: -8px;
-        background-color: var(--color-text-error);
-        color: var(--color-text-light);
-        font-size: 0.65rem;
-        font-weight: 700;
-        padding: 0.15rem 0.35rem;
-        border-radius: 1rem;
-        @include shadow;
-    }
 }

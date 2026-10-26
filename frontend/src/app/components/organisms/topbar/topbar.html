@@ -1,4 +1,8 @@
 <div class="topbar-component">
+    <div class="topbar-breadcrumb">
+        <breadcrumb [items]="breadcrumbs()"></breadcrumb>
+    </div>
+    
     <div class="topbar-actions">
         <lumen-user-menu 
             [user]="currentUser()"

@@ -24,17 +24,26 @@ export const routes: Routes = [
     path: 'login', 
     component: Login 
   },
-  
   { 
     path: '', 
     component: MainLayout,
     canActivate: [authGuard],
     children: [
-      { path: 'dashboard', component: DashboardStub },
-      
+      { 
+        path: 'dashboard', 
+        component: DashboardStub,
+        data: { breadcrumb: 'Dashboard' }
+      },
+      // Exemplo de uma tela interna aninhada:
+      // {
+      //   path: 'campanhas',
+      //   data: { breadcrumb: 'Campanhas' },
+      //   children: [
+      //     { path: 'nova', component: NovaCampanha, data: { breadcrumb: 'Nova Campanha' } }
+      //   ]
+      // },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
-  
   { path: '**', redirectTo: '' }
 ];

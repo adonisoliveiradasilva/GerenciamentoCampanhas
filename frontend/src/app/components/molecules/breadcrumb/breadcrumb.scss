@@ -1,0 +1,35 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.breadcrumb {
+    @include flex-row-center-left;
+    @include gap-1;
+    @include font-size-small;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    &__item {
+        @include flex-row-center-left;
+        @include gap-1;
+    }
+
+    &__link {
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        @include transition-all-0_3;
+
+        &:hover {
+            color: var(--color-text-destak);
+        }
+    }
+
+    &__current {
+        color: var(--color-text-primary);
+        font-weight: 500;
+    }
+
+    &__separator {
+        color: var(--color-text-secondary);
+    }
+}
