@@ -7,6 +7,8 @@ import { Button } from '../../components/atoms/button/button';
 import { Heading } from '../../components/atoms/heading/heading';
 import { Link } from '../../components/atoms/link/link';
 import { Loading } from '../../components/molecules/loading/loading';
+import { UserService } from '../../domains/user/services/user.service';
+import { ToastService } from '../../domains/toast/services/toast-service';
 
 @Component({
   selector: 'login',
@@ -26,23 +28,35 @@ import { Loading } from '../../components/molecules/loading/loading';
 })
 export class Login {
   private router = inject(Router);
-
+  private userService = inject(UserService);
+  private toast = inject(ToastService);
+  
   email = signal('');
   password = signal('');
   isLoading = signal(false);
 
   handleLoginSubmit() {
     if (!this.email() || !this.password()) {
-      alert('Por favor, preencha e-mail e senha.');
+      this.toast.show('warning', "Por favor, preencha e-mail e senha.");
       return;
     }
 
     this.isLoading.set(true);
     
-    setTimeout(() => {
-      localStorage.setItem('auth_token', 'fake-jwt-token-doacoes');
-      this.isLoading.set(false);
-      this.router.navigate(['/dashboard']);
-    }, 1500);
+    this.userService.login({ 
+      email: this.email(), 
+      senha: this.password() 
+    }).subscribe({
+      next: (response) => {
+        localStorage.setItem('auth_token', response.token);
+        this.isLoading.set(false);
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        this.isLoading.set(false);
+        const mensagemErro = err.error?.erro || "Ocorreu um erro ao fazer login.";
+        this.toast.show('error', mensagemErro);
+      }
+    });
   }
 }

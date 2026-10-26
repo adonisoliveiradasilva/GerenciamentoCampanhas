@@ -1,0 +1,8 @@
+<div class="toast-container">
+    @for (toast of toasts$ | async; track toast.id) {
+        <lumen-toast 
+            [data]="toast" 
+            (closeToast)="closeToast($event)">
+        </lumen-toast>
+    }
+</div>

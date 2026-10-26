@@ -1,0 +1,13 @@
+<div class="toast-box" [ngClass]="data().type">
+    <div class="toast-content">
+        @if (data().type === 'success') { <i class="fas fa-check-circle"></i> }
+        @if (data().type === 'error') { <i class="fas fa-exclamation-circle"></i> }
+        @if (data().type === 'warning') { <i class="fas fa-triangle-exclamation"></i> }
+        
+        <span class="message">{{ data().message }}</span>
+    </div>
+    
+    <button class="close-btn" (click)="closeToast.emit(data().id)">
+        <i class="fas fa-xmark"></i>
+    </button>   
+</div>

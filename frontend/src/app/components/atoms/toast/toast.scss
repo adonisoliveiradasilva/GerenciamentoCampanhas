@@ -1,0 +1,59 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
+.toast-box {
+    @include flex-row-center-space-between;
+    @include border-radius-1;
+    @include shadow;
+    @include padding-2;
+    @include gap-2;
+
+    animation: slideInRight 0.3s ease-out forwards;
+
+    .toast-content {
+        @include padding-1;
+        @include flex-row-center;
+        @include gap-1;
+        font-weight: 500;
+    }
+
+    .close-btn {
+        font-size: 1.2rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+        color: inherit;
+        
+        &:hover { opacity: 1; }
+    }
+
+    &.success {
+        background-color: var(--color-background-success);
+        color: var(--color-text-success);
+        border-left: 4px solid var(--color-text-success);
+    }
+    
+    &.info {
+        background-color: var(--color-background-info);
+        color: var(--color-text-info); 
+        border-left: 4px solid var(--color-text-info);
+    }
+    
+    &.error {
+        background-color: var(--color-background-error);
+        color: var(--color-text-error);
+        border-left: 4px solid var(--color-text-error);
+    }
+    
+    &.warning {
+        background-color: var(--color-background-warn);
+        color: var(--color-text-warn);
+        border-left: 4px solid var(--color-text-warn);
+    }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}

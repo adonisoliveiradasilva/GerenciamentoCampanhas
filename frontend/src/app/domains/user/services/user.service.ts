@@ -5,7 +5,11 @@ import { environment } from '../../../../environments/environment';
 
 export interface ILoginUserRequest {
   email: string;
-  password: string;
+  senha: string;
+}
+
+export interface IAuthResponse {
+  token: string;
 }
 
 export interface IUserResponse {
@@ -19,37 +23,9 @@ export interface IUserResponse {
 })
 export class UserService {
   private http = inject(HttpClient);
-  private readonly baseUrl = `${environment.apiUrl}/user`;
+  private readonly baseUrl = `${environment.apiUrl}/api/Auth`; 
 
-  login(credentials: ILoginUserRequest): Observable<IUserResponse> {
-    return this.http.post<IUserResponse>(`${this.baseUrl}/login`, credentials);
-  }
-
-  refreshToken(): Observable<IUserResponse> {
-    return this.http.post<IUserResponse>(`${this.baseUrl}/refresh`, {});
-  }
-
-  getContextPermissions(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.baseUrl}/me/permissions`);
-  }
-
-  requestPasswordReset(email: string): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/request-password-reset`, { email });
-  }
-
-  resetPassword(payload: { token: string, newPassword: string }): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/reset-password`, payload);
-  }
-
-  updateLastAccessedContext(payload: { workspaceId: string | null, unitId: string | null }): Observable<void> {
-    return this.http.patch<void>(`${this.baseUrl}/update-context`, payload);
-  }
-
-  updateProfile(payload: { name: string }): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/profile`, payload);
-  }
-
-  updatePreferences(payload: { theme: string, language: string, preferFullScreenModal: boolean }): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/preferences`, payload);
+  login(credentials: ILoginUserRequest): Observable<IAuthResponse> {
+    return this.http.post<IAuthResponse>(`${this.baseUrl}/login`, credentials);
   }
 }

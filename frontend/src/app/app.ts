@@ -1,9 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ToastWrapper } from './components/organisms/toast-wrapper/toast-wrapper';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [RouterOutlet, ToastWrapper],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

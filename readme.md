@@ -100,3 +100,16 @@ dotnet run --project Api/Api.csproj
 cd frontend
 npm start
 ```
+
+### 🔒 Dados de Login
+**1. Adonis:**
+```bash
+email: adonis.silva@aluno.ufop.edu.br
+senha: 123456
+```
+
+**2. Caique:**
+```bash
+email: caique.leite@aluno.ufop.edu.br
+senha: 123456
+```
