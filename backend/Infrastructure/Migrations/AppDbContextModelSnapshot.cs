@@ -44,6 +44,11 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<string>("Perfil")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.Property<string>("SenhaHash")
                         .IsRequired()
                         .HasColumnType("text");
@@ -63,6 +68,7 @@ namespace Infrastructure.Migrations
                             DataCriacao = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Email = "adonis.silva@aluno.ufop.edu.br",
                             Nome = "Adonis Oliveira",
+                            Perfil = "Administrador",
                             SenhaHash = "$2a$11$f4CnqCFJ5TAxKo1p2DHA7OJIw6O.qipPUhpxnbmWcu.tubtSUPvHi"
                         },
                         new
@@ -72,6 +78,7 @@ namespace Infrastructure.Migrations
                             DataCriacao = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Email = "caique.leite@aluno.ufop.edu.br",
                             Nome = "Caique Leite",
+                            Perfil = "Administrador",
                             SenhaHash = "$2a$11$f4CnqCFJ5TAxKo1p2DHA7OJIw6O.qipPUhpxnbmWcu.tubtSUPvHi"
                         });
                 });

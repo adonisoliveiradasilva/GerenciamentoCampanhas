@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using GerenciamentoCampanhas.Domain.Entities;
 using GerenciamentoCampanhas.Domain.Interfaces;
@@ -19,6 +20,13 @@ namespace GerenciamentoCampanhas.Infrastructure.Repositories
         {
             return await _context.Usuarios
                 .FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<IEnumerable<Usuario>> ObterTodosAsync()
+        {
+            return await _context.Usuarios
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }

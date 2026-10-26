@@ -4,6 +4,7 @@ import { filter } from 'rxjs/operators';
 import { MenuItem } from 'primeng/api';
 import { UserMenu } from '../../molecules/user-menu/user-menu'; 
 import { Breadcrumb, IBreadcrumbItem } from '../../molecules/breadcrumb/breadcrumb';
+import { UserService, IUserResponse } from '../../../domains/user/services/user.service';
 
 @Component({
   selector: 'lumen-topbar',
@@ -16,14 +17,11 @@ import { Breadcrumb, IBreadcrumbItem } from '../../molecules/breadcrumb/breadcru
 export class Topbar implements OnInit {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
+  private userService = inject(UserService);
 
   breadcrumbs = signal<IBreadcrumbItem[]>([]);
-
-  currentUser = signal({
-    id: '123',
-    name: 'Gestor Administrativo',
-    email: 'gestor@doacoes.com',
-  });
+  
+  currentUser = signal<IUserResponse | null>(null);
 
   userMenuConfig = computed<MenuItem[]>(() => {
     return [
@@ -36,6 +34,8 @@ export class Topbar implements OnInit {
   });
 
   ngOnInit() {
+    this.currentUser.set(this.userService.getLoggedUser());
+
     this.breadcrumbs.set(this.buildBreadcrumb(this.activatedRoute.root));
 
     this.router.events.pipe(

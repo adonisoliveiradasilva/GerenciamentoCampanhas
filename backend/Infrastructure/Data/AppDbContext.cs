@@ -1,5 +1,6 @@
 using System;
 using GerenciamentoCampanhas.Domain.Entities;
+using GerenciamentoCampanhas.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace GerenciamentoCampanhas.Infrastructure.Data
@@ -31,6 +32,7 @@ namespace GerenciamentoCampanhas.Infrastructure.Data
                     Nome = "Adonis Oliveira",
                     Email = "adonis.silva@aluno.ufop.edu.br",
                     SenhaHash = senhaHashPadrao,
+                    Perfil = PerfilUsuario.Administrador,
                     DataCriacao = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                     Ativo = true
                 },
@@ -40,6 +42,7 @@ namespace GerenciamentoCampanhas.Infrastructure.Data
                     Nome = "Caique Leite",
                     Email = "caique.leite@aluno.ufop.edu.br",
                     SenhaHash = senhaHashPadrao,
+                    Perfil = PerfilUsuario.Administrador,
                     DataCriacao = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                     Ativo = true
                 }

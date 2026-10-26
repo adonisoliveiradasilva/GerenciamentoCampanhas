@@ -19,7 +19,8 @@ namespace GerenciamentoCampanhas.Infrastructure.IoC
             // SERVIÇOS DE APLICAÇÃO
             // ==========================================
             services.AddScoped<IAuthService, AuthService>();
-
+            services.AddScoped<IUsuarioService, UsuarioService>();
+            
             return services;
         }
     }

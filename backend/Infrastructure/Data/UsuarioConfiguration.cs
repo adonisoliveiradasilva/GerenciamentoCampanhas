@@ -26,6 +26,11 @@ namespace GerenciamentoCampanhas.Infrastructure.Data.Configurations
             builder.Property(u => u.SenhaHash)
                    .IsRequired();
                    
+            builder.Property(u => u.Perfil)
+                   .HasConversion<string>()
+                   .IsRequired()
+                   .HasMaxLength(50);
+                   
             builder.Property(u => u.DataCriacao)
                    .IsRequired();
 

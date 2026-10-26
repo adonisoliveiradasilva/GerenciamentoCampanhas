@@ -1,9 +1,11 @@
-import { Component, signal, computed, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, signal, computed, ChangeDetectionStrategy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Table, ITableAction } from '../../components/organisms/table/table';
 import { ITableColumn } from '../../domains/table/models/table.model';
 import { UsuariosLayout } from '../../components/templates/usuarios-layout/usuarios-layout';
 import { UsuarioForm } from '../../domains/usuarios/components/usuario-form/usuario-form';
+import { UserService } from '../../domains/user/services/user.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface IUsuarioVM {
   id: string;
@@ -26,8 +28,10 @@ export interface IUsuarioVM {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Usuarios implements OnInit {
+  private userService = inject(UserService);
+
   public isLoading = signal<boolean>(true);
-  public searchFields = signal<string[]>(['nome', 'email']);
+  public searchFields = signal<string[]>(['nome', 'email', 'perfil']);
   public usuariosData = signal<IUsuarioVM[]>([]);
   public isModalOpen = signal<boolean>(false);
   public usuarioSelecionado = signal<IUsuarioVM | null>(null);
@@ -35,6 +39,7 @@ export class Usuarios implements OnInit {
   public tableColumns = computed<ITableColumn<IUsuarioVM>[]>(() => [
     { field: 'nome', header: 'Nome', type: 'text' },
     { field: 'email', header: 'E-mail', type: 'text' },
+    { field: 'perfil', header: 'Perfil', type: 'text' },
     { field: 'statusLabel', header: 'Status', type: 'badge', badgeClassField: 'statusCss', badgeIconField: 'statusIcon' },
     { field: 'dataCriacao', header: 'Data de Criação', type: 'date' }
   ]);
@@ -63,35 +68,33 @@ export class Usuarios implements OnInit {
   ]);
 
   ngOnInit(): void {
-    this.carregarDadosMock();
+    this.carregarDadosDaApi();
   }
 
-  private carregarDadosMock(): void {
-    setTimeout(() => {
-      this.usuariosData.set([
-        {
-          id: '11111111-1111-1111-1111-111111111111',
-          nome: 'Adonis Oliveira',
-          email: 'adonis.silva@aluno.ufop.edu.br',
-          status: 'ativo',
-          statusLabel: 'Ativo',
-          statusCss: 'success',
-          statusIcon: 'fa-solid fa-check-circle',
-          dataCriacao: new Date(2026, 0, 1)
-        },
-        {
-          id: '22222222-2222-2222-2222-222222222222',
-          nome: 'Caique Leite',
-          email: 'caique.leite@aluno.ufop.edu.br',
-          status: 'ativo',
-          statusLabel: 'Ativo',
-          statusCss: 'success',
-          statusIcon: 'fa-solid fa-check-circle',
-          dataCriacao: new Date(2026, 0, 1)
-        }
-      ]);
-      this.isLoading.set(false);
-    }, 800);
+  private carregarDadosDaApi(): void {
+    this.isLoading.set(true);
+    
+    this.userService.getAll().subscribe({
+      next: (apiData) => {
+        const mappedData = apiData.map(usuario => {
+          return {
+            ...usuario,
+            status: usuario.ativo ? 'ativo' : 'inativo',
+            statusLabel: usuario.ativo ? 'Ativo' : 'Inativo',
+            statusCss: usuario.ativo ? 'success' : 'danger',
+            statusIcon: usuario.ativo ? 'fa-solid fa-check-circle' : 'fa-solid fa-ban'
+          };
+        });
+        
+        this.usuariosData.set(mappedData);
+        this.isLoading.set(false);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error("Erro ao buscar usuários:", err);
+        this.usuariosData.set([]);
+        this.isLoading.set(false);
+      }
+    });
   }
 
   public onCreateNew(): void {
