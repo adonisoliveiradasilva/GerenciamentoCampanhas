@@ -1,0 +1,75 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
+:host {
+    display: block;
+    width: 100%;
+    flex-shrink: 0;
+    height: 100%;
+    flex: 1;
+}
+
+.table-content {
+    @include border-radius-1;
+    @include shadow;
+    @include flex-column-center-top;
+    width: 100%;
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--color-surface-light-secondary);
+    
+    .table-content-row {
+        @include padding-2;
+        @include flex-row-center-left;
+        width: 100%;
+        border-bottom: .15rem solid var(--border-color);
+        flex-shrink: 0;
+
+        .action-menu-icon {
+            @include border-radius-3;
+            @include flex-row-center;
+            @include transition-all-0_3;
+            padding: .3rem;
+            background-color: transparent;
+            border: none;
+            color: var(--color-text-secondary);
+
+            i { width: 1rem; }
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--border-color);
+                color: var(--color-text-primary);
+            }
+        }
+
+        .column-td-right{
+            @include flex-row-center-right;
+        }
+    }
+
+    .table-content-row.no-border {
+        @include flex-column-left-top;
+        padding: 0;
+        border-bottom: none;
+        flex: 1 1 0px;
+        height: 0;
+        min-height: 0;
+        overflow-y: auto;
+    }
+
+    .table-content-header {
+        @include flex-row-center-space-between;
+
+        section {
+            @include flex-row-center;
+            @include gap-1;
+        }
+    }
+
+    .is-avatar-col {
+        width: 1%;
+        white-space: nowrap;
+        text-align: center;
+    }
+}

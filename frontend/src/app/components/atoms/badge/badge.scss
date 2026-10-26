@@ -1,0 +1,48 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
+:host{
+  padding: 0;
+}
+
+.lumen-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: .3rem .5rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700; 
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  
+  &.success {
+    background-color: var(--color-background-success);
+    color: var(--color-text-success)!important;
+    border: .1rem solid var(--color-text-success);
+  }
+
+  &.purple {
+    background-color: var(--color-background-purple);
+    color: var(--color-text-purple)!important;
+    border: .1rem solid var(--color-text-purple);
+  }
+
+  &.warning {
+    background-color: var(--color-background-warn);
+    color: var(--color-text-warn)!important;
+    border: .1rem solid var(--color-text-warn);
+  }
+
+  &.danger {
+    background-color: var(--color-background-error);
+    color: var(--color-text-error)!important;
+    border: .1rem solid var(--color-text-error);
+  }
+
+  &.neutral {
+    background-color: var(--color-background-light);
+    color: var(--color-text-secondary)!important;
+    border: 1px solid var(--color-text-secondary); 
+  }
+}

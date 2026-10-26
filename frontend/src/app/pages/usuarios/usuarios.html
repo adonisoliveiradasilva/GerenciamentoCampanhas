@@ -1,0 +1,28 @@
+<lumen-usuarios-layout>
+    
+    <div usuarios-header-slot></div>
+
+    <div usuarios-content-slot class="lumen-content-slot-wrapper">
+        <lumen-table
+            title="Gerenciar Usuários"
+            createButtonLabel="Novo Usuário"
+            emptyMessage="Nenhum usuário cadastrado."
+            searchPlaceholderText="Buscar por nome ou e-mail..."
+            loadingText="Carregando usuários..."
+            paginatorReportTemplate="Mostrando {first} a {last} de {totalRecords} usuários"
+            actionsHeaderText="Ações"
+            optionsTooltipText="Opções"
+            noResultsText="Nenhum resultado encontrado."
+            
+            [data]="usuariosData()"
+            [columns]="tableColumns()"
+            [rowActions]="tableActions()"
+            [isLoading]="isLoading()"
+            [globalFilterFields]="searchFields()"
+            
+            (createAction)="onCreateNew()"
+            (rowAction)="handleRowAction($event)"> 
+        </lumen-table>
+    </div>
+
+</lumen-usuarios-layout>

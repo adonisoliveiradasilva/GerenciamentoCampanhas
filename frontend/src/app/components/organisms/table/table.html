@@ -1,0 +1,109 @@
+<div class="table-content" [style.border-top-left-radius]="hasTabs() ? '0' : null">
+    @if (showHeader()) {
+        <div class="table-content-row table-content-header">
+            <lumen-page-header [label]="title()"></lumen-page-header>
+            @if (showCreateButton()) {
+                <section>
+                    <lumen-button 
+                        type="primary" 
+                        [icon]="createButtonIcon()" 
+                        [text]="createButtonLabel()" 
+                        (click)="createAction.emit()">
+                    </lumen-button>
+                </section>
+            }
+        </div>
+    }
+
+    @if (showSearch()) {
+        <div class="table-content-row">
+            <lumen-search-input 
+                [placeholder]="searchPlaceholderText()"
+                (searchChange)="filterTable($event)" 
+                width="20rem">
+            </lumen-search-input>
+        </div>
+    }
+
+    <div class="table-content-row no-border">
+        @if (isLoading()) {
+            <lumen-loading [label]="loadingText()"></lumen-loading>
+        } 
+        @else if (!data() || data().length === 0) {
+            <lumen-feedback-state icon="fa-folder-open" [label]="emptyMessage()"></lumen-feedback-state>
+        } 
+        @else {
+            <p-table 
+                #dt
+                [value]="data()" 
+                [paginator]="true"
+                [rows]="10"
+                [showFirstLastIcon]="false" 
+                [globalFilterFields]="globalFilterFields()"
+                [showCurrentPageReport]="true"
+                [currentPageReportTemplate]="paginatorReportTemplate()"
+                styleClass="p-datatable-sm lumen-table"
+                [scrollable]="true">
+                
+                <ng-template pTemplate="header">
+                    <tr>
+                        @for (col of columns(); track col.field) {
+                            <th [class.is-avatar-col]="col.type === 'avatar'">{{ col.header }}</th>
+                        }
+                        @if (rowActions().length > 0) {
+                            <th style="width: 4rem; text-align: right;">{{ actionsHeaderText() }}</th>
+                        }
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-rowData>
+                    <tr>
+                        @for (col of columns(); track col.field) {
+                            <td [class.is-avatar-col]="col.type === 'avatar'">
+                                @if (col.type === 'badge') {
+                                    <lumen-badge 
+                                        [label]="rowData[col.field]"
+                                        [icon]="(col.badgeIconField && rowData[col.badgeIconField]) ? rowData[col.badgeIconField] : 'fa-solid fa-shield-halved'"
+                                        [color]="(col.badgeClassField && rowData[col.badgeClassField]) ? rowData[col.badgeClassField] : 'neutral'">
+                                    </lumen-badge>
+                                } @else if (col.type === 'date') {
+                                    {{ rowData[col.field] | date:'dd/MM/yyyy' }}
+                                } @else if (col.type === 'avatar') {
+                                        <lumen-avatar 
+                                            [imageUrl]="getImageUrl(rowData, col.field)" 
+                                            [label]="getAvatarLabel(rowData, col.avatarInitialsField)"
+                                            size="medium" 
+                                            shape="squircle" 
+                                            imageFit="contain">
+                                        </lumen-avatar>
+                                } @else {
+                                    {{ rowData[col.field] }}
+                                }
+                            </td>
+                        }
+                        
+                        @if (rowActions().length > 0) {
+                            <td style="text-align: right;">
+                                @if (hasVisibleActions(rowData)) {
+                                    <button class="action-menu-icon" (click)="toggleMenu($event, rowData, actionMenu)">
+                                        <i class="fa-solid fa-ellipsis-vertical" [title]="optionsTooltipText()"></i>
+                                    </button>
+                                }
+                            </td>
+                        }
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td [attr.colspan]="columns().length + (rowActions().length > 0 ? 1 : 0)" style="text-align: center; border: none; padding: 3rem 0;">
+                            <lumen-feedback-state icon="fa-magnifying-glass" [label]="noResultsText()"></lumen-feedback-state>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        }
+    </div>
+
+    <p-menu #actionMenu [popup]="true" [model]="activeMenuItems" appendTo="body"></p-menu>
+</div>

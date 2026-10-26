@@ -1,0 +1,26 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
+.search-input-content{
+    @include flex-row-center-left;
+    @include gap-1;
+    @include border-radius-2;
+    @include font-size-medium;
+    width: 100%;
+    padding: .5rem .7rem;
+    border: .15rem solid var(--border-color);
+    color: var(--color-text-secondary);
+
+    input{
+        width: 100%;
+        border: none;
+        background-color: transparent;
+        font-size: 1rem;
+        color: var(--color-text-primary);
+
+        &:focus{
+            outline: none;
+        }
+    };
+
+   
+}

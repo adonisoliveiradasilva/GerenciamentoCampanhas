@@ -1,13 +1,8 @@
 import { Routes, Router } from '@angular/router';
-import { inject, Component } from '@angular/core';
+import { inject } from '@angular/core';
 import { Login } from './pages/login/login'; 
 import { MainLayout } from './components/templates/main-layout/main-layout';
-
-@Component({
-  standalone: true,
-  template: '<h1 style="color: var(--color-text-primary); text-align: center; margin-top: 3rem;">Dashboard de Doações</h1>'
-})
-export class DashboardStub {}
+import { Usuarios } from './pages/usuarios/usuarios';
 
 const authGuard = () => {
   const router = inject(Router);
@@ -30,19 +25,11 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { 
-        path: 'dashboard', 
-        component: DashboardStub,
-        data: { breadcrumb: 'Dashboard' }
+        path: 'usuarios', 
+        component: Usuarios, 
+        data: { breadcrumb: 'Usuários' }
       },
-      // Exemplo de uma tela interna aninhada:
-      // {
-      //   path: 'campanhas',
-      //   data: { breadcrumb: 'Campanhas' },
-      //   children: [
-      //     { path: 'nova', component: NovaCampanha, data: { breadcrumb: 'Nova Campanha' } }
-      //   ]
-      // },
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+      { path: '', redirectTo: 'usuarios', pathMatch: 'full' }
     ]
   },
   { path: '**', redirectTo: '' }

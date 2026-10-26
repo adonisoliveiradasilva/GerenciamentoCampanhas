@@ -1,10 +1,9 @@
-@use '../../../../styles/variables' as *;
-@use '../../../../styles/mixins' as *;
+@use '../../../../styles/abstracts/mixins' as *;
 
 .breadcrumb {
     @include flex-row-center-left;
     @include gap-1;
-    @include font-size-small;
+    @include font-size-medium;
     list-style: none;
     margin: 0;
     padding: 0;
