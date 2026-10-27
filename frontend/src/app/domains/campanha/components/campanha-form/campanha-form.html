@@ -1,0 +1,54 @@
+<lumen-fullscreen-modal 
+    [title]="isEditMode() ? 'Editar Campanha' : 'Nova Campanha'"
+    icon="fa-solid fa-bullhorn"
+    (onClose)="fechar.emit()">
+    
+    <form [formGroup]="form" class="lumen-form-container">
+        
+        <lumen-input 
+            mode="form" label="Nome da Campanha" placeholder="Ex: Campanha do Agasalho 2026"
+            [required]="true"
+            [value]="controls['nome'].value" (valueChange)="controls['nome'].setValue($event); controls['nome'].markAsDirty()"
+            [hasError]="controls['nome'].invalid && (controls['nome'].dirty || controls['nome'].touched)"
+            [errorMessage]="getErrorMessage('nome')">
+        </lumen-input>
+            
+        <lumen-input 
+            mode="form" label="Local" placeholder="Ex: Galpão Principal / Matriz"
+            [required]="true"
+            [value]="controls['local'].value" (valueChange)="controls['local'].setValue($event); controls['local'].markAsDirty()"
+            [hasError]="controls['local'].invalid && (controls['local'].dirty || controls['local'].touched)"
+            [errorMessage]="getErrorMessage('local')">
+        </lumen-input>
+
+        <div class="date-row">
+            <lumen-input 
+                mode="form" type="date" label="Data de Início"
+                [required]="true"
+                [value]="controls['dataInicio'].value" (valueChange)="controls['dataInicio'].setValue($event); controls['dataInicio'].markAsDirty()"
+                [hasError]="controls['dataInicio'].invalid && (controls['dataInicio'].dirty || controls['dataInicio'].touched)"
+                [errorMessage]="getErrorMessage('dataInicio')">
+            </lumen-input>
+
+            <lumen-input 
+                mode="form" type="date" label="Data de Fim (Opcional)"
+                [value]="controls['dataFim'].value" (valueChange)="controls['dataFim'].setValue($event); controls['dataFim'].markAsDirty()"
+                [hasError]="controls['dataFim'].invalid && (controls['dataFim'].dirty || controls['dataFim'].touched)"
+                [errorMessage]="getErrorMessage('dataFim')">
+            </lumen-input>
+        </div>
+
+        <lumen-input 
+            mode="form" type="textarea" size="medium" label="Descrição (Opcional)" placeholder="Detalhes e objetivos da campanha..."
+            [value]="controls['descricao'].value" (valueChange)="controls['descricao'].setValue($event); controls['descricao'].markAsDirty()"
+            [hasError]="controls['descricao'].invalid && (controls['descricao'].dirty || controls['descricao'].touched)"
+            [errorMessage]="getErrorMessage('descricao')">
+        </lumen-input>
+
+    </form>
+
+    <ng-container modal-actions>
+        <lumen-button type="secondary" text="Cancelar" icon="fa-solid fa-ban" (onClick)="fechar.emit()"></lumen-button>
+        <lumen-button type="primary" icon="fa-solid fa-floppy-disk" [text]="isEditMode() ? 'Salvar Alterações' : 'Criar Campanha'" (onClick)="onSubmit()"></lumen-button>
+    </ng-container>
+</lumen-fullscreen-modal>

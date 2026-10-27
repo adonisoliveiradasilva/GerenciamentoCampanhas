@@ -14,6 +14,16 @@ export const getAppMenu = (role: string): IMenuNode[] => {
   //   ]
   // });
 
+  menu.push({
+    label: 'Administração',
+    icon: 'fa-solid fa-layer-group',
+    children: [
+      // { label: 'Visão Geral', route: '/dashboard', icon: 'fa-solid fa-chart-pie' },
+      { label: 'Campanhas', route: '/campanhas', icon: 'fa-solid fa-bullhorn' },
+      // { label: 'Doações', route: '/doacoes', icon: 'fa-solid fa-hand-holding-heart' }
+    ]
+  });
+
   if (role === 'Administrador') {
     menu.push({
       label: 'Configurações',

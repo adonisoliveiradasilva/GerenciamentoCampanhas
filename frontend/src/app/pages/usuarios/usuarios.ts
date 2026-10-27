@@ -153,31 +153,33 @@ export class Usuarios implements OnInit {
       ...dadosDoForm,
       ativo: dadosDoForm.status === 'ativo'
     };
-    this.isModalOpen.set(false);
+    
     this.isLoading.set(true);
 
     if (dadosDoForm.id) {
       this.userService.update(dadosDoForm.id, payload).subscribe({
         next: () => {
+          this.isModalOpen.set(false);
+          this.toastService.show('success', 'Usuário atualizado com sucesso!');
           this.carregarDadosDaApi();
         },
-        error: (err) => {
-          console.error('Erro ao editar usuário', err);
+        error: (err: HttpErrorResponse) => {
           this.isLoading.set(false);
-          this.isModalOpen.set(true);
-          this.toastService.show('error', 'Erro ao editar usuário. Verifique o console.');
+          const msg = err.error?.erro || 'Erro ao editar usuário.';
+          this.toastService.show('error', msg);
         }
       });
     } else {
       this.userService.create(payload).subscribe({
         next: () => {
+          this.isModalOpen.set(false);
+          this.toastService.show('success', 'Usuário criado com sucesso!');
           this.carregarDadosDaApi();
         },
-        error: (err) => {
-          console.error('Erro ao criar usuário', err);
+        error: (err: HttpErrorResponse) => {
           this.isLoading.set(false);
-          this.isModalOpen.set(true);
-          this.toastService.show('error', 'Erro ao criar usuário. Verifique o console.');
+          const msg = err.error?.erro || 'Erro ao criar usuário.';
+          this.toastService.show('error', msg);
         }
       });
     }

@@ -32,6 +32,7 @@
         [attr.name]="name()"
         [attr.autocomplete]="autocomplete()"
         [class.is-form]="mode() === 'form'"
+        [class.is-date]="type() === 'date'"
         [class.has-prefix-icon]="!!icon()"
         [class.has-icon]="type() === 'password'"
         [class.error]="hasError()" 

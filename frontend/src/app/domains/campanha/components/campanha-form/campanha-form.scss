@@ -1,0 +1,17 @@
+@use '../../../../../styles/abstracts/mixins' as *;
+
+.lumen-form-container {
+    @include flex-column-left-top;
+    @include padding-2; 
+    @include gap-3; 
+    width: 100%;
+    margin: 0 auto;
+}
+
+.date-row {
+    display: flex;
+    gap: 1.5rem;
+    width: 100%;
+    
+    > * { flex: 1; }
+}

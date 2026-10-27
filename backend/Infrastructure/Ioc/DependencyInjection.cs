@@ -26,6 +26,9 @@ namespace GerenciamentoCampanhas.Infrastructure.IoC
             services.Configure<SmtpSettings>(configuration.GetSection("SmtpSettings"));
             services.AddScoped<IEmailService, EmailService>();
 
+            services.AddScoped<ICampanhaRepository, CampanhaRepository>();
+            services.AddScoped<ICampanhaService, CampanhaService>();
+
             return services;
         }
     }

@@ -1,0 +1,38 @@
+<lumen-campanhas-layout>
+    <div campanhas-header-slot></div>
+
+    <div campanhas-content-slot class="lumen-content-slot-wrapper">
+        <lumen-table
+            title="Gerenciar Campanhas"
+            createButtonLabel="Nova Campanha"
+            emptyMessage="Nenhuma campanha cadastrada."
+            searchPlaceholderText="Buscar por nome, local ou ano..."
+            loadingText="Carregando campanhas..."
+            paginatorReportTemplate="Mostrando {first} a {last} de {totalRecords} campanhas"
+            actionsHeaderText="Ações"
+            optionsTooltipText="Opções"
+            noResultsText="Nenhum resultado encontrado."
+            
+            [data]="campanhasData()"
+            [columns]="tableColumns()"
+            [rowActions]="tableActions()"
+            [isLoading]="isLoading()"
+            [globalFilterFields]="searchFields()"
+            
+            (createAction)="onCreateNew()"
+            (rowAction)="handleRowAction($event)"> 
+        </lumen-table>
+    </div>
+</lumen-campanhas-layout>
+
+@if (isModalOpen()) {
+    <app-campanha-form 
+        [campanha]="campanhaSelecionada()"
+        (fechar)="fecharModal()"
+        (salvar)="salvarCampanha($event)">
+    </app-campanha-form>
+}
+
+@if (isLoading()) {
+    <lumen-loading label="Processando..." [fullScreen]="true"></lumen-loading>
+}

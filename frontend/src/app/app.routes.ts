@@ -5,6 +5,7 @@ import { MainLayout } from './components/templates/main-layout/main-layout';
 import { Usuarios } from './pages/usuarios/usuarios';
 import { MeusDados } from './pages/meus-dados/meus-dados';
 import { UserService } from './domains/user/services/user.service';
+import { Campanhas } from './pages/campanhas/campanhas';
 
 const authGuard = () => {
   const router = inject(Router);
@@ -45,6 +46,11 @@ export const routes: Routes = [
         component: Usuarios, 
         canActivate: [adminGuard],
         data: { breadcrumb: 'Usuários' }
+      },
+      { 
+        path: 'campanhas', 
+        component: Campanhas, 
+        data: { breadcrumb: 'Campanhas' }
       },
       { 
         path: 'perfil', 

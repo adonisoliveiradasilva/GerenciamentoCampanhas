@@ -35,6 +35,6 @@
     </app-usuario-form>
 }
 
-@if (isLoading() && !isModalOpen()) {
-    <lumen-loading label="Salvando dados..." [fullScreen]="true"></lumen-loading>
+@if (isLoading()) {
+    <lumen-loading label="Processando..." [fullScreen]="true"></lumen-loading>
 }

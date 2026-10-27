@@ -141,4 +141,24 @@ textarea.large {
   &:hover {
     opacity: 1;
   }
+
+  .input-field.is-date {
+  color: var(--color-text-label);
+  
+  &::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    
+    filter: invert(0.5); 
+    
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &:invalid::-webkit-datetime-edit {
+    color: rgba(var(--color-text-label-rgb), 0.5);
+  }
+}
 }
