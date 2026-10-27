@@ -1,19 +1,37 @@
 <div class="lumen-select-mini-container" [class.disabled]="disabled()">
     
     <button type="button" class="select-trigger" [disabled]="disabled()" (click)="toggleDropdown($event)">
-        <span class="trigger-label">{{ selectedLabel }}</span>
+        <span class="trigger-label">{{ selectedLabel() }}</span>
         <i class="fa-solid fa-circle-chevron-down trigger-icon" [class.open]="isOpen()"></i>
     </button>
 
     @if (isOpen()) {
-        <ul class="select-menu">
-            @for (opt of options(); track opt.value) {
-                <li class="select-menu-item"
-                    [class.selected]="opt.value === value()"
-                    (click)="selectOption(opt.value, $event)">
-                    {{ opt.label }}
-                </li>
+        <div class="select-menu">
+            
+            @if (showSearch()) {
+                <div class="select-search-wrapper" (click)="onSearchClick($event)">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input 
+                        type="text" 
+                        class="select-search-input" 
+                        placeholder="Pesquisar..." 
+                        [value]="searchQuery()" 
+                        (input)="onSearchInput($event)"
+                        autofocus>
+                </div>
             }
-        </ul>
+
+            <ul class="select-menu-list">
+                @for (opt of filteredOptions(); track opt.value) {
+                    <li class="select-menu-item"
+                        [class.selected]="opt.value === value()"
+                        (click)="selectOption(opt.value, $event)">
+                        {{ opt.label }}
+                    </li>
+                } @empty {
+                    <li class="select-menu-empty">Nenhum resultado encontrado</li>
+                }
+            </ul>
+        </div>
     }
 </div>

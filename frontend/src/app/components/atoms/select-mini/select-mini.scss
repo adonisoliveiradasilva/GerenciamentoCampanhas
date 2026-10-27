@@ -1,12 +1,14 @@
 @use '../../../../styles/abstracts/mixins' as *;
 
 :host {
-    display: inline-block;
+    display: block; 
     position: relative;
+    width: 100%;
 }
 
 .lumen-select-mini-container {
     position: relative;
+    width: 100%;
 
     &.disabled {
         opacity: 0.6;
@@ -20,11 +22,13 @@
     @include border-radius-1;
     @include font-size-medium;
     
+    justify-content: space-between;
     padding: .5rem 1rem;
     background-color: transparent; 
     color: var(--color-text-destak);
-    border: solid .1rem var(--color-text-destak);
+    border: solid .15rem var(--color-text-destak);
     width: 100%;
+    height: 2.5rem;
     
     &:hover, &:active {
         background-color: var(--color-background-purple);
@@ -42,11 +46,15 @@
         color: inherit;
         line-height: 1;
         user-select: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .trigger-icon {
         color: inherit;
         font-size: 1rem;
+        flex-shrink: 0;
         
         &.open {
             transform: rotate(180deg);
@@ -63,34 +71,89 @@
     left: 0;
     z-index: 1000;
     min-width: 100%;
+    width: 100%;
     margin: 0;
     padding: 0;
-    list-style: none;
     overflow: hidden;
     
     background: var(--color-surface-light-secondary) !important;
     border: .15rem solid var(--border-color) !important;
 
-    .select-menu-item {
-        @include transition-all-0_3;
-        
-        padding: 0.75rem 1rem;
-        color: var(--color-text-label) !important;
-        font-size: 1rem;
-        line-height: 1;
-        cursor: pointer;
-        white-space: nowrap;
+    .select-search-wrapper {
+        position: relative;
+        padding: 0.5rem;
+        border-bottom: 1px solid var(--border-color);
 
-        &:hover {
-            @include transition-all-0_3;
-            color: var(--p-menu-item-focus-color);
-            background: var(--border-color) !important;
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
         }
 
-        &.selected {
-            color: var(--color-text-destak) !important;
-            background: var(--color-background-purple) !important;
-            font-weight: 500;
+        .select-search-input {
+            @include padding-1;
+            @include border-radius-1;
+            padding-left: 2rem;
+            width: 100%;
+            border: .15rem solid var(--border-color);
+            color: var(--color-text-primary);
+            font-size: 0.9rem;
+
+            &:focus {
+                outline: none;
+                border-color: var(--color-text-destak);
+            }
+        }
+    }
+
+    .select-menu-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        max-height: 250px;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .select-menu-item {
+            @include transition-all-0_3;
+            
+            padding: 0.75rem 1rem;
+            color: var(--color-text-label) !important;
+            font-size: 1rem;
+            line-height: 1;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            &:hover {
+                @include transition-all-0_3;
+                color: var(--p-menu-item-focus-color);
+                background: var(--border-color) !important;
+            }
+
+            &.selected {
+                color: var(--color-text-destak) !important;
+                background: var(--color-background-purple) !important;
+                font-weight: 500;
+            }
+        }
+
+        .select-menu-empty {
+            padding: 1rem;
+            text-align: center;
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
         }
     }
 }

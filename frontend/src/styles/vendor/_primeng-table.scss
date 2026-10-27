@@ -66,8 +66,9 @@ p-table.lumen-table {
       }
     }
   }
+}
 
-  .p-paginator {
+.p-paginator {
     background: transparent !important;
     border: none !important;
     padding: 1.5rem 0 0.5rem 0 !important;
@@ -89,7 +90,7 @@ p-table.lumen-table {
       
       background-color: var(--color-surface-destak) !important;
       color: var(--color-text-destak-secondary) !important;
-      border: 0.12rem solid transparent !important;
+      border: 0.15rem solid transparent !important;
       
       border-radius: 0.5rem !important;
       min-width: 2.2rem !important;
@@ -115,38 +116,3 @@ p-table.lumen-table {
       height: 0.85rem;
     }
   }
-}
-
-// .lumen-badge {
-//   display: inline-flex;
-//   align-items: center;
-//   gap: 0.4rem;
-//   padding: 0.25rem 0.7rem;
-//   border-radius: 2rem;
-//   font-size: 0.8rem;
-//   font-weight: 600;
-
-//   &.Ativa, &.active, &.Ativo, &.badge-success {
-//     background-color: var(--color-background-success);
-//     color: var(--color-text-success);
-//     &::before { background-color: var(--color-text-success); }
-//   }
-
-//   &.Inativa, &.suspended, &.Inativo, &.badge-danger {
-//     background-color: var(--color-background-error);
-//     color: var(--color-text-error);
-//     &::before { background-color: var(--color-text-error); }
-//   }
-
-//   &.Pendente, &.pending, &.badge-warning {
-//     background-color: var(--color-background-warn);
-//     color: var(--color-text-warn);
-//     &::before { background-color: var(--color-text-warn); }
-//   }
-
-//   &.badge-neutral{
-//     background-color: var(--color-text-light);
-//     color: var(--color-text-secondary);
-//     &::before { background-color: var(--color-text-secondary); }
-//   }
-// }

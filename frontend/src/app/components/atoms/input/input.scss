@@ -141,8 +141,10 @@ textarea.large {
   &:hover {
     opacity: 1;
   }
+}
 
-  .input-field.is-date {
+.input-field.is-date,
+.input-field.is-time {
   color: var(--color-text-label);
   
   &::-webkit-calendar-picker-indicator {
@@ -161,4 +163,12 @@ textarea.large {
     color: rgba(var(--color-text-label-rgb), 0.5);
   }
 }
+
+.input-field.is-number {
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  -moz-appearance: textfield;
 }

@@ -1,0 +1,51 @@
+<div class="image-uploader-wrapper">
+    
+    <div class="dropzone-container" 
+         [class.is-dragging]="isDragging()" 
+         [class.is-disabled]="disabled()"
+         [class.is-skeleton]="isLoading()"
+         (click)="triggerFileInput()">
+        
+        <input 
+            type="file" 
+            #fileInput 
+            multiple
+            style="display: none" 
+            accept=".jpg,.jpeg,.png,.webp" 
+            [disabled]="disabled() || isLoading()"
+            (change)="handleFileChange($event)">
+    
+        <div class="dropzone-content">
+            <i class="fa-solid {{ icon() }} dropzone-icon"></i>
+            <h4 class="dropzone-title">{{ titleText() }}</h4>
+            <p class="dropzone-subtitle">{{ subtitleText() }}</p>
+            
+            <div class="mt-3">
+                <lumen-button 
+                    type="secondary" 
+                    icon="fa-solid fa-file" 
+                    [text]="buttonText()" 
+                    [disabled]="disabled() || isLoading()"
+                    (onClick)="triggerFileInput()">
+                </lumen-button>
+            </div>
+        </div>
+    </div>
+
+    @if (images().length > 0) {
+        <div class="image-gallery">
+            @for (img of images(); track $index) {
+                <div class="image-thumbnail" [class.is-skeleton]="isLoading()">
+                    <img [src]="img" alt="Imagem anexada" />
+                    
+                    @if (!disabled() && !isLoading()) {
+                        <button type="button" class="btn-remove-img" (click)="removerImagem($index)" title="Remover imagem">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    }
+                </div>
+            }
+        </div>
+    }
+
+</div>

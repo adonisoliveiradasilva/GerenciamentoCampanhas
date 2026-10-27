@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input, output, signal, HostListener, ElementRef, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, model, signal, HostListener, ElementRef, inject, computed } from '@angular/core';
 
 @Component({
   selector: 'lumen-select-mini',
@@ -9,30 +9,54 @@ import { Component, ChangeDetectionStrategy, input, output, signal, HostListener
 })
 export class SelectMini {
   public options = input.required<{label: string, value: string}[]>();
-  public value = input<string>('');
   public disabled = input<boolean>(false);
+  public showSearch = input<boolean>(true); 
 
-  public valueChange = output<string>();
+  public value = model<string>('');
 
   public isOpen = signal<boolean>(false);
+  public searchQuery = signal<string>('');
+  
   private el = inject(ElementRef);
 
-  public get selectedLabel(): string {
+  public filteredOptions = computed(() => {
+    const q = this.searchQuery().toLowerCase().trim();
+    if (!q) return this.options();
+    
+    return this.options().filter(opt => opt.label.toLowerCase().includes(q));
+  });
+
+  public selectedLabel = computed(() => {
     const selected = this.options().find(o => o.value === this.value());
     return selected ? selected.label : 'Selecione...';
-  }
+  });
 
   public toggleDropdown(event: Event) {
     event.stopPropagation();
     if (!this.disabled()) {
-      this.isOpen.update(v => !v);
+      const willOpen = !this.isOpen();
+      this.isOpen.set(willOpen);
+      if (willOpen) {
+        this.searchQuery.set('');
+      }
     }
   }
 
   public selectOption(optValue: string, event: Event) {
     event.stopPropagation();
-    this.valueChange.emit(optValue);
+    
+    this.value.set(optValue); 
+    
     this.isOpen.set(false);
+  }
+  
+  public onSearchClick(event: Event) {
+    event.stopPropagation();
+  }
+  
+  public onSearchInput(event: Event) {
+    const val = (event.target as HTMLInputElement).value;
+    this.searchQuery.set(val);
   }
 
   @HostListener('document:click', ['$event'])

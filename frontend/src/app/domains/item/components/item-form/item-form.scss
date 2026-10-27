@@ -1,0 +1,59 @@
+@use '../../../../../styles/abstracts/mixins' as *;
+
+.lumen-form-container {
+    @include flex-column-left-top;
+    @include padding-2; 
+    @include gap-3; 
+    width: 100%;
+    margin: 0 auto;
+}
+
+.row-fields {
+    display: flex;
+    gap: 1.5rem;
+    width: 100%;
+    
+    > * { flex: 1; }
+    
+    &.align-items-end {
+        align-items: flex-end;
+    }
+}
+
+.custom-select-group {
+    @include flex-column-left-top;
+    @include gap-1; 
+    @include font-size-medium;
+    color: var(--color-text-label);
+    width: 100%;
+    
+    .required-indicator {
+        color: var(--color-text-error);
+    }
+}
+
+.input-error-msg {
+    @include font-size-small;
+    color: var(--color-text-error);
+    margin-top: 0.25rem;
+    margin-left: 0.25rem;
+    animation: fadeInError 0.2s ease-out;
+}
+
+@keyframes fadeInError {
+    from { opacity: 0; transform: translateY(-3px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.image-upload-section {
+    @include flex-column-left-top;
+    width: 100%;
+    margin-top: 1rem;
+    
+    .section-label {
+        @include font-size-medium;
+        color: var(--color-text-label);
+        font-weight: 400;
+        margin-bottom: 0.75rem;
+    }
+}

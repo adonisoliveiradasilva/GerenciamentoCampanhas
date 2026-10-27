@@ -10,6 +10,7 @@ namespace GerenciamentoCampanhas.Infrastructure.Data
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Campanha> Campanhas { get; set; }
         public DbSet<Doador> Doadores { get; set; }
+        public DbSet<Item> Itens { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -24,7 +25,6 @@ namespace GerenciamentoCampanhas.Infrastructure.Data
             // ==========================================
             // SEEDER: Populando o banco com 2 usuários
             // ==========================================
-            
             var senhaHashPadrao = "$2a$11$f4CnqCFJ5TAxKo1p2DHA7OJIw6O.qipPUhpxnbmWcu.tubtSUPvHi";
 
             modelBuilder.Entity<Usuario>().HasData(

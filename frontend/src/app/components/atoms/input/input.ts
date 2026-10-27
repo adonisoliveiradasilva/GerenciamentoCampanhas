@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 export class InputComponent {
   label = input<string>('');
   
-  type = input<'text' | 'password' | 'textarea' | 'email' | 'date'>('text');
+  type = input<'text' | 'password' | 'textarea' | 'email' | 'date' | 'time' | 'number'>('text');
   
   size = input<'small' | 'medium' | 'large'>('medium');
   mode = input.required<'form' | 'login'>();

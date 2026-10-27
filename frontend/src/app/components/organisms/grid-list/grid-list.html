@@ -1,0 +1,125 @@
+<div class="grid-list-content">
+    
+    <div class="grid-content-row grid-content-header">
+        <lumen-page-header [label]="title()"></lumen-page-header>
+        @if (showCreateButton()) {
+            <section>
+                <lumen-button 
+                    type="primary" 
+                    [icon]="createButtonIcon()" 
+                    [text]="createButtonLabel()" 
+                    (click)="createAction.emit()">
+                </lumen-button>
+            </section>
+        }
+    </div>
+
+    <div class="grid-content-row filters-row">
+        <lumen-search-input 
+            [placeholder]="searchPlaceholderText()"
+            (searchChange)="onSearchChange($event)" 
+            width="100%"
+            style="flex: 1.5; min-width: 250px;">
+        </lumen-search-input>
+
+        @for (filter of dropdownFilters(); track filter.field) {
+            <lumen-select-mini
+                style="flex: 1; min-width: 150px;"
+                [options]="filter.options"
+                [value]="activeFilters()[filter.field] || ''" 
+                (valueChange)="onFilterChange(filter.field, $event)">
+            </lumen-select-mini>
+        }
+    </div>
+
+    <div class="grid-content-row no-border">
+        @if (isLoading()) {
+            <lumen-loading label="Carregando itens..."></lumen-loading>
+        } 
+        @else if (filteredData().length === 0) {
+            <div class="empty-state-wrapper">
+                <lumen-feedback-state icon="fa-box-open" [label]="emptyMessage()"></lumen-feedback-state>
+            </div>
+        } 
+        @else {
+            <div class="cards-grid">
+                @for (item of paginatedData(); track getProperty(item, 'id')) {
+                    <div class="grid-card">
+                        
+                        <div class="card-image-wrapper">
+                            @let images = getImages(item);
+                            @let itemId = getProperty(item, 'id');
+                            @let currentIdx = getCurrentImageIndex(itemId);
+
+                            @if (images.length > 0) {
+                                <img [src]="images[currentIdx]" alt="Foto do Item" class="card-img" />
+                                
+                                @if (images.length > 1) {
+                                    <button type="button" class="carousel-btn prev" (click)="prevImage($event, itemId, images.length)">
+                                        <i class="fa-solid fa-chevron-left"></i>
+                                    </button>
+                                    <button type="button" class="carousel-btn next" (click)="nextImage($event, itemId, images.length)">
+                                        <i class="fa-solid fa-chevron-right"></i>
+                                    </button>
+                                    
+                                    <div class="carousel-indicators">
+                                        @for (img of images; track $index) {
+                                            <span class="dot" [class.active]="$index === currentIdx"></span>
+                                        }
+                                    </div>
+                                }
+                            } @else {
+                                <div class="no-image">
+                                    <i class="fa-solid fa-image"></i>
+                                </div>
+                            }
+
+                            <div class="card-badge qty-badge">
+                                {{ getProperty(item, badgeField()) }} un.
+                            </div>
+
+                            @if (hasVisibleActions(item)) {
+                                <button class="action-menu-icon" (click)="toggleMenu($event, item, actionMenu)">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </button>
+                            }
+                        </div>
+
+                        <div class="card-info">
+                            <div class="card-title-row">
+                                <h3 class="card-title">{{ getProperty(item, titleField()) }}</h3>
+                            </div>
+                            
+                            <p class="card-subtitle">
+                                <i class="fa-solid fa-bullhorn"></i> 
+                                {{ getProperty(item, subtitleField()) || 'Sem Campanha' }}
+                            </p>
+                            
+                            <p class="card-date">
+                                <i class="fa-regular fa-calendar-check"></i> 
+                                Chegou em: {{ getProperty(item, dateField()) || 'N/A' }}
+                            </p>
+                        </div>
+
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    @if (!isLoading() && filteredData().length > 0) {
+        <div class="grid-paginator-wrapper lumen-table">
+            <p-paginator 
+                [first]="first()"
+                [rows]="rows()" 
+                [totalRecords]="filteredData().length" 
+                (onPageChange)="onPageChange($event)"
+                [showCurrentPageReport]="true"
+                [currentPageReportTemplate]="paginatorReportTemplate()"
+                [showFirstLastIcon]="false">
+            </p-paginator>
+        </div>
+    }
+
+    <p-menu #actionMenu [popup]="true" [model]="activeMenuItems" appendTo="body"></p-menu>
+</div>

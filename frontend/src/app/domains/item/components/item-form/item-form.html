@@ -1,0 +1,102 @@
+<lumen-fullscreen-modal 
+    [title]="isEditMode() ? 'Editar Item' : 'Novo Item'"
+    icon="fa-solid fa-box-open"
+    (onClose)="fechar.emit()">
+    
+    @if (isDependenciesLoading()) {
+        <lumen-loading label="Carregando opções..." [fullScreen]="false"></lumen-loading>
+    } @else {
+        <form [formGroup]="form" class="lumen-form-container">
+            
+            <div class="row-fields">
+                <div class="custom-select-group">
+                    <label>Campanha Destino <span class="required-indicator">*</span></label>
+                    <lumen-select-mini
+                        [options]="campanhasOptions()"
+                        [value]="controls['campanhaId'].value"
+                        (valueChange)="controls['campanhaId'].setValue($event); controls['campanhaId'].markAsDirty()"
+                        [disabled]="controls['campanhaId'].disabled">
+                    </lumen-select-mini>
+                    @if (controls['campanhaId'].invalid && (controls['campanhaId'].dirty || controls['campanhaId'].touched)) {
+                        <span class="input-error-msg">Selecione uma campanha.</span>
+                    }
+                </div>
+
+                <div class="custom-select-group">
+                    <label>Doador (Opcional)</label>
+                    <lumen-select-mini
+                        [options]="doadoresOptions()"
+                        [value]="controls['doadorId'].value"
+                        (valueChange)="controls['doadorId'].setValue($event); controls['doadorId'].markAsDirty()"
+                        [disabled]="controls['doadorId'].disabled">
+                    </lumen-select-mini>
+                </div>
+            </div>
+
+            <div class="row-fields align-items-end">
+                <lumen-input 
+                    mode="form" label="Nome do Item" placeholder="Ex: Cesta Básica, Casaco"
+                    [required]="true"
+                    [value]="controls['nome'].value" (valueChange)="controls['nome'].setValue($event); controls['nome'].markAsDirty()"
+                    [hasError]="controls['nome'].invalid && (controls['nome'].dirty || controls['nome'].touched)"
+                    [errorMessage]="getErrorMessage('nome')">
+                </lumen-input>
+
+                <lumen-input 
+                    mode="form" type="number" label="Quantidade"
+                    [required]="true"
+                    [value]="controls['quantidade'].value" (valueChange)="controls['quantidade'].setValue($event); controls['quantidade'].markAsDirty()"
+                    [hasError]="controls['quantidade'].invalid && (controls['quantidade'].dirty || controls['quantidade'].touched)"
+                    [errorMessage]="getErrorMessage('quantidade')">
+                </lumen-input>
+            </div>
+
+            <div class="row-fields">
+                <lumen-input 
+                    mode="form" type="date" label="Data de Chegada/Coleta"
+                    [required]="true"
+                    [value]="controls['dataChegada'].value" (valueChange)="controls['dataChegada'].setValue($event); controls['dataChegada'].markAsDirty()"
+                    [hasError]="controls['dataChegada'].invalid && (controls['dataChegada'].dirty || controls['dataChegada'].touched)"
+                    [errorMessage]="getErrorMessage('dataChegada')">
+                </lumen-input>
+
+                <lumen-input 
+                    mode="form" type="time" label="Hora da Coleta (Opcional)"
+                    [value]="controls['horaPego'].value" (valueChange)="controls['horaPego'].setValue($event); controls['horaPego'].markAsDirty()"
+                    [hasError]="controls['horaPego'].invalid && (controls['horaPego'].dirty || controls['horaPego'].touched)"
+                    [errorMessage]="getErrorMessage('horaPego')">
+                </lumen-input>
+            </div>
+
+            <lumen-input 
+                mode="form" label="Lugar de Coleta (Opcional)" placeholder="Ex: Galpão da Matriz, Casa do Doador"
+                [value]="controls['lugarPego'].value" (valueChange)="controls['lugarPego'].setValue($event); controls['lugarPego'].markAsDirty()"
+                [hasError]="controls['lugarPego'].invalid && (controls['lugarPego'].dirty || controls['lugarPego'].touched)"
+                [errorMessage]="getErrorMessage('lugarPego')">
+            </lumen-input>
+
+            <lumen-input 
+                mode="form" type="textarea" size="small" label="Descrição (Opcional)" placeholder="Detalhes adicionais sobre o item..."
+                [value]="controls['descricao'].value" (valueChange)="controls['descricao'].setValue($event); controls['descricao'].markAsDirty()"
+                [hasError]="controls['descricao'].invalid && (controls['descricao'].dirty || controls['descricao'].touched)"
+                [errorMessage]="getErrorMessage('descricao')">
+            </lumen-input>
+
+            <div class="image-upload-section">
+                <label class="section-label">Imagens do Item (Opcional)</label>
+                <lumen-image-uploader
+                    [images]="controls['imagens'].value"
+                    (imagesChange)="controls['imagens'].setValue($event); controls['imagens'].markAsDirty()"
+                    (onInvalidFile)="handleInvalidImage($event)"
+                    [disabled]="isDependenciesLoading()">
+                </lumen-image-uploader>
+            </div>
+
+        </form>
+    }
+
+    <ng-container modal-actions>
+        <lumen-button type="secondary" text="Cancelar" icon="fa-solid fa-ban" (onClick)="fechar.emit()" [disabled]="isDependenciesLoading()"></lumen-button>
+        <lumen-button type="primary" icon="fa-solid fa-floppy-disk" [text]="isEditMode() ? 'Salvar Alterações' : 'Cadastrar Item'" (onClick)="onSubmit()" [disabled]="isDependenciesLoading()"></lumen-button>
+    </ng-container>
+</lumen-fullscreen-modal>

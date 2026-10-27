@@ -1,0 +1,67 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
+:host {
+    display: block;
+    width: 100%;
+}
+
+.dropzone-container {
+    @include flex-column-center-center;
+    @include border-radius-2;
+    @include transition-all-0_3;
+    @include padding-4;
+    width: 100%;
+    min-height: 250px;
+    border: 2px dashed var(--border-color);
+    background-color: var(--color-surface-light);
+
+    cursor: pointer;
+
+    &:hover:not(.is-disabled) {
+        border-color: var(--color-text-destak);
+        background-color: var(--color-surface-hover);
+    }
+
+    &.is-dragging {
+        border-color: var(--color-text-destak);
+        background-color: var(--color-surface-hover);
+        transform: scale(1.02);
+    }
+
+    &.is-disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    .dropzone-content {
+        @include flex-column-center-center;
+        pointer-events: none;
+
+        .dropzone-icon {
+            @include transition-all-0_3;
+            font-size: 3.5rem;
+            color: var(--color-text-destak);
+            margin-bottom: 1rem;
+        }
+
+        .dropzone-title {
+            @include font-size-medium;
+            color: var(--color-text-primary);
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+            text-align: center;
+        }
+
+        .dropzone-subtitle {
+            @include font-size-small;
+            color: var(--color-text-secondary);
+            margin: 0;
+            text-align: center;
+        }
+
+        .mt-3 {
+            margin-top: 1rem;
+            pointer-events: auto;
+        }
+    }
+}

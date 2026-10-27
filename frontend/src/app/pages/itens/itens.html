@@ -1,0 +1,40 @@
+<lumen-itens-layout>
+    <div itens-header-slot></div>
+
+    <div itens-content-slot class="lumen-content-slot-wrapper">
+        <lumen-grid-list
+            title="Inventário de Itens"
+            createButtonLabel="Registrar Item"
+            emptyMessage="Nenhum item cadastrado."
+            searchPlaceholderText="Buscar itens..."
+            
+            [data]="itensData()"
+            [isLoading]="isLoading() || isFiltersLoading()"
+            
+            [globalFilterFields]="searchFields()"
+            [dropdownFilters]="dynamicFilters()"
+            
+            imageField="imagens"
+            titleField="nome"
+            subtitleField="campanhaNome"
+            dateField="dataChegadaFormatada"
+            badgeField="quantidade"
+            
+            [cardActions]="cardActions()"
+            (createAction)="onCreateNew()"
+            (cardAction)="handleCardAction($event)"> 
+        </lumen-grid-list>
+    </div>
+</lumen-itens-layout>
+
+@if (isModalOpen()) {
+    <app-item-form 
+        [item]="itemSelecionado()"
+        (fechar)="fecharModal()"
+        (salvar)="salvarItem($event)">
+    </app-item-form>
+}
+
+@if (isLoading()) {
+    <lumen-loading label="Processando..." [fullScreen]="true"></lumen-loading>
+}

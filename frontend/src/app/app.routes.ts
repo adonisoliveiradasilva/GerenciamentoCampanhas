@@ -7,6 +7,8 @@ import { MeusDados } from './pages/meus-dados/meus-dados';
 import { UserService } from './domains/user/services/user.service';
 import { Campanhas } from './pages/campanhas/campanhas';
 import { Doadores } from './pages/doadores/doadores';
+import { Itens } from './pages/itens/itens';
+
 
 const authGuard = () => {
   const router = inject(Router);
@@ -57,6 +59,11 @@ export const routes: Routes = [
         path: 'doadores', 
         component: Doadores, 
         data: { breadcrumb: 'Doadores' }
+      },
+      { 
+        path: 'itens',
+        component: Itens, 
+        data: { breadcrumb: 'Itens Arrecadados' }
       },
       { 
         path: 'perfil', 

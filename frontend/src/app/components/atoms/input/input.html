@@ -33,6 +33,8 @@
         [attr.autocomplete]="autocomplete()"
         [class.is-form]="mode() === 'form'"
         [class.is-date]="type() === 'date'"
+        [class.is-time]="type() === 'time'"
+        [class.is-number]="type() === 'number'"
         [class.has-prefix-icon]="!!icon()"
         [class.has-icon]="type() === 'password'"
         [class.error]="hasError()" 
