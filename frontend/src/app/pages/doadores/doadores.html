@@ -1,0 +1,38 @@
+<lumen-doadores-layout>
+    <div doadores-header-slot></div>
+
+    <div doadores-content-slot class="lumen-content-slot-wrapper">
+        <lumen-table
+            title="Gerenciar Doadores"
+            createButtonLabel="Novo Doador"
+            emptyMessage="Nenhum doador cadastrado."
+            searchPlaceholderText="Buscar por nome ou idade..."
+            loadingText="Carregando doadores..."
+            paginatorReportTemplate="Mostrando {first} a {last} de {totalRecords} doadores"
+            actionsHeaderText="Ações"
+            optionsTooltipText="Opções"
+            noResultsText="Nenhum resultado encontrado."
+            
+            [data]="doadoresData()"
+            [columns]="tableColumns()"
+            [rowActions]="tableActions()"
+            [isLoading]="isLoading()"
+            [globalFilterFields]="searchFields()"
+            
+            (createAction)="onCreateNew()"
+            (rowAction)="handleRowAction($event)"> 
+        </lumen-table>
+    </div>
+</lumen-doadores-layout>
+
+@if (isModalOpen()) {
+    <app-doador-form 
+        [doador]="doadorSelecionado()"
+        (fechar)="fecharModal()"
+        (salvar)="salvarDoador($event)">
+    </app-doador-form>
+}
+
+@if (isLoading()) {
+    <lumen-loading label="Processando..." [fullScreen]="true"></lumen-loading>
+}

@@ -53,6 +53,31 @@ namespace Infrastructure.Migrations
                     b.ToTable("Campanhas");
                 });
 
+            modelBuilder.Entity("GerenciamentoCampanhas.Domain.Entities.Doador", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DataNascimento")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Doadores");
+                });
+
             modelBuilder.Entity("GerenciamentoCampanhas.Domain.Entities.Usuario", b =>
                 {
                     b.Property<Guid>("Id")

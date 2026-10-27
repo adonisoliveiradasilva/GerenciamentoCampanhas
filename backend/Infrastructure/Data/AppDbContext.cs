@@ -9,6 +9,7 @@ namespace GerenciamentoCampanhas.Infrastructure.Data
     {
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Campanha> Campanhas { get; set; }
+        public DbSet<Doador> Doadores { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {

@@ -29,6 +29,9 @@ namespace GerenciamentoCampanhas.Infrastructure.IoC
             services.AddScoped<ICampanhaRepository, CampanhaRepository>();
             services.AddScoped<ICampanhaService, CampanhaService>();
 
+            services.AddScoped<IDoadorRepository, DoadorRepository>();
+            services.AddScoped<IDoadorService, DoadorService>();
+
             return services;
         }
     }

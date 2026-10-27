@@ -1,0 +1,40 @@
+<lumen-fullscreen-modal 
+    [title]="isEditMode() ? 'Editar Doador' : 'Novo Doador'"
+    icon="fa-solid fa-hand-holding-heart"
+    (onClose)="fechar.emit()">
+    
+    <form [formGroup]="form" class="lumen-form-container">
+        
+        <lumen-input 
+            mode="form" label="Nome do Doador" placeholder="Ex: Maria da Silva"
+            [required]="true"
+            [value]="controls['nome'].value" (valueChange)="controls['nome'].setValue($event); controls['nome'].markAsDirty()"
+            [hasError]="controls['nome'].invalid && (controls['nome'].dirty || controls['nome'].touched)"
+            [errorMessage]="getErrorMessage('nome')">
+        </lumen-input>
+            
+        <div class="row-fields">
+            <lumen-input 
+                mode="form" type="email" label="E-mail" placeholder="Ex: maria@email.com"
+                [required]="true"
+                [value]="controls['email'].value" (valueChange)="controls['email'].setValue($event); controls['email'].markAsDirty()"
+                [hasError]="controls['email'].invalid && (controls['email'].dirty || controls['email'].touched)"
+                [errorMessage]="getErrorMessage('email')">
+            </lumen-input>
+
+            <lumen-input 
+                mode="form" type="date" label="Data de Nascimento"
+                [required]="true"
+                [value]="controls['dataNascimento'].value" (valueChange)="controls['dataNascimento'].setValue($event); controls['dataNascimento'].markAsDirty()"
+                [hasError]="controls['dataNascimento'].invalid && (controls['dataNascimento'].dirty || controls['dataNascimento'].touched)"
+                [errorMessage]="getErrorMessage('dataNascimento')">
+            </lumen-input>
+        </div>
+
+    </form>
+
+    <ng-container modal-actions>
+        <lumen-button type="secondary" text="Cancelar" icon="fa-solid fa-ban" (onClick)="fechar.emit()"></lumen-button>
+        <lumen-button type="primary" icon="fa-solid fa-floppy-disk" [text]="isEditMode() ? 'Salvar Alterações' : 'Cadastrar Doador'" (onClick)="onSubmit()"></lumen-button>
+    </ng-container>
+</lumen-fullscreen-modal>
