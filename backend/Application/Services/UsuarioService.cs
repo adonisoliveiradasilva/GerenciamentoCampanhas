@@ -122,5 +122,15 @@ namespace GerenciamentoCampanhas.Application.Services
 
             await _usuarioRepository.AtualizarAsync(usuario);
         }
+
+        public async Task ExcluirAsync(Guid id)
+        {
+            var usuario = await _usuarioRepository.ObterPorIdAsync(id);
+            
+            if (usuario == null) 
+                throw new Exception("Usuário não encontrado.");
+
+            await _usuarioRepository.RemoverAsync(usuario);
+        }
     }
 }

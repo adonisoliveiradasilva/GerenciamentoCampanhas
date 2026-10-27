@@ -1,0 +1,45 @@
+@use "../../../../styles/abstracts/mixins" as *;
+
+:host {
+    display: block;
+    width: 100%;
+}
+
+.alert-icon-content {
+    @include flex-row-center-left;
+    @include padding-2;
+    @include border-radius-1;
+    @include gap-2;
+    width: 100%;
+
+    &.theme-danger {
+        background-color: var(--color-background-error);
+        color: var(--color-text-error);
+    }
+    
+    &.theme-warning {
+        background-color: var(--color-background-warn);
+        color: var(--color-text-warn);
+    }
+    
+    &.theme-info {
+        background-color: var(--color-background-info);
+        color: var(--color-text-info);
+    }
+
+    &.theme-success {
+        background-color: var(--color-background-success);
+        color: var(--color-text-success);
+    }
+
+    i {
+        font-size: 1.25rem;
+        flex-shrink: 0;
+    }
+
+    span {
+        font-size: 0.8rem;
+        font-weight: 500;
+        line-height: 1.4;
+    }
+}

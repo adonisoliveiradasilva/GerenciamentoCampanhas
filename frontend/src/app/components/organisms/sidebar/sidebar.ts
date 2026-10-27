@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { AfterViewInit, Component, inject, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -7,8 +7,9 @@ import { DateTime } from '../../atoms/date-time/date-time';
 import { Button } from '../../atoms/button/button';
 import { MenuGroup } from '../../molecules/menu-group/menu-group';
 
-import { MENU_MOCK } from '../../../core/mocks/menu.mock';
 import { SidebarService } from '../../../domains/sidebar/sidebar-service/sidebar-service';
+import { UserService } from '../../../domains/user/services/user.service';
+import { getAppMenu } from '../../../core/mocks/menu.mock';
 
 @Component({
   selector: 'lumen-sidebar',
@@ -20,11 +21,15 @@ import { SidebarService } from '../../../domains/sidebar/sidebar-service/sidebar
 })
 export class Sidebar implements AfterViewInit {
   private sidebarService = inject(SidebarService);
+  private userService = inject(UserService);
 
   public isCollapsed = toSignal(this.sidebarService.isCollapsed$, { initialValue: false });
   public animationsReady = signal(false);
   
-  public authorizedMenu = signal(MENU_MOCK); 
+  public authorizedMenu = computed(() => {
+    const role = this.userService.currentUser()?.role || '';
+    return getAppMenu(role);
+  }); 
 
   public mappedLocale = signal('pt-BR');
 

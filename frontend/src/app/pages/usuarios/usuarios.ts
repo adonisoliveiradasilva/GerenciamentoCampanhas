@@ -8,6 +8,7 @@ import { UserService } from '../../domains/user/services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../domains/toast/services/toast-service';
 import { Loading } from '../../components/molecules/loading/loading';
+import { ConfirmationModalService } from '../../domains/confirmation-modal/services/confirmation-modal';
 
 export interface IUsuarioVM {
   id: string;
@@ -32,12 +33,15 @@ export interface IUsuarioVM {
 export class Usuarios implements OnInit {
   private userService = inject(UserService);
   private toastService = inject(ToastService);
+  private confirmationService = inject(ConfirmationModalService);
 
   public isLoading = signal<boolean>(true);
   public searchFields = signal<string[]>(['nome', 'email', 'perfil']);
   public usuariosData = signal<IUsuarioVM[]>([]);
   public isModalOpen = signal<boolean>(false);
   public usuarioSelecionado = signal<IUsuarioVM | null>(null);
+
+  private idUsuarioLogado = computed(() => this.userService.currentUser()?.id);
 
   public tableColumns = computed<ITableColumn<IUsuarioVM>[]>(() => [
     { field: 'nome', header: 'Nome', type: 'text' },
@@ -52,14 +56,14 @@ export class Usuarios implements OnInit {
       label: 'Editar',
       icon: 'fa-solid fa-pencil',
       actionId: 'edit',
-      visibleFn: () => true
+      visibleFn: (row) => row.id !== this.idUsuarioLogado()
     },
     {
       label: 'Excluir',
       icon: 'fa-solid fa-trash-can',
       actionId: 'delete',
       styleClass: 'text-danger',
-      visibleFn: () => true
+      visibleFn: (row) => row.id !== this.idUsuarioLogado()
     }
   ]);
 
@@ -100,18 +104,44 @@ export class Usuarios implements OnInit {
 
   public handleRowAction(event: { action: string; data: IUsuarioVM }): void {
     const { action, data } = event;
+    
     switch (action) {
       case 'edit':
         this.usuarioSelecionado.set(data);
         this.isModalOpen.set(true);
         break;
-      case 'deactivate':
-        console.log('Desativar usuário:', data.nome);
-        break;
+      
       case 'delete':
-        console.log('Excluir usuário:', data.nome);
+        this.confirmationService.open({
+          title: 'Excluir Usuário',
+          subtitle: `Você está prestes a excluir ${data.nome}.`,
+          message: 'Esta ação não pode ser desfeita. O usuário perderá o acesso imediatamente.',
+          type: 'danger',
+          confirmText: 'Excluir',
+          cancelText: 'Manter Usuário'
+        }).subscribe((confirmado) => {
+          if (confirmado) {
+            this.excluirUsuario(data.id);
+          }
+        });
         break;
     }
+  }
+
+  private excluirUsuario(id: string): void {
+    this.isLoading.set(true);
+    
+    this.userService.delete(id).subscribe({
+      next: () => {
+        this.toastService.show('success', 'Usuário excluído com sucesso.');
+        this.carregarDadosDaApi();
+      },
+      error: (err: HttpErrorResponse) => {
+        this.isLoading.set(false);
+        const msg = err.error?.erro || 'Erro ao excluir usuário.';
+        this.toastService.show('error', msg);
+      }
+    });
   }
 
   public fecharModal(): void {

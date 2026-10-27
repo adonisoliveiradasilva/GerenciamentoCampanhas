@@ -98,5 +98,27 @@ namespace GerenciamentoCampanhas.API.Controllers
                 return BadRequest(new { Erro = ex.Message });
             }
         }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Excluir(Guid id)
+        {
+            try
+            {
+                var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                
+                if (userIdClaim == id.ToString())
+                {
+                    return BadRequest(new { Erro = "Ação não permitida: Você não pode excluir sua própria conta." });
+                }
+
+                await _usuarioService.ExcluirAsync(id);
+                
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Erro = ex.Message });
+            }
+        }
     }
 }

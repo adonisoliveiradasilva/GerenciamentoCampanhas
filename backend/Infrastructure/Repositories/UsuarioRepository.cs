@@ -45,5 +45,11 @@ namespace GerenciamentoCampanhas.Infrastructure.Repositories
             _context.Usuarios.Update(usuario);
             await _context.SaveChangesAsync();
         }
+
+        public async Task RemoverAsync(Usuario usuario)
+        {
+            _context.Usuarios.Remove(usuario);
+            await _context.SaveChangesAsync();
+        }
     }
 }

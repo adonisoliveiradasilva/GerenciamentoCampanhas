@@ -1,0 +1,55 @@
+@if (state(); as currentState) {
+    <div class="confirmation-backdrop" (click)="onCancel(currentState.outcome$)">
+        
+        <div class="confirmation-box theme-{{ currentState.config.type }}" (click)="$event.stopPropagation()">
+            
+            <div class="confirmation-header">
+                <button class="close-btn" (click)="onCancel(currentState.outcome$)">
+                    <i class="fas fa-circle-xmark"></i>
+                </button>
+            </div>
+
+            <div class="confirmation-row">
+                <lumen-circle-icon 
+                    [icon]="currentState.config.icon!"
+                    iconColor="var(--modal-theme-color)"
+                    bgColor="var(--modal-theme-bg)"
+                ></lumen-circle-icon>                
+            </div>
+
+            <div class="confirmation-title">
+                <span>{{ currentState.config.title }}</span>
+            </div>
+
+            <div class="confirmation-subtitle">
+                <span>{{ currentState.config.subtitle }}</span>
+            </div>
+
+            <section class="icon-section">
+                <lumen-alert-icon
+                    [type]="currentState.config.type"
+                    [icon]="'fas fa-circle-info'"
+                    [text]="currentState.config.message"
+                    [style.margin-top]="'1rem'">
+                </lumen-alert-icon>
+            </section>
+            
+            <div class="confirmation-actions">
+                <lumen-button
+                    [text]="currentState.config.cancelText || ''"
+                    type="secondary"
+                    [icon]="currentState.config.cancelIcon || ''"
+                    (onClick)="onCancel(currentState.outcome$)">
+                </lumen-button>
+                
+                <lumen-button
+                    [text]="currentState.config.confirmText || ''"
+                    [type]="'primary'"
+                    [icon]="currentState.config.confirmIcon || ''"
+                    (onClick)="onConfirm(currentState.outcome$)">
+                </lumen-button>
+            </div>
+
+        </div>
+    </div>
+}

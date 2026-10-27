@@ -49,8 +49,12 @@ export class Login {
     }).subscribe({
       next: (response) => {
         localStorage.setItem('auth_token', response.token);
+        
+        this.userService.refreshUserState(); 
+        
         this.isLoading.set(false);
-        this.router.navigate(['/dashboard']);
+        
+        this.router.navigate(['/perfil']); 
       },
       error: (err) => {
         this.isLoading.set(false);

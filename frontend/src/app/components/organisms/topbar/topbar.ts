@@ -4,7 +4,7 @@ import { filter } from 'rxjs/operators';
 import { MenuItem } from 'primeng/api';
 import { UserMenu } from '../../molecules/user-menu/user-menu'; 
 import { Breadcrumb, IBreadcrumbItem } from '../../molecules/breadcrumb/breadcrumb';
-import { UserService, IUserResponse } from '../../../domains/user/services/user.service';
+import { UserService } from '../../../domains/user/services/user.service';
 
 @Component({
   selector: 'lumen-topbar',
@@ -22,8 +22,6 @@ export class Topbar implements OnInit {
 
   breadcrumbs = signal<IBreadcrumbItem[]>([]);
   
-  currentUser = signal<IUserResponse | null>(null);
-
   userMenuConfig = computed<MenuItem[]>(() => {
     return [
       {
@@ -40,7 +38,9 @@ export class Topbar implements OnInit {
   });
 
   ngOnInit() {
-    this.breadcrumbs.set(this.buildBreadcrumb(this.activatedRoute.root));
+    setTimeout(() => {
+      this.breadcrumbs.set(this.buildBreadcrumb(this.activatedRoute.root));
+    }, 0);
 
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)

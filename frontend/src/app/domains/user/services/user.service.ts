@@ -67,6 +67,10 @@ export class UserService {
     return this.http.put<void>(`${this.baseUrl}/Usuarios/${id}`, usuario);
   }
 
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/Usuarios/${id}`);
+  }
+
   updateMeusDados(dados: IAtualizarMeusDadosRequest): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/Usuarios/MeusDados`, dados);
   }
@@ -75,6 +79,10 @@ export class UserService {
     return this.http.put<void>(`${this.baseUrl}/Usuarios/AlterarSenha`, dados);
   }
 
+  public refreshUserState(): void {
+    this.currentUser.set(this.getLoggedUser());
+  }
+  
   public updateUserNameLocal(newName: string): void {
     const user = this.currentUser();
     if (user) {

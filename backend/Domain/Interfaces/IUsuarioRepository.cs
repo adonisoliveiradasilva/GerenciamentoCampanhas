@@ -12,5 +12,6 @@ namespace GerenciamentoCampanhas.Domain.Interfaces
         Task<IEnumerable<Usuario>> ObterTodosAsync();
         Task AdicionarAsync(Usuario usuario);
         Task AtualizarAsync(Usuario usuario);
+        Task RemoverAsync(Usuario usuario);
     }
 }

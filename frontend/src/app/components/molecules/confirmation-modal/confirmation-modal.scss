@@ -1,0 +1,111 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
+.confirmation-backdrop {
+    @include flex-row-center-top;
+    @include padding-3;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    animation: fadeIn 0.2s ease-out forwards;
+}
+
+.confirmation-box {
+    @include flex-column-center-top;
+    @include border-radius-1;
+    @include shadow;
+    background-color: var(--color-surface-light-secondary);
+    width: clamp(400px, 90%, 500px);
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+
+    .icon-section{
+        @include flex-row-center;
+        width: 90%;
+    }
+
+    &.theme-danger {
+        --modal-theme-color: var(--color-text-error);
+        --modal-theme-bg: var(--color-background-error);
+    }
+    
+    &.theme-warning {
+        --modal-theme-color: var(--color-text-warn);
+        --modal-theme-bg: var(--color-background-warn);
+    }
+    
+    &.theme-info {
+        --modal-theme-color: var(--color-text-info);
+        --modal-theme-bg: var(--color-background-info);
+    }
+
+    &.theme-success {
+        --modal-theme-color: var(--color-text-success);
+        --modal-theme-bg: var(--color-background-success);
+    }
+
+    .confirmation-header {
+        @include padding-2;
+        @include flex-row-center-right;
+        width: 100%;
+
+        .close-btn {
+            @include transition-all-0_3;
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            color: var(--color-text-primary);
+            cursor: pointer;
+            opacity: 0.6;
+            padding: 0.25rem;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+
+    .confirmation-row {
+        @include flex-row-center;
+        width: 100%;
+    }
+
+    .confirmation-title {
+        width: 90%;
+        padding: .4rem 1rem;
+        font-size: 1.3rem;
+        color: var(--color-text-primary);
+        font-weight: 500;
+        text-align: center;
+    }
+
+    .confirmation-subtitle {
+        width: 90%;
+        padding: .4rem 1rem;
+        font-size: .8rem;
+        color: var(--color-text-label);
+        font-weight: 400;
+        text-align: center;
+    }
+
+    .confirmation-actions {
+        @include padding-2;
+        @include flex-row-center-right;
+        gap: 1rem;
+        width: 100%;
+        border-top: .15rem solid var(--border-color); 
+        margin-top: 1rem;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}

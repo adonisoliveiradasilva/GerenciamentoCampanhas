@@ -13,5 +13,6 @@ namespace GerenciamentoCampanhas.Application.Interfaces
         
         Task AlterarSenhaAsync(Guid idUsuario, AlterarSenhaDTO dto);
         Task AtualizarMeusDadosAsync(Guid idUsuario, AtualizarMeusDadosDTO dto);
+        Task ExcluirAsync(Guid id);
     }
 }
