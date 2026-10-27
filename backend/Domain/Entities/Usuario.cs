@@ -45,5 +45,11 @@ namespace GerenciamentoCampanhas.Domain.Entities
         {
             Perfil = novoPerfil;
         }
+
+        public void AtualizarDados(string nome, string email)
+        {
+            Nome = nome;
+            Email = email;
+        }
     }
 }

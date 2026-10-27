@@ -19,7 +19,7 @@
         [class.is-form]="mode() === 'form'"
         [class.has-prefix-icon]="!!icon()"
         [class.error]="hasError()" 
-        [disabled]="isLoading()"
+        [disabled]="isLoading() || disabled()"
         [ngModel]="value()"
         (ngModelChange)="onValueChange($event)"
         [ngClass]="size()"
@@ -35,7 +35,7 @@
         [class.has-prefix-icon]="!!icon()"
         [class.has-icon]="type() === 'password'"
         [class.error]="hasError()" 
-        [disabled]="isLoading()"
+        [disabled]="isLoading() || disabled()"
         [ngModel]="value()"
         (ngModelChange)="onValueChange($event)"
       />

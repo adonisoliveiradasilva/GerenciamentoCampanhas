@@ -21,8 +21,9 @@ export class InputComponent {
   required = input<boolean>(false);
   hasError = input<boolean>(false);
   
-  errorMessage = input<string>(''); 
+  disabled = input<boolean>(false);
   
+  errorMessage = input<string>(''); 
   isLoading = input<boolean>(false);
   
   value = model<string>('');

@@ -1,0 +1,117 @@
+<lumen-meus-dados-layout>
+    
+    <div meus-dados-header-slot></div>
+
+    <div meus-dados-content-slot class="lumen-content-slot-wrapper">
+        <div class="meus-dados-grid">
+            
+            <div class="lumen-card">
+                <lumen-heading 
+                    title="Dados Pessoais" 
+                    subtitle="Mantenha suas informações de contato atualizadas.">
+                </lumen-heading>
+
+                <form [formGroup]="dadosForm" class="card-form">
+                    <lumen-input 
+                        mode="form"
+                        label="Nome Completo"
+                        [value]="dadosControls['nome'].value"
+                        (valueChange)="dadosControls['nome'].setValue($event); dadosControls['nome'].markAsDirty()"
+                        [hasError]="dadosControls['nome'].invalid && (dadosControls['nome'].dirty || dadosControls['nome'].touched)"
+                        [errorMessage]="getErrorMessage(dadosForm, 'nome')">
+                    </lumen-input>
+
+                    <lumen-input 
+                        mode="form"
+                        type="email"
+                        label="E-mail (Login)"
+                        [value]="dadosControls['email'].value"
+                        [disabled]="true"
+                        (valueChange)="dadosControls['email'].setValue($event)">
+                    </lumen-input>
+
+                    <div class="form-actions">
+                        <lumen-button 
+                            type="primary" 
+                            text="Salvar Alterações" 
+                            icon="fa-solid fa-floppy-disk"
+                            (onClick)="salvarDados()">
+                        </lumen-button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="lumen-card" style="margin-bottom: 1rem;">
+                <lumen-heading 
+                    title="Segurança" 
+                    subtitle="Altere sua senha de acesso periodicamente.">
+                </lumen-heading>
+
+                <form [formGroup]="senhaForm" class="card-form">
+                    <lumen-input 
+                        mode="form"
+                        type="password"
+                        label="Senha Atual"
+                        placeholder="Digite sua senha atual"
+                        [value]="senhaControls['senhaAtual'].value"
+                        (valueChange)="senhaControls['senhaAtual'].setValue($event); senhaControls['senhaAtual'].markAsDirty()"
+                        [hasError]="senhaControls['senhaAtual'].invalid && (senhaControls['senhaAtual'].dirty || senhaControls['senhaAtual'].touched)"
+                        [errorMessage]="getErrorMessage(senhaForm, 'senhaAtual')">
+                    </lumen-input>
+
+                    <lumen-input 
+                        mode="form"
+                        type="password"
+                        label="Nova Senha"
+                        placeholder="Crie uma nova senha forte"
+                        [value]="senhaControls['novaSenha'].value"
+                        (valueChange)="senhaControls['novaSenha'].setValue($event); senhaControls['novaSenha'].markAsDirty()"
+                        [hasError]="senhaControls['novaSenha'].invalid && (senhaControls['novaSenha'].dirty || senhaControls['novaSenha'].touched)"
+                        [errorMessage]="getErrorMessage(senhaForm, 'novaSenha')">
+                    </lumen-input>
+
+                    <div class="password-criteria" style="margin-top: .1rem;">
+                        <span [class.valid]="temMinLength">
+                            <i class="fa-solid" [class.fa-check]="temMinLength" [class.fa-xmark]="!temMinLength"></i> Mínimo de 8 caracteres
+                        </span>
+                        <span [class.valid]="temMaiuscula">
+                            <i class="fa-solid" [class.fa-check]="temMaiuscula" [class.fa-xmark]="!temMaiuscula"></i> Uma letra maiúscula
+                        </span>
+                        <span [class.valid]="temNumero">
+                            <i class="fa-solid" [class.fa-check]="temNumero" [class.fa-xmark]="!temNumero"></i> Um número
+                        </span>
+                        <span [class.valid]="temEspecial">
+                            <i class="fa-solid" [class.fa-check]="temEspecial" [class.fa-xmark]="!temEspecial"></i> Um caractere especial (!@#$%)
+                        </span>
+                    </div>
+
+                    <lumen-input 
+                        mode="form"
+                        type="password"
+                        label="Confirmar Nova Senha"
+                        placeholder="Repita a nova senha"
+                        [value]="senhaControls['confirmarSenha'].value"
+                        (valueChange)="senhaControls['confirmarSenha'].setValue($event); senhaControls['confirmarSenha'].markAsDirty()"
+                        [hasError]="!senhasConferem && (senhaControls['confirmarSenha'].dirty || senhaControls['confirmarSenha'].touched)"
+                        errorMessage="As senhas não coincidem.">
+                    </lumen-input>
+
+                    <div class="form-actions">
+                        <lumen-button 
+                            type="primary" 
+                            text="Atualizar Senha" 
+                            icon="fa-solid fa-key"
+                            (onClick)="alterarSenha()">
+                        </lumen-button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</lumen-meus-dados-layout>
+
+@if (isLoading()) {
+    <lumen-loading label="Processando..." [fullScreen]="true"></lumen-loading>
+}

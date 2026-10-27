@@ -65,6 +65,12 @@
     padding-right: 2.75rem; 
   }
 
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: var(--color-surface-light-secondary);
+  }
+
   &:-webkit-autofill,
   &:-webkit-autofill:hover, 
   &:-webkit-autofill:focus, 

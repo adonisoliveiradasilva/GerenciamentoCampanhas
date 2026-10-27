@@ -17,7 +17,8 @@ import { UserService, IUserResponse } from '../../../domains/user/services/user.
 export class Topbar implements OnInit {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
-  private userService = inject(UserService);
+  
+  public userService = inject(UserService);
 
   breadcrumbs = signal<IBreadcrumbItem[]>([]);
   
@@ -25,6 +26,11 @@ export class Topbar implements OnInit {
 
   userMenuConfig = computed<MenuItem[]>(() => {
     return [
+      {
+        label: 'Meu Perfil',
+        icon: 'fa-solid fa-user-pen',
+        command: () => this.router.navigate(['/perfil'])
+      },
       {
         label: 'Sair',
         icon: 'fa-solid fa-right-from-bracket',
@@ -34,8 +40,6 @@ export class Topbar implements OnInit {
   });
 
   ngOnInit() {
-    this.currentUser.set(this.userService.getLoggedUser());
-
     this.breadcrumbs.set(this.buildBreadcrumb(this.activatedRoute.root));
 
     this.router.events.pipe(
@@ -72,6 +76,10 @@ export class Topbar implements OnInit {
 
   logout() {
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('auth_name_override');
+    
+    this.userService.currentUser.set(null); 
+    
     this.router.navigate(['/login']);
   }
 }

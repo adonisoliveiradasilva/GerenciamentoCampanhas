@@ -7,15 +7,18 @@ O sistema tem como objetivo principal gerenciar doações para campanhas benefic
 ## 🛠 Tecnologias Utilizadas
 
 ### Frontend
-* **Framework:** Angular
-* **Arquitetura Visual:** Atomic Design (reaproveitamento de Átomos e Moléculas)
-* **Gerenciamento de Estado/Reatividade:** RxJS e Signals
+- **Framework:** Angular
+- **Arquitetura Visual:** Atomic Design (reaproveitamento de Átomos e Moléculas)
+- **Gerenciamento de Estado/Reatividade:** RxJS e Signals
+- **Estilização:** SCSS com variáveis globais (Design System "Lumen")
 
 ### Backend
-* **Framework:** .NET 8 (C#)
-* **Arquitetura:** Clean Architecture (simplificada em Domain, Application, Infrastructure e API)
-* **Banco de Dados:** PostgreSQL (via Docker)
-* **Gerenciamento de Variáveis:** DotNetEnv (para espelhar o `.env` do Docker)
+- **Framework:** .NET 8 (C#)
+- **Arquitetura:** Clean Architecture (simplificada em Domain, Application, Infrastructure e API)
+- **Banco de Dados:** PostgreSQL (via Docker)
+- **Segurança:** Autenticação via JWT (JSON Web Tokens) e hash de senhas com BCrypt
+- **E-mails:** Disparos via SMTP utilizando a biblioteca MailKit
+- **Gerenciamento de Variáveis:** DotNetEnv (para espelhar o `.env` do Docker e credenciais)
 
 ## ⚙️ Regras de Negócio (Core)
 
@@ -26,29 +29,58 @@ O sistema tem como objetivo principal gerenciar doações para campanhas benefic
 
 ---
 
+## 👥 Perfis de Acesso e Usuários
+
+O sistema trabalha com dois perfis distintos para garantir a segurança e a delegação correta de tarefas:
+
+- **Administrador:** Possui acesso total à plataforma. É o único com permissão para criar, editar ou desativar outros usuários (Administradores ou Diáconos), além de ter visão gerencial sobre todas as configurações do sistema.
+- **Diácono:** Focado na operação logística. Tem permissão para registrar novas doações, vincular itens às campanhas e documentar a saída de produtos, mas não possui acesso à tela de gerenciamento de usuários.
+
+### 🔐 Fluxo de Criação e Primeiro Acesso
+
+O sistema utiliza um fluxo de **Senha Temporária** para garantir a segurança no onboard de novos membros:
+
+1. **Criação:** Um Administrador cadastra o novo usuário informando apenas Nome, E-mail e Perfil. O formulário não solicita senha.
+2. **Geração Segura:** O backend (.NET) gera automaticamente uma senha temporária forte (8 caracteres) e aplica o hash (BCrypt) no banco de dados.
+3. **Notificação (E-mail):** O sistema envia um e-mail de boas-vindas real para o usuário contendo sua senha temporária.
+4. **Primeiro Acesso:** O usuário faz o login com a senha recebida.
+5. **Atualização de Segurança:** Através da tela "Meu Perfil", o usuário deve cadastrar uma nova senha definitiva que cumpra os critérios rígidos (mínimo de 8 caracteres, contendo letra maiúscula, número e caractere especial).
+
+---
+
 ## 🚀 Configuração e Execução do Projeto
 
 ### Pré-requisitos
 Certifique-se de ter as seguintes ferramentas instaladas na sua máquina:
-* [Node.js](https://nodejs.org/) (v18+) e Angular CLI (`npm install -g @angular/cli`)
-* [.NET SDK 8.0+](https://dotnet.microsoft.com/download)
-* [Docker Desktop](https://www.docker.com/products/docker-desktop) (para rodar o banco de dados)
-* [Visual Studio Code](https://code.visualstudio.com/) (recomendado)
+- [Node.js](https://nodejs.org/) (v18+) e Angular CLI (`npm install -g @angular/cli`)
+- [.NET SDK 8.0+](https://dotnet.microsoft.com/download)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) (para rodar o banco de dados)
+- [Visual Studio Code](https://code.visualstudio.com/) (recomendado)
 
 ### 🛠️ Configuração Inicial (Primeira Vez)
 
 Siga os passos abaixo na primeira vez que clonar o repositório na sua máquina:
 
-1. **Configurar as Variáveis de Ambiente (Banco de Dados):**
-   * Navegue até a pasta `backend`.
+1. **Configurar as Variáveis de Ambiente (Banco de Dados e E-mail):**
+   * Navegue até a pasta `backend/Api`.
    * Crie um arquivo chamado `.env` (não suba esse arquivo para o GitHub, ele já está no `.gitignore`).
-   * Copie o conteúdo de `.env.example` e preencha com a sua senha. Deve ficar parecido com isso:
+   * Adicione os dados do PostgreSQL e as configurações do servidor SMTP (para envio de e-mails):
      ```env
+     # Configurações do Banco
      DB_USER=postgres
      DB_PASSWORD=sua_senha_secreta_aqui
      DB_NAME=DoacoesDb
+     JWT_SECRET=ChaveSuperSecretaDoProjetoAqui
+
+     # Configurações de E-mail (SMTP)
+     SmtpSettings__Servidor=smtp.gmail.com
+     SmtpSettings__Porta=587
+     SmtpSettings__RemetenteNome=Sistema de Doacoes
+     SmtpSettings__RemetenteEmail=seu-email@gmail.com
+     SmtpSettings__Usuario=seu-email@gmail.com
+     SmtpSettings__Senha=sua-senha-de-app
      ```
-   * *Nota: O .NET e o Docker irão ler esse mesmo arquivo.*
+   * *Nota: O .NET e o Docker irão ler este mesmo arquivo.*
 
 2. **Instalar Dependências do Frontend:**
    * Abra o terminal na raiz do projeto e execute:

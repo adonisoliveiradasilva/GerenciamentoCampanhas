@@ -5,7 +5,7 @@
     
     <div class="topbar-actions">
         <lumen-user-menu 
-            [user]="currentUser()"
+            [user]="userService.currentUser()" 
             [menuItems]="userMenuConfig()">
         </lumen-user-menu>
     </div>

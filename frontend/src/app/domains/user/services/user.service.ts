@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -34,13 +34,23 @@ export interface IUsuarioVM {
   statusIcon?: string;
 }
 
+export interface IAlterarSenhaRequest {
+  senhaAtual: string;
+  novaSenha: string;
+}
+
+export interface IAtualizarMeusDadosRequest {
+  nome: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiUrl}/api`; 
-
+  public currentUser = signal<IUserResponse | null>(this.getLoggedUser());
+  
   login(credentials: ILoginUserRequest): Observable<IAuthResponse> {
     return this.http.post<IAuthResponse>(`${this.baseUrl}/Auth/login`, credentials);
   }
@@ -49,24 +59,51 @@ export class UserService {
     return this.http.get<IUsuarioVM[]>(`${this.baseUrl}/Usuarios`);
   }
 
+  create(usuario: Partial<IUsuarioVM>): Observable<IUsuarioVM> {
+    return this.http.post<IUsuarioVM>(`${this.baseUrl}/Usuarios`, usuario);
+  }
+
+  update(id: string, usuario: Partial<IUsuarioVM>): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/Usuarios/${id}`, usuario);
+  }
+
+  updateMeusDados(dados: IAtualizarMeusDadosRequest): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/Usuarios/MeusDados`, dados);
+  }
+
+  alterarSenha(dados: IAlterarSenhaRequest): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/Usuarios/AlterarSenha`, dados);
+  }
+
+  public updateUserNameLocal(newName: string): void {
+    const user = this.currentUser();
+    if (user) {
+      const updatedUser = { ...user, name: newName };
+      this.currentUser.set(updatedUser);
+      localStorage.setItem('auth_name_override', newName);
+    }
+  }
+
   getLoggedUser(): IUserResponse | null {
     const token = localStorage.getItem('auth_token');
     if (!token) return null;
 
     try {
       const decoded: any = jwtDecode(token);
-      
-      console.log('Token JWT Decodificado:', decoded);
-      
-      return {
+            
+      const user: IUserResponse = {
         id: decoded.nameid || decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || '',
-        
         name: decoded.unique_name || decoded.name || decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || 'Usuário',
-        
         email: decoded.email || decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] || '',
-        
         role: decoded.role || decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || 'Sem Perfil'
       };
+
+      const nameOverride = localStorage.getItem('auth_name_override');
+      if (nameOverride) {
+        user.name = nameOverride;
+      }
+
+      return user;
     } catch (Error) {
       return null;
     }

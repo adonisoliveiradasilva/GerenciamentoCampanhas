@@ -3,9 +3,11 @@ import { CommonModule } from '@angular/common';
 import { Table, ITableAction } from '../../components/organisms/table/table';
 import { ITableColumn } from '../../domains/table/models/table.model';
 import { UsuariosLayout } from '../../components/templates/usuarios-layout/usuarios-layout';
-import { UsuarioForm } from '../../domains/usuarios/components/usuario-form/usuario-form';
+import { UsuarioForm } from '../../domains/user/components/usuario-form/usuario-form';
 import { UserService } from '../../domains/user/services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastService } from '../../domains/toast/services/toast-service';
+import { Loading } from '../../components/molecules/loading/loading';
 
 export interface IUsuarioVM {
   id: string;
@@ -21,7 +23,7 @@ export interface IUsuarioVM {
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [CommonModule, Table, UsuariosLayout, UsuarioForm],
+  imports: [CommonModule, Table, UsuariosLayout, UsuarioForm, Loading],
   host: { 'class': 'expand-host' },
   templateUrl: './usuarios.html',
   styleUrl: './usuarios.scss',
@@ -29,6 +31,7 @@ export interface IUsuarioVM {
 })
 export class Usuarios implements OnInit {
   private userService = inject(UserService);
+  private toastService = inject(ToastService);
 
   public isLoading = signal<boolean>(true);
   public searchFields = signal<string[]>(['nome', 'email', 'perfil']);
@@ -50,13 +53,6 @@ export class Usuarios implements OnInit {
       icon: 'fa-solid fa-pencil',
       actionId: 'edit',
       visibleFn: () => true
-    },
-    {
-      label: 'Desativar',
-      icon: 'fa-solid fa-ban',
-      actionId: 'deactivate',
-      styleClass: 'text-warning',
-      visibleFn: (row: IUsuarioVM) => row.status === 'ativo'
     },
     {
       label: 'Excluir',
@@ -123,8 +119,37 @@ export class Usuarios implements OnInit {
   }
 
   public salvarUsuario(dadosDoForm: any): void {
-    console.log('Dados recebidos do form para salvar na API:', dadosDoForm);
-    alert('Pronto para chamar o service/API!');
+    const payload = {
+      ...dadosDoForm,
+      ativo: dadosDoForm.status === 'ativo'
+    };
     this.isModalOpen.set(false);
+    this.isLoading.set(true);
+
+    if (dadosDoForm.id) {
+      this.userService.update(dadosDoForm.id, payload).subscribe({
+        next: () => {
+          this.carregarDadosDaApi();
+        },
+        error: (err) => {
+          console.error('Erro ao editar usuário', err);
+          this.isLoading.set(false);
+          this.isModalOpen.set(true);
+          this.toastService.show('error', 'Erro ao editar usuário. Verifique o console.');
+        }
+      });
+    } else {
+      this.userService.create(payload).subscribe({
+        next: () => {
+          this.carregarDadosDaApi();
+        },
+        error: (err) => {
+          console.error('Erro ao criar usuário', err);
+          this.isLoading.set(false);
+          this.isModalOpen.set(true);
+          this.toastService.show('error', 'Erro ao criar usuário. Verifique o console.');
+        }
+      });
+    }
   }
 }

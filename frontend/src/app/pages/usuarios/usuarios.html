@@ -34,3 +34,7 @@
         (salvar)="salvarUsuario($event)">
     </app-usuario-form>
 }
+
+@if (isLoading() && !isModalOpen()) {
+    <lumen-loading label="Salvando dados..." [fullScreen]="true"></lumen-loading>
+}

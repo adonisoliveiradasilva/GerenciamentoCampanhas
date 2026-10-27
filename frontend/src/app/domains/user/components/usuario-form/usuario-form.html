@@ -23,7 +23,8 @@
             [value]="controls['email'].value"
             (valueChange)="controls['email'].setValue($event); controls['email'].markAsDirty()"
             [hasError]="controls['email'].invalid && (controls['email'].dirty || controls['email'].touched)"
-            [errorMessage]="getErrorMessage('email')">
+            [errorMessage]="getErrorMessage('email')"
+            [disabled]="isEditMode()">
         </lumen-input>
             
         <div class="custom-select-group">
@@ -33,6 +34,16 @@
                 [value]="controls['status'].value"
                 (valueChange)="controls['status'].setValue($event); controls['status'].markAsDirty()"
                 [disabled]="controls['status'].disabled">
+            </lumen-select-mini>
+        </div>
+
+        <div class="custom-select-group">
+            <label>Perfil de Acesso</label>
+            <lumen-select-mini
+                [options]="perfilOptions"
+                [value]="controls['perfil'].value"
+                (valueChange)="controls['perfil'].setValue($event); controls['perfil'].markAsDirty()"
+                [disabled]="controls['perfil'].disabled">
             </lumen-select-mini>
         </div>
 

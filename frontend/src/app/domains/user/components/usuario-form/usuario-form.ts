@@ -33,19 +33,27 @@ export class UsuarioForm implements OnInit {
     { label: 'Inativo', value: 'inativo' }
   ];
 
+  perfilOptions = [
+    { label: 'Administrador', value: 'Administrador' },
+    { label: 'Diácono', value: 'Diacono' }
+  ];
+
   ngOnInit(): void {
+    const editando = !!this.usuario();
+
     this.form = this.fb.group({
       id: [null],
       nome: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]],
+      email: [{ value: '', disabled: editando }, [Validators.required, Validators.email]], 
+      perfil: ['Diacono', Validators.required],
       status: ['ativo', Validators.required]
     });
 
-    if (this.usuario()) {
+    if (editando) {
       this.form.patchValue(this.usuario()!);
     }
   }
-
+  
   get controls() {
     return this.form.controls;
   }

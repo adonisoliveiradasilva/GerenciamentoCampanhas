@@ -1,0 +1,69 @@
+@use '../../../styles/abstracts/mixins' as *;
+
+.lumen-content-slot-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.meus-dados-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.lumen-card {
+    @include flex-column-left-top;
+    @include padding-3;
+    @include border-radius-1;
+    @include shadow-dark;
+    background-color: var(--color-surface-light-secondary);
+    width: 100%;
+    gap: 2rem;
+}
+
+.card-form {
+    @include flex-column-left-top;
+    @include gap-2;
+    width: 100%;
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        margin-top: 1rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border-color);
+    }
+}
+
+.password-criteria {
+    @include flex-column-left-top;
+    @include gap-0_5;
+    @include padding-1_5;
+    @include border-radius-1;
+    background-color: var(--color-surface-canvas);
+    border: 1px dashed var(--border-color);
+    width: 100%;
+    margin-top: -1rem; 
+    margin-bottom: 0.5rem;
+
+    span {
+        @include font-size-small;
+        color: var(--color-text-label);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: color 0.3s ease;
+
+        i {
+            width: 14px;
+            text-align: center;
+        }
+
+        &.valid {
+            color: var(--color-text-success);
+        }
+    }
+}

@@ -9,6 +9,9 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 
 Env.TraversePath().Load();
+
+builder.Configuration.AddEnvironmentVariables(); 
+
 var dbUser = Environment.GetEnvironmentVariable("DB_USER");
 var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
 var dbName = Environment.GetEnvironmentVariable("DB_NAME");
@@ -18,7 +21,7 @@ var connectionString = $"Host=localhost;Port=5433;Database={dbName};Username={db
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 
-builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructure(builder.Configuration); 
 
 var key = Encoding.ASCII.GetBytes(jwtSecret);
 builder.Services.AddAuthentication(x =>

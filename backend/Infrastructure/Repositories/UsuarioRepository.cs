@@ -28,5 +28,22 @@ namespace GerenciamentoCampanhas.Infrastructure.Repositories
                 .AsNoTracking()
                 .ToListAsync();
         }
+
+        public async Task<Usuario?> ObterPorIdAsync(Guid id)
+        {
+            return await _context.Usuarios.FindAsync(id);
+        }
+
+        public async Task AdicionarAsync(Usuario usuario)
+        {
+            await _context.Usuarios.AddAsync(usuario);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AtualizarAsync(Usuario usuario)
+        {
+            _context.Usuarios.Update(usuario);
+            await _context.SaveChangesAsync();
+        }
     }
 }
