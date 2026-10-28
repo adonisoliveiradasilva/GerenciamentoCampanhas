@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 using GerenciamentoCampanhas.Domain.Entities;
 using GerenciamentoCampanhas.Domain.Interfaces;
 using GerenciamentoCampanhas.Infrastructure.Data;
@@ -23,6 +24,9 @@ namespace GerenciamentoCampanhas.Infrastructure.Repositories
                 .Include(i => i.Campanha)
                 .Include(i => i.Doador)
                 .Include(i => i.Doacoes)
+                    .ThenInclude(d => d.Usuario)
+                .Include(i => i.UsuarioCriador)
+                .Include(i => i.UsuarioAtualizador)
                 .AsNoTracking()
                 .OrderByDescending(i => i.DataCriacao)
                 .ToListAsync();
@@ -34,6 +38,9 @@ namespace GerenciamentoCampanhas.Infrastructure.Repositories
                 .Include(i => i.Campanha)
                 .Include(i => i.Doador)
                 .Include(i => i.Doacoes)
+                    .ThenInclude(d => d.Usuario)
+                .Include(i => i.UsuarioCriador)
+                .Include(i => i.UsuarioAtualizador)
                 .FirstOrDefaultAsync(i => i.Id == id);
         }
 

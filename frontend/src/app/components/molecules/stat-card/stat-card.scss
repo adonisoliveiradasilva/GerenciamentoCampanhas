@@ -1,0 +1,59 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
+.stat-content {
+    @include flex-row-center-space-between;
+    width: 100%;
+    
+    .stat-info {
+        @include flex-column-left-top;
+        gap: 0.5rem;
+
+        .stat-title {
+            @include font-size-small;
+            color: var(--color-text-label);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: clamp(24px, 2.5vh, 32px);
+            color: var(--color-text-primary);
+            font-weight: 700;
+            line-height: 1;
+        }
+    }
+
+    .stat-icon-wrapper {
+        @include flex-row-center;
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        font-size: 1.5rem;
+        
+        &.primary {
+            background-color: var(--color-background-purple);
+            color: var(--color-text-purple);
+        }
+        
+        &.success {
+            background-color: var(--color-background-green);
+            color: var(--color-text-green);
+        }
+        
+        &.warn {
+            background-color: var(--color-background-warn);
+            color: var(--color-text-warn);
+        }
+        
+        &.error {
+            background-color: var(--color-background-error);
+            color: var(--color-text-error);
+        }
+        
+        &.info {
+            background-color: var(--color-background-info);
+            color: var(--color-text-info);
+        }
+    }
+}

@@ -1,0 +1,13 @@
+<lumen-card 
+    [title]="title()" 
+    [padding]="true"
+    [styleClass]="styleClass()"
+    [isLoading]="isLoading()"
+    [isEmpty]="isEmpty()"
+    [emptyLabel]="emptyLabel()"
+    [emptyIcon]="emptyIcon()">
+    
+    <div class="chart-container" [style.height]="height()">
+        <ng-content></ng-content>
+    </div>
+</lumen-card>

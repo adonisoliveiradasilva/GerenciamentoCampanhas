@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { DatePipe } from '@angular/common';
 
 import { FullscreenModal } from '../../../../components/organisms/fullscreen-modal/fullscreen-modal';
 import { InputComponent } from '../../../../components/atoms/input/input';
@@ -19,7 +20,7 @@ import { DoadorService } from '../../../doador/services/doador.service';
 @Component({
   selector: 'app-item-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FullscreenModal, InputComponent, Button, SelectMini, Loading, ImageUploader],
+  imports: [CommonModule, ReactiveFormsModule, FullscreenModal, InputComponent, Button, SelectMini, Loading, ImageUploader, DatePipe],
   templateUrl: './item-form.html',
   styleUrl: './item-form.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

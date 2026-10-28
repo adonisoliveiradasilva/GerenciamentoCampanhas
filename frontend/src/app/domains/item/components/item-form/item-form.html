@@ -92,6 +92,21 @@
                 </lumen-image-uploader>
             </div>
 
+            @if (isEditMode() && item()?.dataCriacao) {
+                <div class="audit-info-section">
+                    <div class="audit-row">
+                        <i class="fa-solid fa-asterisk"></i>
+                        <span>Criado por <strong>{{ item()!.usuarioCriadorNome }}</strong> em {{ item()!.dataCriacao | date:'dd/MM/yyyy HH:mm' }}</span>
+                    </div>
+                    @if (item()?.dataUltimaAtualizacao && item()?.usuarioAtualizadorNome) {
+                        <div class="audit-row">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            <span>Última edição por <strong>{{ item()!.usuarioAtualizadorNome }}</strong> em {{ item()!.dataUltimaAtualizacao | date:'dd/MM/yyyy HH:mm' }}</span>
+                        </div>
+                    }
+                </div>
+            }
+
         </form>
     }
 

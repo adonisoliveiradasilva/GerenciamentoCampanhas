@@ -1,0 +1,148 @@
+<lumen-dashboard-layout>
+    <div dashboard-header-slot>
+        <lumen-page-header label="Resumo Geral"></lumen-page-header>
+    </div>
+
+    <div dashboard-content-slot class="dashboard-content-wrapper">
+        
+        <div class="stats-grid">
+            <lumen-stat-card 
+                title="Total em Estoque" 
+                [value]="data()?.kpis?.totalItensEstoque ?? 0" 
+                icon="fa-box"
+                theme="primary"
+                [isLoading]="isLoading()">
+            </lumen-stat-card>
+
+            <lumen-stat-card 
+                title="Total Doado" 
+                [value]="data()?.kpis?.totalItensDoados ?? 0" 
+                icon="fa-heart"
+                theme="success"
+                [isLoading]="isLoading()">
+            </lumen-stat-card>
+
+            <lumen-stat-card 
+                title="Campanhas Ativas" 
+                [value]="data()?.kpis?.campanhasAtivas ?? 0" 
+                icon="fa-bullhorn"
+                theme="info"
+                [isLoading]="isLoading()">
+            </lumen-stat-card>
+
+            <lumen-stat-card 
+                title="Doadores Cadastrados" 
+                [value]="data()?.kpis?.doadoresCadastrados ?? 0"
+                icon="fa-user-group" 
+                theme="warn"
+                [isLoading]="isLoading()">
+            </lumen-stat-card>
+        </div>
+
+        <div class="charts-grid">
+
+            <lumen-chart-wrapper 
+                title="Arrecadação por Campanha"
+                [isLoading]="isLoading()"
+                [isEmpty]="!isLoading() && (data()?.arrecadacaoPorCampanha?.length === 0)"
+                emptyLabel="Nenhuma campanha com arrecadação."
+                emptyIcon="fa-bullhorn">
+                
+                <div class="chart-layout-split">
+                    <div class="chart-area relative-chart">
+                        <p-chart type="bar" [data]="barChartData()" [options]="barChartOptions"></p-chart>
+                    </div>
+
+                    <div class="legend-area">
+                        <ul class="styled-legend-list">
+                            @for (c of data()?.arrecadacaoPorCampanha; track c.campanhaNome) {
+                            <li>
+                                <div class="legend-item">
+                                    <span class="color-dot primary"></span>
+                                    <span class="item-name">{{ c.campanhaNome }}</span>
+                                </div>
+                                <strong class="item-value">{{ c.totalArrecadado }} un.</strong>
+                            </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </lumen-chart-wrapper>
+
+            <lumen-chart-wrapper 
+                title="Saúde do Estoque"
+                [isLoading]="isLoading()"
+                [isEmpty]="!isLoading() && (data()?.kpis?.totalItensEstoque === 0)"
+                emptyLabel="Nenhum item registrado no galpão."
+                emptyIcon="fa-box-open">
+                
+                <div class="chart-layout-split">
+                    <div class="chart-area relative-chart donut-chart">
+                        <p-chart type="doughnut" [data]="doughnutChartData()" [options]="doughnutChartOptions"></p-chart>
+                        <div class="donut-center-overlay">
+                            <span class="label">Total</span>
+                            <strong class="value">{{ data()?.kpis?.totalItensEstoque ?? 0 }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="legend-area">
+                        <ul class="styled-legend-list status-legend">
+                            <li>
+                                <div class="legend-item">
+                                    <span class="color-dot success"></span>
+                                    <span class="item-name">100% Disponível</span>
+                                </div>
+                                <strong class="item-value">{{ data()?.statusEstoque?.integralmenteDisponivel ?? 0 }}</strong>
+                            </li>
+                            <li>
+                                <div class="legend-item">
+                                    <span class="color-dot warn"></span>
+                                    <span class="item-name">Parcialmente Doado</span>
+                                </div>
+                                <strong class="item-value">{{ data()?.statusEstoque?.parcialmenteDoado ?? 0 }}</strong>
+                            </li>
+                            <li>
+                                <div class="legend-item">
+                                    <span class="color-dot error"></span>
+                                    <span class="item-name">Totalmente Esgotado</span>
+                                </div>
+                                <strong class="item-value">{{ data()?.statusEstoque?.totalmenteEsgotado ?? 0 }}</strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </lumen-chart-wrapper>
+
+            <div class="full-width">
+                <lumen-chart-wrapper 
+                    title="Top 5 Doadores"
+                    [isLoading]="isLoading()"
+                    [isEmpty]="!isLoading() && (data()?.topDoadores?.length === 0)"
+                    emptyLabel="Nenhum doador registrou itens ainda."
+                    emptyIcon="fa-user-slash">
+                    
+                    <div class="ranking-table-container">
+                        <div class="ranking-header">
+                            <span class="col-pos">Posição</span>
+                            <span class="col-name">Nome</span>
+                            <span class="col-total">Total Doado</span>
+                        </div>
+
+                        <div class="ranking-body">
+                            @for (d of data()?.topDoadores; track d.doadorNome; let i = $index) {
+                            <div class="ranking-row">
+                                <div class="col-pos">
+                                    <span class="pos-badge">{{ i + 1 }}</span>
+                                </div>
+                                <div class="col-name">{{ d.doadorNome }}</div>
+                                <div class="col-total"><strong>{{ d.totalItensDoados }} un.</strong></div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </lumen-chart-wrapper>
+            </div>
+
+        </div>
+    </div>
+</lumen-dashboard-layout>

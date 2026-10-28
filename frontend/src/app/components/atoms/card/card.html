@@ -1,0 +1,17 @@
+<div class="lumen-card-container" [class.no-padding]="!padding()" [ngClass]="styleClass()">
+    @if (title()) {
+        <div class="lumen-card-header">
+            <h3>{{ title() }}</h3>
+        </div>
+    }
+    
+    <div class="lumen-card-content">
+        @if (isLoading()) {
+            <lumen-loading [label]="loadingLabel()"></lumen-loading>
+        } @else if (isEmpty()) {
+            <lumen-feedback-state type="empty" [label]="emptyLabel()" [icon]="emptyIcon()"></lumen-feedback-state>
+        } @else {
+            <ng-content></ng-content>
+        }
+    </div>
+</div>

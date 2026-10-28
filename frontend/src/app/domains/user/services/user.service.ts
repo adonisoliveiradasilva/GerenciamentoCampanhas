@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { jwtDecode } from 'jwt-decode'; // Importação da lib
+import { jwtDecode } from 'jwt-decode';
 
 export interface ILoginUserRequest {
   email: string;

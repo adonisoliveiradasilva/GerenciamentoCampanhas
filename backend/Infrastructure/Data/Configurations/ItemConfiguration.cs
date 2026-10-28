@@ -17,6 +17,16 @@ namespace GerenciamentoCampanhas.Infrastructure.Data.Configurations
                 .WithMany()
                 .HasForeignKey(i => i.DoadorId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            builder.HasOne(i => i.UsuarioCriador)
+                .WithMany()
+                .HasForeignKey(i => i.UsuarioCriadorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(i => i.UsuarioAtualizador)
+                .WithMany()
+                .HasForeignKey(i => i.UsuarioAtualizadorId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -14,13 +14,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../domains/toast/services/toast-service';
 import { Loading } from '../../components/molecules/loading/loading';
 import { ConfirmationModalService } from '../../domains/confirmation-modal/services/confirmation-modal';
-import { Button } from '../../components/atoms/button/button';
 import { HistoricoDoacoesModal } from '../../domains/item/components/historico-doacoes-modal/historico-doacoes-modal';
 
 @Component({
   selector: 'app-itens',
   standalone: true,
-  imports: [CommonModule, GridList, ItensLayout, ItemForm, DoacaoForm, HistoricoDoacoesModal, Loading, Button],
+  imports: [CommonModule, GridList, ItensLayout, ItemForm, DoacaoForm, HistoricoDoacoesModal, Loading],
   host: { 'class': 'expand-host' },
   templateUrl: './itens.html',
   styleUrl: './itens.scss', 

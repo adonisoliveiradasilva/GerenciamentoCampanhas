@@ -1,0 +1,12 @@
+@use '../../../../styles/abstracts/mixins' as *;
+
+.chart-container {
+    width: 100%;
+    position: relative;
+    @include flex-row-center;
+    
+    ::ng-deep canvas {
+        width: 100% !important;
+        height: 100% !important;
+    }
+}

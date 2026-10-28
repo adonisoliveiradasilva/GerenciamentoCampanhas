@@ -54,7 +54,7 @@ export class Login {
         
         this.isLoading.set(false);
         
-        this.router.navigate(['/perfil']); 
+        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         this.isLoading.set(false);

@@ -9,9 +9,10 @@ namespace GerenciamentoCampanhas.Application.Interfaces
     {
         Task<IEnumerable<ItemResponseDTO>> ObterTodosAsync();
         Task<ItemResponseDTO> ObterPorIdAsync(Guid id);
-        Task<ItemResponseDTO> CriarAsync(ItemRequestDTO dto);
-        Task AtualizarAsync(Guid id, ItemRequestDTO dto);
+        Task<ItemResponseDTO> CriarAsync(ItemRequestDTO dto, Guid usuarioId);
+        Task AtualizarAsync(Guid id, ItemRequestDTO dto, Guid usuarioId);
+        
         Task ExcluirAsync(Guid id);
-        Task RegistrarDoacaoAsync(DoacaoRequestDTO dto);
+        Task RegistrarDoacaoAsync(DoacaoRequestDTO dto, Guid usuarioId);
     }
 }

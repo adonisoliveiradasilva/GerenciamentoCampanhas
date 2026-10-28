@@ -8,6 +8,7 @@ import { UserService } from './domains/user/services/user.service';
 import { Campanhas } from './pages/campanhas/campanhas';
 import { Doadores } from './pages/doadores/doadores';
 import { Itens } from './pages/itens/itens';
+import { Dashboard } from './pages/dashboard/dashboard';
 
 
 const authGuard = () => {
@@ -45,6 +46,11 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { 
+        path: 'dashboard',
+        component: Dashboard, 
+        data: { breadcrumb: 'Visão Geral' }
+      },
+      { 
         path: 'usuarios', 
         component: Usuarios, 
         canActivate: [adminGuard],
@@ -70,7 +76,7 @@ export const routes: Routes = [
         component: MeusDados, 
         data: { breadcrumb: 'Meu Perfil' }
       },
-      { path: '', redirectTo: 'perfil', pathMatch: 'full' }
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
   { path: '**', redirectTo: '' }

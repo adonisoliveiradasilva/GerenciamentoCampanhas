@@ -48,6 +48,10 @@ namespace GerenciamentoCampanhas.Application.DTOs
         
         public List<string> Imagens { get; set; } = new();
         public List<DoacaoResponseDTO> HistoricoDoacoes { get; set; } = new();
+        public DateTime DataCriacao { get; set; }
+        public string UsuarioCriadorNome { get; set; } = string.Empty;
+        public DateTime? DataUltimaAtualizacao { get; set; }
+        public string? UsuarioAtualizadorNome { get; set; }
     }
 
     public class DoacaoResponseDTO
@@ -56,6 +60,7 @@ namespace GerenciamentoCampanhas.Application.DTOs
         public int Quantidade { get; set; }
         public DateTime DataDoacao { get; set; }
         public string Destino { get; set; } = string.Empty;
+        public string UsuarioNome { get; set; } = string.Empty;
     }
 
     public class DoacaoRequestDTO

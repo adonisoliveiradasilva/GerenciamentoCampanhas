@@ -8,6 +8,7 @@ export interface IDoacaoVM {
   quantidade: number;
   dataDoacao: string;
   destino: string;
+  usuarioNome: string;
 }
 
 export interface IItemVM {
@@ -28,6 +29,11 @@ export interface IItemVM {
   
   historicoDoacoes?: IDoacaoVM[];
   statusEstoque?: string;
+
+  dataCriacao: string;
+  usuarioCriadorNome: string;
+  dataUltimaAtualizacao?: string;
+  usuarioAtualizadorNome?: string;
 }
 
 export interface IDoacaoRequest {

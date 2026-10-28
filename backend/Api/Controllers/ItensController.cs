@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using GerenciamentoCampanhas.Application.DTOs;
 using GerenciamentoCampanhas.Application.Interfaces;
+using System.Security.Claims;
 
 namespace GerenciamentoCampanhas.API.Controllers
 {
@@ -33,21 +34,43 @@ namespace GerenciamentoCampanhas.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Criar([FromBody] ItemRequestDTO request)
+        public async Task<IActionResult> Criar([FromBody] ItemRequestDTO dto)
         {
-            try { return StatusCode(201, await _itemService.CriarAsync(request)); }
-            catch (Exception ex) { return BadRequest(new { Erro = ex.Message }); }
+            try
+            {
+                var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var usuarioId))
+                {
+                    return Unauthorized(new { erro = "Usuário não autenticado." });
+                }
+
+                var item = await _itemService.CriarAsync(dto, usuarioId);
+                return CreatedAtAction(nameof(ObterPorId), new { id = item.Id }, item);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { erro = ex.Message });
+            }
         }
 
-        [HttpPut("{id:guid}")]
-        public async Task<IActionResult> Atualizar(Guid id, [FromBody] ItemRequestDTO request)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Atualizar(Guid id, [FromBody] ItemRequestDTO dto)
         {
-            try 
-            { 
-                await _itemService.AtualizarAsync(id, request); 
-                return NoContent(); 
+            try
+            {
+                var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var usuarioId))
+                {
+                    return Unauthorized(new { erro = "Usuário não autenticado." });
+                }
+
+                await _itemService.AtualizarAsync(id, dto, usuarioId);
+                return NoContent();
             }
-            catch (Exception ex) { return BadRequest(new { Erro = ex.Message }); }
+            catch (Exception ex)
+            {
+                return BadRequest(new { erro = ex.Message });
+            }
         }
 
         [HttpDelete("{id:guid}")]
@@ -61,17 +84,26 @@ namespace GerenciamentoCampanhas.API.Controllers
             catch (Exception ex) { return BadRequest(new { Erro = ex.Message }); }
         }
 
-        [HttpPost("{id:guid}/doar")]
-        public async Task<IActionResult> RegistrarDoacao(Guid id, [FromBody] DoacaoRequestDTO request)
+        [HttpPost("{id}/doar")]
+        public async Task<IActionResult> RegistrarDoacao(Guid id, [FromBody] DoacaoRequestDTO dto)
         {
-            try 
-            { 
-                request.ItemId = id;
-                await _itemService.RegistrarDoacaoAsync(request); 
-                return NoContent(); 
+            try
+            {
+                if (id != dto.ItemId) return BadRequest(new { erro = "IDs inconsistentes." });
+
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var usuarioId))
+                {
+                    return Unauthorized(new { erro = "Usuário não autenticado." });
+                }
+
+                await _itemService.RegistrarDoacaoAsync(dto, usuarioId);
+                return Ok();
             }
-            catch (InvalidOperationException ex) { return BadRequest(new { Erro = ex.Message }); }
-            catch (Exception ex) { return BadRequest(new { Erro = ex.Message }); }
+            catch (Exception ex)
+            {
+                return BadRequest(new { erro = ex.Message });
+            }
         }
     }
 }

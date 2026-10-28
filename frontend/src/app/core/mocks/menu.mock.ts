@@ -18,7 +18,7 @@ export const getAppMenu = (role: string): IMenuNode[] => {
     label: 'Administração',
     icon: 'fa-solid fa-layer-group',
     children: [
-      // { label: 'Visão Geral', route: '/dashboard', icon: 'fa-solid fa-chart-pie' },
+      { label: 'Visão Geral', route: '/dashboard', icon: 'fa-solid fa-chart-pie' },
       { label: 'Campanhas', route: '/campanhas', icon: 'fa-solid fa-bullhorn' },
       { label: 'Itens', route: '/itens', icon: 'fa-solid fa-box-open' },
       { label: 'Doadores', route: '/doadores', icon: 'fa-solid fa-hand-holding-heart' }

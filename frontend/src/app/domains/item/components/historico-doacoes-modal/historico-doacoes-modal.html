@@ -16,6 +16,11 @@
                     <div class="timeline-content">
                         <strong>{{ doacao.quantidade }} un.</strong> {{ doacao.quantidade > 1 ? 'entregues' : 'entregue' }} para <span>{{ doacao.destino }}</span>
                     </div>
+                    
+                    <div class="timeline-audit" style="margin-top: 0.8rem; font-size: 0.85rem; color: var(--color-text-secondary); display: flex; align-items: center; gap: 0.4rem;">
+                        <i class="fa-solid fa-user-pen" style="font-size: 0.75rem;"></i>
+                        Registrado por <strong>{{ doacao.usuarioNome }}</strong>
+                    </div>
                 </li>
             }
         </ul>

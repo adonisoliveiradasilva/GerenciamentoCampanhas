@@ -77,9 +77,14 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Quantidade")
                         .HasColumnType("integer");
 
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ItemId");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Doacoes");
                 });
@@ -115,13 +120,16 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("CampanhaId")
+                    b.Property<Guid>("CampanhaId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("DataChegada")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DataUltimaAtualizacao")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Descricao")
@@ -147,11 +155,21 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Quantidade")
                         .HasColumnType("integer");
 
+                    b.Property<Guid?>("UsuarioAtualizadorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UsuarioCriadorId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CampanhaId");
 
                     b.HasIndex("DoadorId");
+
+                    b.HasIndex("UsuarioAtualizadorId");
+
+                    b.HasIndex("UsuarioCriadorId");
 
                     b.ToTable("Itens");
                 });
@@ -225,7 +243,15 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("GerenciamentoCampanhas.Domain.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Item");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("GerenciamentoCampanhas.Domain.Entities.Item", b =>
@@ -233,16 +259,32 @@ namespace Infrastructure.Migrations
                     b.HasOne("GerenciamentoCampanhas.Domain.Entities.Campanha", "Campanha")
                         .WithMany()
                         .HasForeignKey("CampanhaId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.HasOne("GerenciamentoCampanhas.Domain.Entities.Doador", "Doador")
                         .WithMany()
                         .HasForeignKey("DoadorId")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.HasOne("GerenciamentoCampanhas.Domain.Entities.Usuario", "UsuarioAtualizador")
+                        .WithMany()
+                        .HasForeignKey("UsuarioAtualizadorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("GerenciamentoCampanhas.Domain.Entities.Usuario", "UsuarioCriador")
+                        .WithMany()
+                        .HasForeignKey("UsuarioCriadorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Campanha");
 
                     b.Navigation("Doador");
+
+                    b.Navigation("UsuarioAtualizador");
+
+                    b.Navigation("UsuarioCriador");
                 });
 
             modelBuilder.Entity("GerenciamentoCampanhas.Domain.Entities.Item", b =>

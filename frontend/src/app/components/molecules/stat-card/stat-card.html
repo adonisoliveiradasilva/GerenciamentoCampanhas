@@ -1,0 +1,12 @@
+<lumen-card [padding]="true" [styleClass]="'stat-card-wrapper'" [isLoading]="isLoading()" [loadingLabel]="loadingLabel()">
+    <div class="stat-content">
+        <div class="stat-info">
+            <span class="stat-title">{{ title() }}</span>
+            <strong class="stat-value">{{ value() }}</strong>
+        </div>
+        
+        <div class="stat-icon-wrapper" [ngClass]="theme()">
+            <i class="fa-solid" [ngClass]="icon()"></i>
+        </div>
+    </div>
+</lumen-card>

@@ -49,7 +49,8 @@ export class Campanhas implements OnInit {
   private formatarDataBr(isoString: string): string {
     if (!isoString) return '';
     const data = new Date(isoString);
-    return data.toLocaleDateString('pt-BR');
+    const dtDateOnly = new Date(data.valueOf() + data.getTimezoneOffset() * 60 * 1000);
+    return dtDateOnly.toLocaleDateString('pt-BR');
   }
 
   private carregarDadosDaApi(): void {
