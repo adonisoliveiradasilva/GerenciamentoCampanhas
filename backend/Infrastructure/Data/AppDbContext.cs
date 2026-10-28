@@ -11,7 +11,7 @@ namespace GerenciamentoCampanhas.Infrastructure.Data
         public DbSet<Campanha> Campanhas { get; set; }
         public DbSet<Doador> Doadores { get; set; }
         public DbSet<Item> Itens { get; set; }
-
+        public DbSet<Doacao> Doacoes { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }

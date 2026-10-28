@@ -60,5 +60,18 @@ namespace GerenciamentoCampanhas.API.Controllers
             }
             catch (Exception ex) { return BadRequest(new { Erro = ex.Message }); }
         }
+
+        [HttpPost("{id:guid}/doar")]
+        public async Task<IActionResult> RegistrarDoacao(Guid id, [FromBody] DoacaoRequestDTO request)
+        {
+            try 
+            { 
+                request.ItemId = id;
+                await _itemService.RegistrarDoacaoAsync(request); 
+                return NoContent(); 
+            }
+            catch (InvalidOperationException ex) { return BadRequest(new { Erro = ex.Message }); }
+            catch (Exception ex) { return BadRequest(new { Erro = ex.Message }); }
+        }
     }
 }

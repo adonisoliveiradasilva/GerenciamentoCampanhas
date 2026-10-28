@@ -22,6 +22,7 @@ namespace GerenciamentoCampanhas.Infrastructure.Repositories
             return await _context.Itens
                 .Include(i => i.Campanha)
                 .Include(i => i.Doador)
+                .Include(i => i.Doacoes)
                 .AsNoTracking()
                 .OrderByDescending(i => i.DataCriacao)
                 .ToListAsync();
@@ -32,6 +33,7 @@ namespace GerenciamentoCampanhas.Infrastructure.Repositories
             return await _context.Itens
                 .Include(i => i.Campanha)
                 .Include(i => i.Doador)
+                .Include(i => i.Doacoes)
                 .FirstOrDefaultAsync(i => i.Id == id);
         }
 

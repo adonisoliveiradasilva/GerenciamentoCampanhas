@@ -12,5 +12,6 @@ namespace GerenciamentoCampanhas.Application.Interfaces
         Task<ItemResponseDTO> CriarAsync(ItemRequestDTO dto);
         Task AtualizarAsync(Guid id, ItemRequestDTO dto);
         Task ExcluirAsync(Guid id);
+        Task RegistrarDoacaoAsync(DoacaoRequestDTO dto);
     }
 }

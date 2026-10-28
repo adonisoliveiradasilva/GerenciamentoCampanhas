@@ -21,11 +21,17 @@ namespace GerenciamentoCampanhas.Domain.Entities
         public Guid? DoadorId { get; private set; }
         public Doador? Doador { get; private set; }
 
+        private readonly List<Doacao> _doacoes = new();
+        public IReadOnlyCollection<Doacao> Doacoes => _doacoes.AsReadOnly();
+
         protected Item() { }
 
         public Item(string nome, string? descricao, int quantidade, DateTime dataChegada, 
                     TimeSpan? horaPego, string? lugarPego, Guid campanhaId, Guid? doadorId, List<string>? imagens)
         {
+            if (imagens != null && imagens.Count > 5)
+                throw new ArgumentException("O limite máximo é de 5 imagens por item.");
+
             Id = Guid.NewGuid();
             Nome = nome;
             Descricao = descricao;
@@ -42,6 +48,9 @@ namespace GerenciamentoCampanhas.Domain.Entities
         public void Atualizar(string nome, string? descricao, int quantidade, DateTime dataChegada, 
                               TimeSpan? horaPego, string? lugarPego, Guid campanhaId, Guid? doadorId, List<string>? imagens)
         {
+            if (imagens != null && imagens.Count > 5)
+                throw new ArgumentException("O limite máximo é de 5 imagens por item.");
+
             Nome = nome;
             Descricao = descricao;
             Quantidade = quantidade;
@@ -51,6 +60,17 @@ namespace GerenciamentoCampanhas.Domain.Entities
             CampanhaId = campanhaId;
             DoadorId = doadorId;
             Imagens = imagens ?? new List<string>();
+        }
+
+        public void RegistrarBaixaEstoque(int quantidadeBaixa)
+        {
+            if (quantidadeBaixa <= 0)
+                throw new ArgumentException("A quantidade a ser baixada deve ser maior que zero.");
+            
+            if (Quantidade < quantidadeBaixa)
+                throw new InvalidOperationException($"Estoque insuficiente. Tentativa de doar {quantidadeBaixa}, mas há apenas {Quantidade} disponíveis.");
+
+            Quantidade -= quantidadeBaixa;
         }
     }
 }

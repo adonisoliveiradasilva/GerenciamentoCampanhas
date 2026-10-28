@@ -20,6 +20,8 @@ export class ImageUploader {
   public disabled = input<boolean>(false);
   public isLoading = input<boolean>(false);
   
+  public maxImages = input<number>(5);
+  
   public images = input<string[]>([]);
   public imagesChange = output<string[]>();
   
@@ -78,6 +80,12 @@ export class ImageUploader {
   private processFiles(files: FileList): void {
     const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
     const currentImages = [...this.images()];
+    
+    if (currentImages.length + files.length > this.maxImages()) {
+        this.onInvalidFile.emit(`Você pode anexar no máximo ${this.maxImages()} imagens por item.`);
+        return;
+    }
+
     let processedCount = 0;
     const totalFiles = files.length;
 
@@ -107,7 +115,7 @@ export class ImageUploader {
 
   private updateImages(newImages: string[]): void {
     this.imagesChange.emit(newImages);
-    this.cdr.markForCheck();
+    this.cdr.markForCheck(); 
   }
 
   public removerImagem(index: number): void {

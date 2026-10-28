@@ -1,0 +1,46 @@
+<lumen-fullscreen-modal 
+    title="Registrar Doação"
+    icon="fa-solid fa-hand-holding-heart"
+    (onClose)="fechar.emit()">
+    
+    <form [formGroup]="form" class="lumen-form-container">
+        
+        <div class="info-banner">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Doando o item: <strong>{{ item().nome }}</strong> (Estoque: {{ item().quantidade }} un.)</span>
+        </div>
+
+        <div class="row-fields align-items-end">
+            <lumen-input 
+                mode="form" type="number" label="Quantidade a doar"
+                [required]="true"
+                [value]="controls['quantidade'].value" (valueChange)="controls['quantidade'].setValue($event); controls['quantidade'].markAsDirty()"
+                [hasError]="controls['quantidade'].invalid && (controls['quantidade'].dirty || controls['quantidade'].touched)"
+                [errorMessage]="getErrorMessage('quantidade')">
+            </lumen-input>
+
+            <lumen-input 
+                mode="form" type="date" label="Data da Entrega"
+                [required]="true"
+                [value]="controls['dataDoacao'].value" (valueChange)="controls['dataDoacao'].setValue($event); controls['dataDoacao'].markAsDirty()"
+                [hasError]="controls['dataDoacao'].invalid && (controls['dataDoacao'].dirty || controls['dataDoacao'].touched)"
+                [errorMessage]="getErrorMessage('dataDoacao')">
+            </lumen-input>
+        </div>
+
+        <lumen-input 
+            mode="form" type="textarea" size="small" label="Destino / Observação (Anônimo ou Nominal)" 
+            placeholder="Ex: Entregue para família da Rua 2; Instituição Lar de Maria; etc."
+            [required]="true"
+            [value]="controls['destino'].value" (valueChange)="controls['destino'].setValue($event); controls['destino'].markAsDirty()"
+            [hasError]="controls['destino'].invalid && (controls['destino'].dirty || controls['destino'].touched)"
+            [errorMessage]="getErrorMessage('destino')">
+        </lumen-input>
+
+    </form>
+
+    <ng-container modal-actions>
+        <lumen-button type="secondary" text="Cancelar" icon="fa-solid fa-ban" (onClick)="fechar.emit()"></lumen-button>
+        <lumen-button type="primary" icon="fa-solid fa-check" text="Confirmar Baixa" (onClick)="onSubmit()"></lumen-button>
+    </ng-container>
+</lumen-fullscreen-modal>

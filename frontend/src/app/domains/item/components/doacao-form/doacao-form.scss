@@ -1,0 +1,35 @@
+@use '../../../../../styles/abstracts/mixins' as *;
+
+.lumen-form-container {
+    @include flex-column-left-top;
+    @include padding-2; 
+    @include gap-3; 
+    width: 100%;
+    margin: 0 auto;
+}
+
+.info-banner {
+    @include flex-row-center-left;
+    @include gap-1;
+    @include padding-2;
+    @include border-radius-1;
+    background-color: var(--color-background-info);
+    color: var(--color-text-info);
+    width: 100%;
+    font-size: 0.95rem;
+
+    i { font-size: 1.2rem; }
+    strong { font-weight: 600; }
+}
+
+.row-fields {
+    display: flex;
+    gap: 1.5rem;
+    width: 100%;
+    
+    > * { flex: 1; }
+    
+    &.align-items-end {
+        align-items: flex-end;
+    }
+}

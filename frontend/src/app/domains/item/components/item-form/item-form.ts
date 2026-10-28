@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, input, output, inject, OnInit, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
@@ -46,18 +46,28 @@ export class ItemForm implements OnInit {
       id: [null],
       nome: ['', [Validators.required, Validators.minLength(2)]],
       descricao: [''],
-      quantidade: [1, [Validators.min(1)]],
+      quantidade: [1, [Validators.required, Validators.min(0)]], 
       dataChegada: ['', Validators.required],
       lugarPego: [''],
       horaPego: [''],
       campanhaId: ['', Validators.required],
       doadorId: [null],
-      imagens: [[]]
+      imagens: [[], [this.maxImagesValidator(5)]]
     });
 
     this.carregarDependencias();
   }
 
+  private maxImagesValidator(max: number) {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (Array.isArray(value) && value.length > max) {
+        return { maxImages: true };
+      }
+      return null;
+    };
+  }
+  
   private carregarDependencias(): void {
     forkJoin({
       campanhas: this.campanhaService.getAll(),
@@ -105,6 +115,7 @@ export class ItemForm implements OnInit {
       if (control.errors['required']) return 'Este campo é obrigatório.';
       if (control.errors['minlength']) return `Mínimo de ${control.errors['minlength'].requiredLength} caracteres.`;
       if (control.errors['min']) return `Valor mínimo: ${control.errors['min'].min}.`;
+      if (control.errors['maxImages']) return 'Limite máximo de 5 imagens excedido.';
     }
     return '';
   }

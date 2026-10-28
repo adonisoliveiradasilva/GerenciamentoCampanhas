@@ -1,0 +1,27 @@
+<lumen-fullscreen-modal 
+    title="Histórico de Doações"
+    icon="fa-solid fa-clock-rotate-left"
+    (onClose)="fechar.emit()">
+    
+    <div class="history-modal-container">
+        <h3 class="item-title">{{ item().nome }}</h3>
+        
+        <ul class="timeline-list">
+            @for (doacao of item().historicoDoacoes; track doacao.id) {
+                <li class="timeline-item">
+                    <div class="timeline-date">
+                        <i class="fa-regular fa-calendar-check"></i>
+                        {{ formatarDataBr(doacao.dataDoacao) }}
+                    </div>
+                    <div class="timeline-content">
+                        <strong>{{ doacao.quantidade }} un.</strong> {{ doacao.quantidade > 1 ? 'entregues' : 'entregue' }} para <span>{{ doacao.destino }}</span>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <ng-container modal-actions>
+        <lumen-button type="secondary" text="Fechar Histórico" icon="fas fa-xmark" (onClick)="fechar.emit()"></lumen-button>
+    </ng-container>
+</lumen-fullscreen-modal>

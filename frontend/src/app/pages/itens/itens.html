@@ -35,6 +35,21 @@
     </app-item-form>
 }
 
+@if (isDoacaoModalOpen() && itemSelecionado()) {
+    <app-doacao-form 
+        [item]="itemSelecionado()!"
+        (fechar)="fecharDoacaoModal()"
+        (salvar)="salvarDoacao($event)">
+    </app-doacao-form>
+}
+
+@if (isHistoricoModalOpen() && itemSelecionado()) {
+    <app-historico-doacoes-modal
+        [item]="itemSelecionado()!"
+        (fechar)="fecharHistoricoModal()">
+    </app-historico-doacoes-modal>
+}
+
 @if (isLoading()) {
     <lumen-loading label="Processando..." [fullScreen]="true"></lumen-loading>
 }

@@ -74,7 +74,8 @@
                                 </div>
                             }
 
-                            <div class="card-badge qty-badge">
+                            <div class="card-badge qty-badge" 
+                                [style.background-color]="getProperty(item, badgeField()) === 0 ? 'var(--color-text-label)' : null">
                                 {{ getProperty(item, badgeField()) }} un.
                             </div>
 

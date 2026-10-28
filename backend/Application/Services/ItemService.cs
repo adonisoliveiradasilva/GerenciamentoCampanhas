@@ -14,12 +14,18 @@ namespace GerenciamentoCampanhas.Application.Services
         private readonly IItemRepository _itemRepository;
         private readonly ICampanhaRepository _campanhaRepository;
         private readonly IDoadorRepository _doadorRepository;
+        private readonly IDoacaoRepository _doacaoRepository; // NOVO REPOSITÓRIO INJETADO
 
-        public ItemService(IItemRepository itemRepository, ICampanhaRepository campanhaRepository, IDoadorRepository doadorRepository)
+        public ItemService(
+            IItemRepository itemRepository, 
+            ICampanhaRepository campanhaRepository, 
+            IDoadorRepository doadorRepository,
+            IDoacaoRepository doacaoRepository) // ADICIONADO AQUI
         {
             _itemRepository = itemRepository;
             _campanhaRepository = campanhaRepository;
             _doadorRepository = doadorRepository;
+            _doacaoRepository = doacaoRepository;
         }
 
         public async Task<IEnumerable<ItemResponseDTO>> ObterTodosAsync()
@@ -37,7 +43,6 @@ namespace GerenciamentoCampanhas.Application.Services
 
         public async Task<ItemResponseDTO> CriarAsync(ItemRequestDTO dto)
         {
-            // Validações de FK
             var campanha = await _campanhaRepository.ObterPorIdAsync(dto.CampanhaId);
             if (campanha == null) throw new Exception("Campanha selecionada não existe.");
 
@@ -56,7 +61,6 @@ namespace GerenciamentoCampanhas.Application.Services
             
             await _itemRepository.AdicionarAsync(item);
             
-            // Retorna carregando as entidades para mapear os nomes corretos
             var itemCriado = await _itemRepository.ObterPorIdAsync(item.Id);
             return MapearParaResponse(itemCriado!);
         }
@@ -93,15 +97,31 @@ namespace GerenciamentoCampanhas.Application.Services
             await _itemRepository.RemoverAsync(item);
         }
 
+        public async Task RegistrarDoacaoAsync(DoacaoRequestDTO dto)
+        {
+            var item = await _itemRepository.ObterPorIdAsync(dto.ItemId);
+            if (item == null) throw new Exception("Item não encontrado.");
+
+            var dataDoacaoUtc = DateTime.SpecifyKind(dto.DataDoacao, DateTimeKind.Utc);
+            
+            if (dataDoacaoUtc.Date < item.DataChegada.Date)
+                throw new InvalidOperationException($"A doação não pode ser registrada numa data anterior à chegada do item ({item.DataChegada:dd/MM/yyyy}).");
+
+            if (dataDoacaoUtc.Date > DateTime.UtcNow.Date)
+                throw new InvalidOperationException("Não é permitido registrar doações com datas futuras.");
+
+            item.RegistrarBaixaEstoque(dto.Quantidade);
+
+            var doacao = new Doacao(item.Id, dto.Quantidade, dataDoacaoUtc, dto.Destino);
+
+            await _doacaoRepository.AdicionarAsync(doacao);
+            await _itemRepository.AtualizarAsync(item);
+        }
+
         private static ItemResponseDTO MapearParaResponse(Item item)
         {
-            string campanhaNome = "Campanha Excluída";
-            if (item.Campanha != null) campanhaNome = item.Campanha.Nome;
-
-            string doadorNome = "Não informado";
-            if (item.Doador != null) doadorNome = item.Doador.Nome;
-            else if (item.DoadorId == null && item.Doador == null && 
-                     false) { }
+            string campanhaNome = item.Campanha?.Nome ?? "Campanha Excluída";
+            string doadorNome = item.Doador?.Nome ?? "Não informado";
 
             return new ItemResponseDTO
             {
@@ -116,7 +136,14 @@ namespace GerenciamentoCampanhas.Application.Services
                 CampanhaNome = campanhaNome,
                 DoadorId = item.DoadorId,
                 DoadorNome = doadorNome,
-                Imagens = item.Imagens
+                Imagens = item.Imagens,
+                HistoricoDoacoes = item.Doacoes.OrderByDescending(d => d.DataDoacao).Select(d => new DoacaoResponseDTO
+                {
+                    Id = d.Id,
+                    Quantidade = d.Quantidade,
+                    DataDoacao = d.DataDoacao,
+                    Destino = d.Destino
+                }).ToList()
             };
         }
     }

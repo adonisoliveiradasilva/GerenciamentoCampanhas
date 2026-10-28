@@ -54,6 +54,36 @@ namespace Infrastructure.Migrations
                     b.ToTable("Campanhas");
                 });
 
+            modelBuilder.Entity("GerenciamentoCampanhas.Domain.Entities.Doacao", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DataDoacao")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Destino")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("Doacoes");
+                });
+
             modelBuilder.Entity("GerenciamentoCampanhas.Domain.Entities.Doador", b =>
                 {
                     b.Property<Guid>("Id")
@@ -187,6 +217,17 @@ namespace Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("GerenciamentoCampanhas.Domain.Entities.Doacao", b =>
+                {
+                    b.HasOne("GerenciamentoCampanhas.Domain.Entities.Item", "Item")
+                        .WithMany("Doacoes")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+                });
+
             modelBuilder.Entity("GerenciamentoCampanhas.Domain.Entities.Item", b =>
                 {
                     b.HasOne("GerenciamentoCampanhas.Domain.Entities.Campanha", "Campanha")
@@ -202,6 +243,11 @@ namespace Infrastructure.Migrations
                     b.Navigation("Campanha");
 
                     b.Navigation("Doador");
+                });
+
+            modelBuilder.Entity("GerenciamentoCampanhas.Domain.Entities.Item", b =>
+                {
+                    b.Navigation("Doacoes");
                 });
 #pragma warning restore 612, 618
         }

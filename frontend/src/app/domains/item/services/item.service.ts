@@ -3,6 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
+export interface IDoacaoVM {
+  id: string;
+  quantidade: number;
+  dataDoacao: string;
+  destino: string;
+}
+
 export interface IItemVM {
   id: string;
   nome: string;
@@ -18,6 +25,16 @@ export interface IItemVM {
   campanhaNome?: string;
   doadorNome?: string;
   dataChegadaFormatada?: string;
+  
+  historicoDoacoes?: IDoacaoVM[];
+  statusEstoque?: string;
+}
+
+export interface IDoacaoRequest {
+  itemId: string;
+  quantidade: number;
+  dataDoacao: string;
+  destino: string;
 }
 
 @Injectable({
@@ -41,5 +58,9 @@ export class ItemService {
 
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/Itens/${id}`);
+  }
+
+  registrarDoacao(payload: IDoacaoRequest): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/Itens/${payload.itemId}/doar`, payload);
   }
 }
