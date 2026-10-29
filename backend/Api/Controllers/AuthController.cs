@@ -30,5 +30,26 @@ namespace GerenciamentoCampanhas.API.Controllers
                 return BadRequest(new { Erro = ex.Message });
             }
         }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] EsqueceuSenhaDTO request)
+        {
+            await _authService.SolicitarRecuperacaoSenhaAsync(request);
+            return Ok(new { Mensagem = "Se o e-mail estiver cadastrado, as instruções foram enviadas." });
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] RedefinirSenhaDTO request)
+        {
+            try
+            {
+                await _authService.RedefinirSenhaAsync(request);
+                return Ok(new { Mensagem = "Senha alterada com sucesso." });
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { Erro = ex.Message });
+            }
+        }
     }
 }
