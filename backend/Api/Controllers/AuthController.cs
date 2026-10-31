@@ -34,8 +34,15 @@ namespace GerenciamentoCampanhas.API.Controllers
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] EsqueceuSenhaDTO request)
         {
-            await _authService.SolicitarRecuperacaoSenhaAsync(request);
-            return Ok(new { Mensagem = "Se o e-mail estiver cadastrado, as instruções foram enviadas." });
+            try
+            {
+                await _authService.SolicitarRecuperacaoSenhaAsync(request);
+                return Ok(new { Mensagem = "Se o e-mail estiver cadastrado, as instruções foram enviadas." });
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { Erro = ex.Message });
+            }
         }
 
         [HttpPost("reset-password")]

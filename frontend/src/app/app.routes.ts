@@ -1,6 +1,8 @@
 import { Routes, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { Login } from './pages/login/login'; 
+import { EsqueceuSenha } from './pages/esqueceu-senha/esqueceu-senha';
+import { ResetarSenha } from './pages/resetar-senha/resetar-senha';
 import { MainLayout } from './components/templates/main-layout/main-layout';
 import { Usuarios } from './pages/usuarios/usuarios';
 import { MeusDados } from './pages/meus-dados/meus-dados';
@@ -9,7 +11,6 @@ import { Campanhas } from './pages/campanhas/campanhas';
 import { Doadores } from './pages/doadores/doadores';
 import { Itens } from './pages/itens/itens';
 import { Dashboard } from './pages/dashboard/dashboard';
-
 
 const authGuard = () => {
   const router = inject(Router);
@@ -39,6 +40,14 @@ export const routes: Routes = [
   { 
     path: 'login', 
     component: Login 
+  },
+  { 
+    path: 'esqueceu-senha', 
+    component: EsqueceuSenha 
+  },
+  { 
+    path: 'resetar-senha', 
+    component: ResetarSenha 
   },
   { 
     path: '', 

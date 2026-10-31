@@ -16,9 +16,10 @@ namespace GerenciamentoCampanhas.Application.Services
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IEmailService _emailService;
 
-        public AuthService(IUsuarioRepository usuarioRepository)
+        public AuthService(IUsuarioRepository usuarioRepository, IEmailService emailService)
         {
             _usuarioRepository = usuarioRepository;
+            _emailService = emailService;
         }
 
         public async Task<string> LoginAsync(LoginRequestDTO request)
@@ -80,7 +81,7 @@ namespace GerenciamentoCampanhas.Application.Services
             await _usuarioRepository.AtualizarAsync(usuario);
 
             var frontendUrl = Environment.GetEnvironmentVariable("FRONTEND_URL") ?? "http://localhost:4200";
-            var link = $"{frontendUrl}/reset-password?email={Uri.EscapeDataString(usuario.Email)}&token={Uri.EscapeDataString(token)}";
+            var link = $"{frontendUrl}/resetar-senha?email={Uri.EscapeDataString(usuario.Email)}&token={Uri.EscapeDataString(token)}";
 
             await _emailService.EnviarRecuperacaoSenhaAsync(usuario.Email, usuario.Nome, link);
         }
