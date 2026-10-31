@@ -12,8 +12,22 @@ namespace GerenciamentoCampanhas.Domain.Entities
         public PerfilUsuario Perfil { get; private set; }
         public DateTime DataCriacao { get; private set; }
         public bool Ativo { get; private set; }
+        public string? TokenRecuperacao { get; private set; }
+        public DateTime? TokenRecuperacaoExpiracao { get; private set; }
 
         protected Usuario() { }
+
+        public void GerarTokenRecuperacao(string token, DateTime expiracao)
+        {
+            TokenRecuperacao = token;
+            TokenRecuperacaoExpiracao = expiracao;
+        }
+
+        public void LimparTokenRecuperacao()
+        {
+            TokenRecuperacao = null;
+            TokenRecuperacaoExpiracao = null;
+        }
 
         public Usuario(string nome, string email, string senhaHash, PerfilUsuario perfil)
         {

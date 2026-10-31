@@ -48,7 +48,7 @@ export interface IAtualizarMeusDadosRequest {
 })
 export class UserService {
   private http = inject(HttpClient);
-  private readonly baseUrl = `${environment.apiUrl}/api`; 
+  private readonly baseUrl = environment.apiUrl;
   public currentUser = signal<IUserResponse | null>(this.getLoggedUser());
   
   login(credentials: ILoginUserRequest): Observable<IAuthResponse> {
