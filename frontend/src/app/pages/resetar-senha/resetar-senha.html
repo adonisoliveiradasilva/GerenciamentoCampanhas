@@ -1,0 +1,44 @@
+<auth-layout
+    txtWelcome="Redefinição de <br><span class='highlight'>Senha</span>"
+    txtSubtitle="Escolha sua nova senha de acesso à plataforma."
+    txtSecurityBadge="Segurança garantida.">
+    
+    <div form-slot>        
+        <form class="auth-form" (ngSubmit)="handleSubmit()">
+            
+            <lumen-heading 
+                title="Nova Senha" 
+                subtitle="Insira sua nova senha abaixo">
+            </lumen-heading>
+
+            <section style="margin-top: 2rem;">
+                <lumen-input 
+                    label="Nova Senha" 
+                    type="password" 
+                    placeholder="Mínimo 8 caracteres" 
+                    icon="fas fa-lock" 
+                    mode="login"
+                    [(value)]="novaSenha">
+                </lumen-input>
+
+                <lumen-button 
+                    text="Salvar nova senha" 
+                    type="login" 
+                    nativeType="submit">
+                </lumen-button>
+
+                <footer>
+                    <lumen-link 
+                        text="Voltar ao login" 
+                        to="/login">
+                    </lumen-link>
+                </footer>
+            </section>
+        </form>
+    </div>
+
+</auth-layout>
+
+@if (isLoading()) {
+    <lumen-loading label="Salvando nova senha..." [fullScreen]="true"></lumen-loading>
+}

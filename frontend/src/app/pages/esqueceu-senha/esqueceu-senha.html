@@ -1,0 +1,44 @@
+<auth-layout
+    txtWelcome="Recuperação de <br><span class='highlight'>Senha</span>"
+    txtSubtitle="Informe seu e-mail cadastrado para receber as instruções de redefinição."
+    txtSecurityBadge="Ambiente seguro de recuperação.">
+    
+    <div form-slot>        
+        <form class="auth-form" (ngSubmit)="handleSubmit()">
+            
+            <lumen-heading 
+                title="Esqueceu sua senha?" 
+                subtitle="Digite seu e-mail abaixo">
+            </lumen-heading>
+
+            <section style="margin-top: 2rem;">
+                <lumen-input 
+                    label="E-mail" 
+                    type="email" 
+                    placeholder="seu.email@igreja.com" 
+                    icon="fa-regular fa-envelope" 
+                    mode="login" 
+                    [(value)]="email">
+                </lumen-input>
+
+                <lumen-button 
+                    text="Enviar instruções" 
+                    type="login" 
+                    nativeType="submit">
+                </lumen-button>
+
+                <footer>
+                    <lumen-link 
+                        text="Lembrou a senha? Voltar ao login" 
+                        to="/login">
+                    </lumen-link>
+                </footer>
+            </section>
+        </form>
+    </div>
+
+</auth-layout>
+
+@if (isLoading()) {
+    <lumen-loading label="Enviando e-mail..." [fullScreen]="true"></lumen-loading>
+}

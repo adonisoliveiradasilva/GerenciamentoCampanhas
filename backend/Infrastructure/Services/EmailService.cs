@@ -53,5 +53,39 @@ namespace GerenciamentoCampanhas.Infrastructure.Services
                 Console.WriteLine($"Erro ao enviar e-mail: {ex.Message}");
             }
         }
+
+        public async Task EnviarRecuperacaoSenhaAsync(string email, string nome, string linkRecuperacao)
+        {
+            try
+            {
+                var mensagem = new MimeMessage();
+                mensagem.From.Add(new MailboxAddress(_smtpSettings.RemetenteNome, _smtpSettings.RemetenteEmail));
+                mensagem.To.Add(new MailboxAddress(nome, email));
+                mensagem.Subject = "Recuperação de Senha - Sistema de Doações";
+
+                var corpoHtml = $@"
+                    <h2>Olá, {nome}!</h2>
+                    <p>Você solicitou a recuperação de senha para sua conta.</p>
+                    <p>Clique no link abaixo para definir uma nova senha:</p>
+                    <p><a href='{linkRecuperacao}' target='_blank'>Redefinir Senha</a></p>
+                    <p>Este link expira em 1 hora.</p>
+                    <br>
+                    <p>Se você não solicitou isso, ignore este e-mail.</p>";
+
+                var builder = new BodyBuilder { HtmlBody = corpoHtml };
+                mensagem.Body = builder.ToMessageBody();
+
+                using var client = new SmtpClient();
+                await client.ConnectAsync(_smtpSettings.Servidor, _smtpSettings.Porta, SecureSocketOptions.StartTls);
+                await client.AuthenticateAsync(_smtpSettings.Usuario, _smtpSettings.Senha);
+                await client.SendAsync(mensagem);
+                await client.DisconnectAsync(true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao enviar e-mail de recuperação: {ex.Message}");
+                throw;
+            }
+        }
     }
 }
