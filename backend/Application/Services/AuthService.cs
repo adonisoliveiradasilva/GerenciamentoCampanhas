@@ -80,9 +80,9 @@ namespace GerenciamentoCampanhas.Application.Services
             usuario.GerarTokenRecuperacao(token, expiracao);
             await _usuarioRepository.AtualizarAsync(usuario);
 
-            var frontendUrl = Environment.GetEnvironmentVariable("FRONTEND_URL") ?? "http://localhost:4200";
+            var frontendUrl = (Environment.GetEnvironmentVariable("FRONTEND_URL") ?? "http://localhost:4200").TrimEnd('/');
             var link = $"{frontendUrl}/resetar-senha?email={Uri.EscapeDataString(usuario.Email)}&token={Uri.EscapeDataString(token)}";
-
+            
             await _emailService.EnviarRecuperacaoSenhaAsync(usuario.Email, usuario.Nome, link);
         }
 
