@@ -38,7 +38,7 @@ export interface IDashboardResumoVM {
 })
 export class DashboardService {
   private http = inject(HttpClient);
-  private readonly baseUrl = `${environment.apiUrl}/api`;
+  private readonly baseUrl = environment.apiUrl;
 
   getResumo(): Observable<IDashboardResumoVM> {
     return this.http.get<IDashboardResumoVM>(`${this.baseUrl}/Dashboard`);

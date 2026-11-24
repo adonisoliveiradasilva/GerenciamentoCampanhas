@@ -17,7 +17,7 @@ export interface IDoadorVM {
 })
 export class DoadorService {
   private http = inject(HttpClient);
-  private readonly baseUrl = `${environment.apiUrl}/api`; 
+  private readonly baseUrl = environment.apiUrl; 
 
   getAll(): Observable<IDoadorVM[]> {
     return this.http.get<IDoadorVM[]>(`${this.baseUrl}/Doadores`);

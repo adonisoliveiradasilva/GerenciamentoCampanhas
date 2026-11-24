@@ -48,7 +48,7 @@ export interface IDoacaoRequest {
 })
 export class ItemService {
   private http = inject(HttpClient);
-  private readonly baseUrl = `${environment.apiUrl}/api`; 
+  private readonly baseUrl = environment.apiUrl; 
 
   getAll(): Observable<IItemVM[]> {
     return this.http.get<IItemVM[]>(`${this.baseUrl}/Itens`);

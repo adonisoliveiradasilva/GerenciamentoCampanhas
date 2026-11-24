@@ -22,7 +22,7 @@ export interface ICampanhaVM {
 })
 export class CampanhaService {
   private http = inject(HttpClient);
-  private readonly baseUrl = `${environment.apiUrl}/api`; 
+  private readonly baseUrl = environment.apiUrl; 
 
   getAll(): Observable<ICampanhaVM[]> {
     return this.http.get<ICampanhaVM[]>(`${this.baseUrl}/Campanhas`);
