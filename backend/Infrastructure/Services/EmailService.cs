@@ -12,7 +12,11 @@ namespace GerenciamentoCampanhas.Infrastructure.Services
 {
     public class EmailService : IEmailService
     {
-        private static readonly HttpClient HttpClient = new HttpClient();
+        private static readonly HttpClient HttpClient = new HttpClient
+        {
+            Timeout = TimeSpan.FromSeconds(15)
+        };
+
         private readonly SmtpSettings _smtpSettings;
 
         public EmailService(IOptions<SmtpSettings> smtpSettings)
@@ -32,8 +36,9 @@ namespace GerenciamentoCampanhas.Infrastructure.Services
 
             try
             {
-                await EnviarViaResendAsync(
+                await EnviarViaMailjetAsync(
                     email,
+                    nome,
                     "Bem-vindo ao Sistema de Doações! Seus dados de acesso",
                     corpoHtml);
             }
@@ -56,8 +61,9 @@ namespace GerenciamentoCampanhas.Infrastructure.Services
 
             try
             {
-                await EnviarViaResendAsync(
+                await EnviarViaMailjetAsync(
                     email,
+                    nome,
                     "Recuperação de Senha - Sistema de Doações",
                     corpoHtml);
             }
@@ -68,44 +74,61 @@ namespace GerenciamentoCampanhas.Infrastructure.Services
             }
         }
 
-        private async Task EnviarViaResendAsync(string paraEmail, string assunto, string html)
+        private async Task EnviarViaMailjetAsync(string paraEmail, string paraNome, string assunto, string html)
         {
-            var apiKey = Environment.GetEnvironmentVariable("RESEND_API_KEY");
-            if (string.IsNullOrWhiteSpace(apiKey))
+            var apiKey = Environment.GetEnvironmentVariable("MAILJET_API_KEY");
+            var secretKey = Environment.GetEnvironmentVariable("MAILJET_SECRET_KEY");
+
+            if (string.IsNullOrWhiteSpace(apiKey) || string.IsNullOrWhiteSpace(secretKey))
             {
-                throw new InvalidOperationException("Variável de ambiente RESEND_API_KEY não configurada.");
+                throw new InvalidOperationException("Variáveis MAILJET_API_KEY e/ou MAILJET_SECRET_KEY não configuradas.");
             }
 
-            var remetenteNome = string.IsNullOrWhiteSpace(_smtpSettings.RemetenteNome)
-                ? "Sistema de Doações"
-                : _smtpSettings.RemetenteNome;
-
-            var remetenteEmail = Environment.GetEnvironmentVariable("RESEND_FROM_EMAIL");
-            if (string.IsNullOrWhiteSpace(remetenteEmail))
+            var fromEmail = Environment.GetEnvironmentVariable("MAILJET_FROM_EMAIL");
+            if (string.IsNullOrWhiteSpace(fromEmail))
             {
-                remetenteEmail = string.IsNullOrWhiteSpace(_smtpSettings.RemetenteEmail)
-                    ? "onboarding@resend.dev"
-                    : _smtpSettings.RemetenteEmail;
+                fromEmail = _smtpSettings.RemetenteEmail;
+            }
+
+            if (string.IsNullOrWhiteSpace(fromEmail))
+            {
+                throw new InvalidOperationException("E-mail remetente não configurado (MAILJET_FROM_EMAIL).");
+            }
+
+            var fromName = Environment.GetEnvironmentVariable("MAILJET_FROM_NAME");
+            if (string.IsNullOrWhiteSpace(fromName))
+            {
+                fromName = string.IsNullOrWhiteSpace(_smtpSettings.RemetenteNome)
+                    ? "Sistema de Doações"
+                    : _smtpSettings.RemetenteNome;
             }
 
             var payload = new
             {
-                from = $"{remetenteNome} <{remetenteEmail}>",
-                to = new[] { paraEmail },
-                subject = assunto,
-                html = html
+                Messages = new[]
+                {
+                    new
+                    {
+                        From = new { Email = fromEmail, Name = fromName },
+                        To = new[] { new { Email = paraEmail, Name = paraNome } },
+                        Subject = assunto,
+                        HTMLPart = html
+                    }
+                }
             };
 
             var json = JsonSerializer.Serialize(payload);
-            using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.resend.com/emails");
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+            var authToken = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{apiKey}:{secretKey}"));
+
+            using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.mailjet.com/v3.1/send");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authToken);
             request.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
             using var response = await HttpClient.SendAsync(request);
             if (!response.IsSuccessStatusCode)
             {
                 var body = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Resend retornou {(int)response.StatusCode} ({response.ReasonPhrase}): {body}");
+                throw new Exception($"Mailjet retornou {(int)response.StatusCode} ({response.ReasonPhrase}): {body}");
             }
         }
     }
