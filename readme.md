@@ -133,6 +133,43 @@ cd frontend
 npm start
 ```
 
+### 🧪 Testes Unitários e Cobertura
+
+#### 1. Frontend (Angular — Jasmine + Karma)
+Execute os testes unitários com coleta de cobertura na pasta `frontend`:
+```bash
+cd frontend
+ng test --code-coverage
+```
+*(Para execução única sem modo watch, utilize `ng test --watch=false --code-coverage --browsers=ChromeHeadless`.)*
+
+**Evidências de cobertura (394 testes executados · 100% aprovados):**
+
+| Métrica | Cobertura | Detalhe |
+| :--- | :---: | :---: |
+| **Statements** | **95,80%** | 1187 / 1239 |
+| **Branches** | **90,11%** | 310 / 344 |
+| **Functions** | **92,10%** | 280 / 304 |
+| **Lines** | **95,57%** | 1080 / 1130 |
+
+#### 2. Backend (.NET — xUnit + Moq + Coverlet)
+Execute os testes unitários com coleta de cobertura na pasta `backend`:
+```bash
+cd backend
+dotnet test Tests/Tests.csproj --settings Tests/coverlet.runsettings --collect:"XPlat Code Coverage" -c Release
+```
+*(O arquivo `Tests/coverlet.runsettings` exclui da métrica as migrations e códigos gerados automaticamente, e o parâmetro `-c Release` evita conflito caso a API já esteja rodando em `Debug`.)*
+
+**Evidências de cobertura (46 testes executados · 100% aprovados):**
+
+| Camada | Linhas | Branches |
+| :--- | :---: | :---: |
+| **Api (Controllers)** | **100,0%** | **100,0%** |
+| **Application (Services + DTOs)** | **100,0%** | **90,2%** |
+| **Domain (Entities + Models)** | **99,4%** | **100,0%** |
+| **Infrastructure (Repositories, DbContext, DI, Email)** | **89,5%** | **50,0%** |
+| **Total Geral** | **96,7%** *(1041 / 1077)* | **90,0%** *(180 / 200)* |
+
 ### 🔒 Dados de Login
 **1. Adonis:**
 ```bash
